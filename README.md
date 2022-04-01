@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-01 14:53:07
- * @LastEditTime: 2022-04-01 17:01:59
+ * @LastEditTime: 2022-04-01 17:03:34
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\README.md
@@ -37,7 +37,6 @@
     - 樹梅派與Sensor接通
     - 撰寫Sensor資料處理的程式碼
     - 製作Line Bot 圖文選單
-
 - 第三周
     - 虛擬機MQTT Broker
     - 架設後端的Server

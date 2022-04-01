@@ -10,6 +10,8 @@
 ## 實作方法
 1. 利用Sensor偵測到時光屋座位的使用現況並透過MQTT協定傳送資料
 ![avatar](./img/IotSensor.png)
+
+
 2. 利用LINE BOT 通知管理員現在有閒置座位
 ![avatar](./img/LinePushAdmin.png)
 
@@ -32,9 +34,7 @@
     - 樹梅派與Sensor接通
     - 撰寫Sensor資料處理的程式碼
     - 製作Line Bot 圖文選單
-
 - 第三周
-    - 
     - 測試與比較哪個感測器搭配組合最理想
     - 虛擬機MQTT Broker
     - 架設後端的Server

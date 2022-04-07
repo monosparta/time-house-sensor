@@ -17,12 +17,10 @@
     "url": "https://github.com/monosparta/time-house-sensor/issues"
   },
   "homepage": "https://github.com/monosparta/time-house-sensor#readme",
-  "devDependencies": {
-    "sequelize-cli": "^6.4.1"
-  },
   "dependencies": {
     "db-migrate": "^0.11.13",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.18.0"
+    "sequelize": "^6.18.0",
+    "sequelize-cli": "^6.4.1"
   }
 }

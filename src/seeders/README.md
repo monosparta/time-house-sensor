@@ -9,6 +9,8 @@
 $ npx sequelize-cli seed:generate --name demo-user
 <!-- running the seeds -->
 $ npx sequelize-cli db:seed:all
+<!-- if you want to run specific seeder files -->
+$ npx sequelize-cli db:seed --to <filename>.js
 <!-- undo the seed -->
 $ npx sequelize-cli db:seed:undo
 ```

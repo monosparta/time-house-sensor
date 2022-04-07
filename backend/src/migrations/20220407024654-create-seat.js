@@ -10,7 +10,11 @@ module.exports = {
       },
       // -1: abnormal, 0: someone using, 1: can be used
       state: {
+        allowNull: false,
         type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.STRING
       },
       updatedAt: {
         allowNull: false,

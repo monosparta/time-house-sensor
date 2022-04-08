@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('seats', [
+    await queryInterface.bulkInsert('Seats', [
       {
         id: 1,
         state: 0,
@@ -55,7 +55,7 @@ module.exports = {
       {
         id: 9,
         state: 1,
-        userId: "4275148487",
+        userCardId: "123456789",
         updatedAt: new Date()
       },
       {

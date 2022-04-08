@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('seats', [
+    await queryInterface.bulkInsert('Seats', [
       {
         id: 1,
         state: 0,

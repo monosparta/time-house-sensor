@@ -4,7 +4,15 @@
   "description": "<!--\r  * @Author: your name\r  * @Date: 2022-04-01 14:53:07\r  * @LastEditTime: 2022-04-01 17:03:34\r  * @LastEditors: Please set LastEditors\r  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE\r  * @FilePath: \\time-house-sensor\\README.md\r -->\r # 時光屋座位感測",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1" 
+    "start": "node src/server.js",
+    "components:bcrypt": "node src/components/bcrypt.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
+    "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",
+    "db:deploy:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/deploy",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo --config ./src/config/config.js --seeders-path ./src/seeders",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate"
   },
   "repository": {
     "type": "git",
@@ -18,6 +26,7 @@
   },
   "homepage": "https://github.com/monosparta/time-house-sensor#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "db-migrate": "^0.11.13",
     "mysql2": "^2.3.3",
     "sequelize": "^6.18.0",

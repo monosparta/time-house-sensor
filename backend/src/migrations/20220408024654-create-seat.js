@@ -8,13 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      // -1: abnormal, 0: someone using, 1: can be used
+      // -1: abnormal, 0: someone using, 1: can be used, 2: idle for too long
       state: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.STRING
+      userCardId: {
+        type: Sequelize.STRING,
+        references: { model: 'Members', key: 'cardId' }
       },
       updatedAt: {
         allowNull: false,

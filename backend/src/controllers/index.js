@@ -1,7 +1,9 @@
 const lineBot = require('./lineBot');
 const seat = require('./seat');
+const member = require('./member');
 
 module.exports = {
   lineBot,
-  seat,
+  seatController: seat,
+  memberController: member
 };

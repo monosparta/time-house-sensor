@@ -15,16 +15,31 @@ module.exports = {
       "Members",
       [
         {
+          id: 1,
           username: "admin",
           password:
             "$2b$10$bpecd65htSqZDkZObfRyqOouEdoseZapo8TLEoPEOZEwFBT4ftDky",
           phoneNumber: "",
-          lineId: "",
-          cardId: "123456789",
+          lineId: "U028abf3896a5342e28e44a6957e44622",
+          cardId: "0123456789",
+          mail: "",
           level: 0,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: 1,
+          username: "admin1",
+          password:
+            "$2b$10$0kPf9KcM9ooB0XCdZt5hWe1yjplbBA5zuhD7koOLvdQIP0ra6876W",
+          phoneNumber: "",
+          lineId: "Uf555939016b5fea1e0183162c0c13d06",
+          cardId: "9876543210",
+          mail: "",
+          level: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }
       ],
       {}
     );

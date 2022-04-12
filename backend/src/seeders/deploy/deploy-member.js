@@ -14,16 +14,16 @@ module.exports = {
     await queryInterface.bulkInsert(
       "Members",
       [
-        {
-          username: "kyle",
-          password: "<bcrypt-ed hash code>",
-          phoneNumber: "",
-          lineId: "",
-          cardId: "",
-          level: 0,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+        // {
+        //   username: "kyle",
+        //   password: "<bcrypt-ed hash code>",
+        //   phoneNumber: "",
+        //   lineId: "",
+        //   cardId: "",
+        //   level: 0,
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
         {
           username: "tilda",
           password: "<bcrypt-ed hash code>",
@@ -34,15 +34,15 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        {
-          username: "rosa",
-          password: "<bcrypt-ed hash code>",
-          phoneNumber: "",
-          lineId: "",
-          level: 0,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+        // {
+        //   username: "rosa",
+        //   password: "<bcrypt-ed hash code>",
+        //   phoneNumber: "",
+        //   lineId: "",
+        //   level: 0,
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
       ],
       {}
     );

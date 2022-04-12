@@ -1,14 +1,8 @@
-const { lineBot, seat } = require("../controllers/index");
-
-const line = require("../services/lineDev");
-const express = require("express");
+const { lineBot, seat, memberController } = require("../controllers/index");
 
 module.exports = (router) => {
   router.post("/api/line", lineBot.lineMessageHandler);
-  router.post("/api/line/login", );
-  router.post("/api/line/general_message", );
-  // router.post('/api/line', line.middleware)
 
-  // router.post('/api/auth/login', );
-  // router.post('/api/auth/logout',)
+  router.post('/api/auth/login', memberController.login);
+  // router.post('/api/auth/logout',);
 };

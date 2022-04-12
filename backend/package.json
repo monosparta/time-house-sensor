@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "components:bcrypt": "node src/components/bcrypt.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "unit": "node src/components/bcrypt.js",
+    "test": "jest --detectOpenHandles",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",
@@ -34,5 +34,8 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }

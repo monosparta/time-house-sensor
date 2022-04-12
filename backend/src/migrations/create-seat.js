@@ -13,9 +13,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      userCardId: {
-        type: Sequelize.STRING,
-        references: { model: "Members", key: "cardId" },
+      memberId: {
+        type: Sequelize.INTEGER,
+        references: { model: "Members", key: "id" },
       },
       updatedAt: {
         allowNull: false,

@@ -57,7 +57,7 @@ module.exports = {
         {
           id: 9,
           state: 1,
-          userCardId: "123456789",
+          memberId: 1,
           updatedAt: new Date(),
         },
         {

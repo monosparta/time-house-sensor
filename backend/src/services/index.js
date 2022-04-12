@@ -1,6 +1,7 @@
 const lineDev = require('./lineDev');
-
+const member = require('./member');
 
 module.exports = {
-    lineDev
+    lineDevService: lineDev,
+    memberService: member
 }

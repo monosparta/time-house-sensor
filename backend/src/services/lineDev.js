@@ -1,5 +1,4 @@
 const line = require("@line/bot-sdk");
-
 const config = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.LINE_CHANNEL_SECRET,
@@ -9,30 +8,10 @@ const client = new line.Client(config);
 const middleware = line.middleware(config);
 
 const unknownMessageReply = async (event) => {
-  console.log('unknownMessageReply')
+  console.log("unknownMessageReply");
   const replyMessage = {
     type: "text",
-    text: "哈囉，若有任何疑問，請輸入以下關鍵字\n\t查看座位表--請輸入[A]",
-    quickReply: {
-      items: [
-        {
-          type: "action",
-          action: {
-            type: "message",
-            label: "Sushi",
-            text: "Sushi",
-          },
-        },
-        {
-          type: "action",
-          action: {
-            type: "message",
-            label: "Tempura",
-            text: "Tempura",
-          },
-        },
-      ],
-    },
+    text: "哈囉，若有任何疑問，請輸入以下關鍵字\n\t查看座位表--請輸入[查看座位]",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
@@ -55,6 +34,7 @@ const replySeatState = async (event) => {
 
 module.exports = {
   config,
+  client,
   middleware,
   unknownMessageReply,
   replySeatState,

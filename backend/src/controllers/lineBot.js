@@ -1,9 +1,33 @@
 const lineDev = require("../services/lineDev");
+const client = lineDev.client;
+const sql = require("mysql2");
+const db_option = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: 3306,
+};
+
+let userId = new Array();
+let connection = sql.createConnection(db_option);
+let query = "SELECT * FROM Members";
+connection.query(query, function (err, rows, fields) {
+  if (err) throw err;
+  userId.push(rows[0].lineId);
+});
 
 const lineMessageHandler = async (req, res) => {
   try {
+    if (!req.body.events.length) return res.status(200).json({});
     let event = req.body.events[0];
-    const userId = event.userId;
+    const message_user_id = event.source.userId;
+    const admin_richmenu = "richmenu-d0cdc7f42d5827d17a6de8a3385bc80c";
+    userId.forEach(function (id) {
+      if (id === message_user_id) {
+        client.linkRichMenuToUser(message_user_id, admin_richmenu);
+      }
+    });
     if (event.type !== "message" || !event?.message?.text) {
       const replyResult = await lineDev
         .unknownMessageReply(event)
@@ -17,7 +41,7 @@ const lineMessageHandler = async (req, res) => {
     }
 
     const text = event.message.text;
-    
+    return res.json({});
     // todo: keyword extract
     // todo: analyze keyword about seat(more important) or login info
 
@@ -25,35 +49,10 @@ const lineMessageHandler = async (req, res) => {
 
     // todo: if message.text is about login
   } catch (err) {
+    console.log(err);
     return res.status(500).end();
   }
 };
-
-// app.post("/callback", line.middleware(config), (req, res) => {
-//     Promise.all(req.body.events.map(handleEvent))
-//       .then((result) => res.json(result))
-//       .catch((err) => {
-//         console.error(err);
-//         res.status(500).end();
-//       });
-//   });
-
-//   // event handler
-//   function handleEvent(event) {
-//     if (event.message.text != "A") {
-
-//     }
-//     if (event.type == "message" && event.message.text == "A") {
-//       const pic = {
-//         type: "image",
-//         originalContentUrl:
-//           "https://hahow-production.imgix.net/5c8a9c69145e290020a25f22?w=1000&sat=0&auto=format&s=43868cef2b253e06ef0bffd260c51672",
-//         previewImageUrl:
-//           "https://hahow-production.imgix.net/5c8a9c69145e290020a25f22?w=1000&sat=0&auto=format&s=43868cef2b253e06ef0bffd260c51672",
-//       };
-//       return client.replyMessage(event.replyToken, pic);
-//     }
-//   }
 
 module.exports = {
   lineMessageHandler,

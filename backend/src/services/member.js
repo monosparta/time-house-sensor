@@ -9,7 +9,7 @@ const getMemberInfoByUsername = async (username) => {
     if (username.trim() === "") {
       throw new RangeError("Username must not be empty or space-filled");
     }
-    return await db["Members"].findOne({ where: { username: username } })
+    return (await db["Members"].findOne({ where: { username: username } }))
       .dataValues;
   } catch (err) {
     return err;
@@ -53,7 +53,9 @@ const getMemberHash = async (username) => {
     const member = await db["Members"].findOne({
       where: { username: username },
     });
-    return member?.dataValues.password || "";
+    if(!member?.dataValues)
+      return "";
+    return member.dataValues.password || "";
   } catch (err) {
     return err;
   }
@@ -62,6 +64,7 @@ const getMemberHash = async (username) => {
 // const getAllInfo
 
 module.exports = {
+  getMemberInfoByUsername,
   checkMemberExists,
   getMemberHash,
 };

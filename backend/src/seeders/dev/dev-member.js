@@ -28,7 +28,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          id: 1,
+          id: 2,
           username: "admin1",
           password:
             "$2b$10$0kPf9KcM9ooB0XCdZt5hWe1yjplbBA5zuhD7koOLvdQIP0ra6876W",

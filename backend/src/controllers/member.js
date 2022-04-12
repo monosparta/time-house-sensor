@@ -5,22 +5,22 @@ const jwt = require("jsonwebtoken");
 const login = async (req, res) => {
   try {
     if (!req.body?.username || !req.body?.password) {
-      return res.json({
-        type: "/errors/incorrect-user-pass",
-        title: "Incorrect username or password.",
-        status: 333,
-        detail: "Authentication failed due to incorrect username or password.",
-        instance: "/login/log/abc123",
+      return res.status(400).json({
+        type: "/errors/incomplete-para",
+        title: "incomplete parameters",
+        status: 400,
+        detail: "missing username or password or both",
+        instance: "/api/login",
       });
     }
     const username = req.body.username;
     if (!(await memberService.checkMemberExists(username))) {
-      return res.json({
+      return res.status(403).json({
         type: "/errors/incorrect-user-pass",
         title: "Incorrect username or password.",
-        status: 400,
+        status: 403,
         detail: "Authentication failed due to incorrect username or password.",
-        instance: "/login/log/abc123",
+        instance: "/api/login",
       });
     }
 
@@ -29,30 +29,39 @@ const login = async (req, res) => {
     const compareResult = await bcrypt
       .compare(password, userInfo.password)
       .then((result) => {
+        console.log(result);
         return result;
       });
+
     if (!compareResult) {
-      return res.json({
+      return res.status(403).json({
         type: "/errors/incorrect-user-pass",
         title: "Incorrect username or password.",
-        status: 401,
+        status: 403,
         detail: "Authentication failed due to incorrect username or password.",
-        instance: "/login/log/abc123",
+        instance: "/api/login",
       });
     }
 
     const token = jwt.sign(
-      { id: userId.id, username: userInfo.username, level: userInfo.level },
+      { username: userInfo.username, level: userInfo.level },
       process.env.JWT_SECRET
     );
-    return res.json({ token: token });
+    return res.status(200).json({
+      type: "/pass/login-pass",
+      title: "login success",
+      status: 200,
+      detail: "Authentication success.",
+      instance: "/api/login",
+      token: token,
+    });
   } catch (err) {
     return res.json({
-      type: "/errors/incorrect-user-pass",
-      title: "Incorrect username or password.",
+      type: "/errors/server-error",
+      title: "Server error",
       status: 500,
-      detail: "Authentication failed due to incorrect username or password.",
-      instance: "/login/log/abc123",
+      detail: "Please check server logs",
+      instance: "/api/login",
     });
   }
 };

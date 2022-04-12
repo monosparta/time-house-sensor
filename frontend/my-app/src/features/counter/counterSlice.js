@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2022-04-12 11:08:58
+ * @LastEditTime: 2022-04-12 13:14:33
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \time-house-sensor\frontend\my-app\src\features\counter\a counterSlice.js
+ */
 import { createSlice } from '@reduxjs/toolkit'
 
 export const counterSlice = createSlice({

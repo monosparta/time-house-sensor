@@ -1,33 +1,29 @@
 const lineDev = require("../services/lineDev");
+const db = require("../models/index");
 const client = lineDev.client;
-const sql = require("mysql2");
-const db_option = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  port: 3306,
-};
-
-let userId = new Array();
-let connection = sql.createConnection(db_option);
-let query = "SELECT * FROM Members";
-connection.query(query, function (err, rows, fields) {
-  if (err) throw err;
-  userId.push(rows[0].lineId);
-});
-
+let event_num=-1;
 const lineMessageHandler = async (req, res) => {
   try {
+    event_num++;
     if (!req.body.events.length) return res.status(200).json({});
     let event = req.body.events[0];
     const message_user_id = event.source.userId;
     const admin_richmenu = "richmenu-d0cdc7f42d5827d17a6de8a3385bc80c";
-    userId.forEach(function (id) {
-      if (id === message_user_id) {
-        client.linkRichMenuToUser(message_user_id, admin_richmenu);
-      }
-    });
+    let member = (
+      await db["Members"].findOne({ where: { lineId: message_user_id } })
+    );
+    if (!((member==null)&& event_num)) {
+      client.linkRichMenuToUser(message_user_id, admin_richmenu);
+      const adminreplyResult = await lineDev
+        .AdminMessageReply(event)
+        .then((result) => {
+          return result;
+        })
+        .catch((err) => {
+          return err;
+        });
+      return res.json(adminreplyResult);
+    }
     if (event.type !== "message" || !event?.message?.text) {
       const replyResult = await lineDev
         .unknownMessageReply(event)

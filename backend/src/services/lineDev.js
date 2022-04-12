@@ -15,7 +15,68 @@ const unknownMessageReply = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
-
+const AdminMessageReply = async (event) => {
+  console.log("AdminMessageReply");
+  const adminreplyMessage = {
+    type: "flex",
+    altText: "admin",
+    contents: {
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "vertical",
+        spacing: "sm",
+        contents: [
+          {
+            type: "text",
+            text: "Jane登入成功",
+            weight: "bold",
+            size: "xl",
+            wrap: true,
+            contents: [],
+          },
+          {
+            type: "text",
+            text: "管理員身份完成驗證 , 推播功能開啟。",
+            size: "sm",
+            color: "#000000FF",
+            flex: 0,
+            margin: "md",
+            wrap: true,
+            contents: [],
+          },
+        ],
+      },
+      footer: {
+        type: "box",
+        layout: "vertical",
+        spacing: "sm",
+        contents: [
+          {
+            type: "button",
+            action: {
+              type: "uri",
+              label: "進入後台",
+              uri: "https://linecorp.com",
+            },
+            flex: 2,
+            color: "#AAAAAA",
+            style: "primary",
+          },
+          {
+            type: "button",
+            action: {
+              type: "postback",
+              label: "查看座位現況",
+              data: "seat",
+            },
+          },
+        ],
+      },
+    },
+  };
+  return await client.replyMessage(event.replyToken, adminreplyMessage);
+};
 const replySeatState = async (event) => {
   // const replyMessage = {
   //   type: "image",
@@ -38,4 +99,5 @@ module.exports = {
   middleware,
   unknownMessageReply,
   replySeatState,
+  AdminMessageReply,
 };

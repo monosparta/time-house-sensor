@@ -29,7 +29,6 @@ const login = async (req, res) => {
     const compareResult = await bcrypt
       .compare(password, userInfo.password)
       .then((result) => {
-        console.log(result);
         return result;
       });
 

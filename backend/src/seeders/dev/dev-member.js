@@ -29,14 +29,14 @@ module.exports = {
         },
         {
           id: 2,
-          username: "admin1",
+          username: "general",
           password:
-            "$2b$10$0kPf9KcM9ooB0XCdZt5hWe1yjplbBA5zuhD7koOLvdQIP0ra6876W",
+            "$2b$10$680EkA5SRl4/O.VhGaJf0OlJfGbGvIZDtMy3jOu619pv3.Eihr8re",
           phoneNumber: "",
           lineId: "Uf555939016b5fea1e0183162c0c13d06",
           cardId: "9876543210",
           mail: "",
-          level: 0,
+          level: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         }

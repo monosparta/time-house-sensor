@@ -43,7 +43,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: userInfo.username, level: userInfo.level },
+      { id: userInfo.id, username: userInfo.username, level: userInfo.level },
       process.env.JWT_SECRET
     );
     return res.status(200).json({

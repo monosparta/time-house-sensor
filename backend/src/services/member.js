@@ -103,6 +103,19 @@ const getMemberHash = async (username) => {
   }
 };
 
+const addMember = async (username, mail, phoneNumber, cardId, level) => {
+  const [member, created] = await db["Members"].findOrCreate({
+    where: { username: username },
+    defaults: {
+      mail: mail,
+      phoneNumber: phoneNumber,
+      cardId: cardId,
+      level: level
+    }
+  });
+  return [member, created];
+}
+
 module.exports = {
   getMemberInfoByUsername,
   getMemberInfoById,
@@ -111,4 +124,5 @@ module.exports = {
   checkMemberExistsById,
   checkMemberExistsByCardId,
   getMemberHash,
+  addMember
 };

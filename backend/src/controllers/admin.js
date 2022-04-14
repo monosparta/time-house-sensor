@@ -1,8 +1,53 @@
 const db = require("../models/index");
 const { memberService, seatService } = require("../services/index");
 
+// add member for one-day member or want-experience member
 const addMember = async (req, res) => {
-  const payload = req.tokenPayload;
+  try {
+    const body = req.body;
+    if (!body || !body.username || !body.mail || !body.phoneNumber) {
+      return res.status(422).json({
+        type: "/errors/Incomplete-body",
+        title: "Incomplete-body-para.",
+        status: 422,
+        detail: "Incomplete body parameter.",
+        instance: "/api/auth/admin/addUser",
+      });
+    }
+
+    const [member, created] = await memberService.addMember(
+      body.username,
+      body.mail,
+      body.phoneNumber,
+      "0000000000",
+      2
+    );
+    if (!created) {
+      return res.status(400).json({
+        type: "/errors/username-already-exist",
+        title: "Username already exist.",
+        status: 400,
+        detail: "Username already exist.",
+        instance: "/api/auth/admin/addUser",
+      });
+    }
+    return res.status(200).json({
+      type: "/passes/create-a-new-member",
+      title: "Successfully create a new member.",
+      status: 200,
+      detail: "Successfully create a new member.",
+      instance: "/api/auth/admin/addUser",
+    });
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      type: "/errors/internal-error",
+      title: "Server Internal Error",
+      status: 500,
+      detail: "Server internal error, please contact administrator.",
+      instance: "/api/auth/admin/seatState",
+    });
+  }
 };
 
 const getMemberById = async (req, res) => {
@@ -29,7 +74,6 @@ const getMemberById = async (req, res) => {
     }
 
     const userInfo = await memberService.getMemberInfoById(parseInt(id));
-    console.log(userInfo);
     return res.status(200).json({
       type: "/passes/get-member-information",
       title: "Successfully get member information",

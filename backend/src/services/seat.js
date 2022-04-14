@@ -7,7 +7,7 @@ const updateSeatState = async (index, state, memberId) => {
       typeof state !== "number" ||
       typeof memberId !== "number"
     ) {
-      throw new TypeError("Index and State must be number");
+      throw new TypeError("Index, State, Member-ID must be number");
     }
     if (
       index < 1 ||
@@ -30,17 +30,23 @@ const updateSeatState = async (index, state, memberId) => {
   }
 };
 
-const getSeatInfo = async () => {
-  let seats = await db["Seats"].findAll({
-    attributes: ["id", "state", "memberId", "updatedAt"],
-  });
+const getAllSeatInfo = async () => {
+  let seats = await db["Seats"].findAll();
   seats = seats.map((seat) => {
     return seat.dataValues;
   });
   return seats;
 };
 
+const checkSeatIndexExist = async (index) => {
+  let seat = await db["Seats"].findOne({
+    where: { id: index }
+  });
+  return seat !== null;
+};
+
 module.exports = {
   updateSeatState,
-  getSeatInfo
+  getAllSeatInfo,
+  checkSeatIndexExist
 };

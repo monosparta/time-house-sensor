@@ -29,6 +29,10 @@ module.exports = {
       lineId: {
         type: Sequelize.STRING,
       },
+      // 0: not logged in, 1: logged in,
+      login: {
+        type: Sequelize.INTEGER,
+      },
       // 0: admin, 1: general, 2: others
       level: {
         type: Sequelize.INTEGER,

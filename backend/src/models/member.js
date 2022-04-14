@@ -28,8 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       cardId: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: false
       },
       phoneNumber: {
         type: DataTypes.STRING,

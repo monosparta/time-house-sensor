@@ -19,3 +19,12 @@ img{
   width: 10vw;
   height: 10vw;
 }
+
+hr{
+  height:100%;
+  width:1px;
+  border-width:0;
+  color:#000;
+  position: absolute;
+  background-color:#000;
+ }

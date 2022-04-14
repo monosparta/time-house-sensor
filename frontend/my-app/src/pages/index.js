@@ -11,7 +11,7 @@
 import data from '../json/chair1.json';
 import React, { useEffect, useState } from "react";
 import './index.css';
-import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input } from 'antd';
+import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input , Radio} from 'antd';
 import { LogoutOutlined, GithubOutlined } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -21,7 +21,13 @@ data.splice(8, 0, {});
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
     const [form] = Form.useForm();
-
+  // d
+  const [value, setValue] = React.useState(1);
+  v=data.id;
+  const onChange = e => {
+      console.log('radio checked', e.target.value);
+      setValue(e.target.value);
+    };
     if (a == 1) {
         return (
             <Modal
@@ -44,7 +50,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
             >
                 <Row justify="center" align="middle">
                     <Form
-
                         form={form}
                         // layout="vertical"
                         // labelCol={{ span: 5 }}
@@ -83,12 +88,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
 
         );
     } else {
+        
         return (
             <Modal
                 visible={visible}
                 title="Create a new collection"
                 okText="Create"
                 cancelText="Cancel"
+                width={800}
                 onCancel={onCancel}
                 onOk={() => {
                     form
@@ -102,7 +109,20 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                         });
                 }}
             >
-                <Row justify="center" align="middle">
+                <Row>
+                    <Col  justify="center" align="middle" span={10}>
+                        <h1>Sdsd</h1>
+                        
+                        <span>聯絡信箱：ｄｄｆｓｆ＠ｆｄｓｆｄ</span>
+                        <br/>
+                        <span></span>
+                    </Col>
+              
+                    <Col  span={1}>
+                    <hr/>
+                   </Col>
+                    <Col span={13}>
+                        
                     <Form
 
                         form={form}
@@ -114,19 +134,23 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                         initialValues={{
                             modifier: 'public',
                         }}
+                      
                     >
                         <Form.Item
                             label="名　　稱"
                             name="username"
                             rules={[{ required: true, message: '請輸入使用者名稱' }]}
                         >
-                            <Input />
+                             <Radio.Group onChange={onChange} value={value}>
+                                    <Radio value={1}></Radio>
+                                    <Radio value={2}>B</Radio>
+                                    </Radio.Group>
                         </Form.Item>
 
                     </Form>
+                    </Col>
                 </Row>
             </Modal>
-            // 第二個Modal
 
         );
     }
@@ -137,8 +161,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
 const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
-
-
+ 
     const onCreate = (values, a) => {
 
         if (a === 1) {
@@ -219,7 +242,6 @@ const Home = () => {
                                 <Col span={6}>
                                     {d.id}
                                     <img src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => openNotification(d.state)} />
-
                                 </Col>
                             ))}
                         </Row>

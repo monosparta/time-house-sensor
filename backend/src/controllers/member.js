@@ -25,7 +25,7 @@ const login = async (req, res) => {
     }
 
     const password = req.body.password;
-    const userInfo = await memberService.getMemberInfoByUsernameByUsername(username);
+    const userInfo = await memberService.getMemberInfoByUsername(username);
     const compareResult = await bcrypt
       .compare(password, userInfo.password)
       .then((result) => {

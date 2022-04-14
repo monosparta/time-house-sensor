@@ -5,6 +5,54 @@ const addMember = async (req, res) => {
   const payload = req.tokenPayload;
 };
 
+const getMemberById = async (req, res) => {
+  try {
+    let id = req.query?.memberId;
+    if (!id) {
+      return res.status(422).json({
+        type: "/errors/Incomplete-query",
+        title: "Incomplete-query-para.",
+        status: 422,
+        detail: "Incomplete query parameter.",
+        instance: "/api/auth/admin/memberInfo",
+      });
+    }
+
+    if (!(await memberService.checkMemberExistsById(parseInt(id)))) {
+      return res.status(404).json({
+        type: "/errors/not-found-member",
+        title: "can not find this member.",
+        status: 404,
+        detail: "can not find this member, please contact administrator",
+        instance: "/api/auth/admin/memberInfo",
+      });
+    }
+
+    const userInfo = await memberService.getMemberInfoById(parseInt(id));
+    console.log(userInfo);
+    return res.status(200).json({
+      type: "/passes/get-member-information",
+      title: "Successfully get member information",
+      status: 200,
+      detail: "Successfully get member information by id.",
+      instance: "/api/auth/admin/memberInfo",
+      member: {
+        name: userInfo.username,
+        phoneNumber: userInfo.phoneNumber,
+        mail: userInfo.mail,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({
+      type: "/errors/internal-error",
+      title: "Server Internal Error",
+      status: 500,
+      detail: "Server internal error, please contact administrator.",
+      instance: "/api/auth/admin/memberInfo",
+    });
+  }
+};
+
 const updateSeatState = async (req, res) => {
   try {
     const seat = req.body.seat;
@@ -33,7 +81,7 @@ const updateSeatState = async (req, res) => {
       });
     }
 
-    if (!(await memberService.checkMemberExists(username))) {
+    if (!(await memberService.checkMemberExistsByUsername(username))) {
       return res.status(422).json({
         type: "/errors/no-member",
         title: "Not found this member.",
@@ -70,7 +118,6 @@ const updateSeatState = async (req, res) => {
       instance: "/api/auth/admin/seatState",
     });
   } catch (err) {
-    console.log(err);
     return res.status(500).json({
       type: "/errors/internal-error",
       title: "Server Internal Error",
@@ -84,4 +131,5 @@ const updateSeatState = async (req, res) => {
 module.exports = {
   addMember,
   updateSeatState,
+  getMemberById,
 };

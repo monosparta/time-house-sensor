@@ -3,6 +3,7 @@ const config = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.LINE_CHANNEL_SECRET,
 };
+const db = require("../models/index");
 
 const client = new line.Client(config);
 const middleware = line.middleware(config);
@@ -115,6 +116,23 @@ const replyFeedBackMessage = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessageFeedBack);
 };
+const pushAdminMessage = async (id) => {
+  let admins = await db["Members"].findAll({
+    where: { level: 0 },
+  });
+  const pushMessageToAdmin = {
+    type: "text",
+    text: id + "座位已閒置30分鐘以上",
+  };
+  admins = admins.map((admin) => {
+    client
+      .pushMessage(admin.lineId, pushMessageToAdmin,false)
+      .then(() => {})
+      .catch((err) => {
+        // error handling
+      });
+  });
+};
 module.exports = {
   config,
   client,
@@ -125,4 +143,5 @@ module.exports = {
   userMessageReply,
   replySeatState,
   replyFeedBackMessage,
+  pushAdminMessage
 };

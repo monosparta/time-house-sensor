@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-14 11:35:31
- * @LastEditTime: 2022-04-14 11:35:32
+ * @LastEditTime: 2022-04-15 13:28:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index copy.js
@@ -119,9 +119,15 @@ const Home = () => {
                                 <Col span={6}>
                                     {d.id}
                                     <img src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => openNotification(d.state)} />
-                                </Col>
-                            ))}
+                                    {d.updatedAt}
 
+                                    <br/>
+                                 
+                                </Col>
+                              
+                             
+                            ))}
+                          
                         </Row>
                         {/* 第二版 */}
                         {/* {data.map((data) => (

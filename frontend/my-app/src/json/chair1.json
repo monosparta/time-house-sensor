@@ -1,61 +1,61 @@
 [
     {
         "id": 1,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":2,
-        "state": "c",
+        "state": "1",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":3,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":4,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":5,
-        "state": "chair",
+        "state": "2",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":6,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":7,
-        "state": "d",
-        "memberId": null,
-        "updatedAt": "2022-04-12T12:38:28.000Z"
+        "state": "-1",
+        "memberI-1": null,
+        "up-datedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":8,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":9,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     },
     {
         "id":10,
-        "state": "office-chair",
+        "state": "0",
         "memberId": null,
         "updatedAt": "2022-04-12T12:38:28.000Z"
     }

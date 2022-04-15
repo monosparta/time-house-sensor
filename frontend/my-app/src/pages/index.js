@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-14 16:48:02
+ * @LastEditTime: 2022-04-15 13:40:26
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -11,31 +11,32 @@
 import data from '../json/chair1.json';
 import React, { useEffect, useState } from "react";
 import './index.css';
-import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input , Radio} from 'antd';
+import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
 import { LogoutOutlined, GithubOutlined } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
 
 data.splice(4, 0, {});
 data.splice(8, 0, {});
 
-
+// Modal From結合的Component
 const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
     const [form] = Form.useForm();
-  // d
-  const [value, setValue] = React.useState(1);
-  v=data.id;
-  const onChange = e => {
-      console.log('radio checked', e.target.value);
-      setValue(e.target.value);
+    // Radio選單
+    const [value, setValue] = React.useState(1);
+    const onChange = e => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
     };
+    // 依照座位狀態顯示不同類型的選單
     if (a == 1) {
+        // 表單一，可使用位置
         return (
             <Modal
                 visible={visible}
-                title="Create a new collection"
                 okText="Create"
                 cancelText="Cancel"
                 onCancel={onCancel}
+                closable={false}
                 onOk={() => {
                     form
                         .validateFields()
@@ -54,7 +55,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                         // layout="vertical"
                         // labelCol={{ span: 5 }}
                         // wrapperCol={{ span: 19 }}
-                        name="form_in_modal"
+                        name="form_i                                n_modal"
                         autoComplete="off"
                         initialValues={{
                             modifier: 'public',
@@ -84,18 +85,20 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                     </Form>
                 </Row>
             </Modal>
-            // 第二個Modal
 
         );
     } else {
-        
+        // 表單二，閒置位置
         return (
             <Modal
+                closable={false}
                 visible={visible}
                 title="Create a new collection"
                 okText="Create"
                 cancelText="Cancel"
                 width={800}
+                cancelButtonProps={true}
+
                 onCancel={onCancel}
                 onOk={() => {
                     form
@@ -110,44 +113,45 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 }}
             >
                 <Row>
-                    <Col  justify="center" align="middle" span={10}>
-                        <h1>Sdsd</h1>
-                        
-                        <span>聯絡信箱：ｄｄｆｓｆ＠ｆｄｓｆｄ</span>
-                        <br/>
-                        <span></span>
-                    </Col>
-              
-                    <Col  span={1}>
-                    <hr/>
-                   </Col>
-                    <Col span={13}>
-                        
-                    <Form
+                    <Col span={10}>
+                        <Space direction="vertical" size="small" >
+                            <h2>UserName</h2>
+                            <span><LogoutOutlined />連絡電話</span>
+                            <span><LogoutOutlined />連絡信箱</span>
 
-                        form={form}
-                        // layout="vertical"
-                        // labelCol={{ span: 5 }}
-                        // wrapperCol={{ span: 19 }}
-                        name="form_in_modal"
-                        autoComplete="off"
-                        initialValues={{
-                            modifier: 'public',
-                        }}
-                      
-                    >
-                        <Form.Item
-                            label="名　　稱"
-                            name="username"
-                            rules={[{ required: true, message: '請輸入使用者名稱' }]}
+                        </Space>
+                    </Col>
+
+                    <Col span={1}>
+                        <hr />
+                    </Col>
+                    <Col span={13}>
+
+                        <Form
+
+                            form={form}
+                            // layout="vertical"
+                            // labelCol={{ span: 5 }}
+                            // wrapperCol={{ span: 19 }}
+                            name="form_in_modal"
+                            autoComplete="off"
+                            initialValues={{
+                                modifier: 'public',
+                            }}
+
                         >
-                             <Radio.Group onChange={onChange} value={value}>
+                            <Form.Item
+                                label="名　　稱"
+                                name="username"
+                                rules={[{ required: true, message: '請輸入使用者名稱' }]}
+                            >
+                                <Radio.Group onChange={onChange} value={value}>
                                     <Radio value={1}></Radio>
                                     <Radio value={2}>B</Radio>
-                                    </Radio.Group>
-                        </Form.Item>
+                                </Radio.Group>
+                            </Form.Item>
 
-                    </Form>
+                        </Form>
                     </Col>
                 </Row>
             </Modal>
@@ -161,7 +165,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
 const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
- 
+
     const onCreate = (values, a) => {
 
         if (a === 1) {
@@ -184,9 +188,10 @@ const Home = () => {
 
 
     console.log(data)
-    const openNotification = (prop) => {
 
-        if (prop === "office-chair") {
+    const Action = (prop) => {
+
+        if (prop === "0") {
             notification.open({
                 message: '使用中',
                 description:
@@ -195,7 +200,7 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === "chair") {
+        } else if (prop === "-1") {
             notification.open({
                 message: '異常',
                 description:
@@ -204,10 +209,10 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === "c") {
+        } else if (prop === "1") {
             setIsModalVisible1(true);
             // setIsModalVisible1(true);
-        } else if (prop === "d") {
+        } else if (prop === "2") {
             setIsModalVisible2(true);
         }
     };
@@ -219,7 +224,7 @@ const Home = () => {
             <Header>
                 <div className="logo" />
                 <Row>
-                    <Col span={5} push={11} style={{
+                    <Col span={5} push={10} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
                         時光屋座位使用管理系統
@@ -233,21 +238,40 @@ const Home = () => {
                     </Col>
                 </Row>
             </Header>
-            <Layout>
-                <Sider style={{ backgroundColor: 'blue' }}></Sider>
-                <Content>
-                    <div className="resume">
-                        <Row>
-                            {data.map((d) => (
-                                <Col span={6}>
-                                    {d.id}
-                                    <img src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => openNotification(d.state)} />
-                                </Col>
-                            ))}
-                        </Row>
-                    </div>
-                </Content>
-            </Layout>
+
+            <Content>
+                <div className="resume">
+                    <Row>
+                        {data.map((d) => (
+                            <Col span={6}>
+                                <img src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state)} />
+                                <br />
+                                {d.id}
+                                <br />
+                                <br />
+                            </Col>
+                        ))}
+                    </Row>
+                </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+                <Space>
+                    <Avatar className="yellow" size="small" />閒置中 &emsp;
+                    <Avatar className="black" size="small" />使用中 &emsp;
+                    <Avatar className="white" size="small" />可使用 &emsp;
+                    <Avatar className="red" size="small" />異常
+                </Space>
+                {/* <div style={{ textAlign: 'center' }}>
+                <Row>
+                    
+                    <Col> <Avatar size="default" />csfdfdfd</Col>
+                    <Col><Avatar size="default" />csfdfdfd</Col>
+                    <Col><Avatar size="default" />csfdfdfd</Col>
+                    <Col><Avatar size="default" />csfdfdfd</Col>
+                </Row> */}
+                {/* </div> */}
+            </Footer>
+
             <CollectionCreateForm
                 visible={isModalVisible1}
                 // onCreate={onCreate}
@@ -262,7 +286,7 @@ const Home = () => {
                 onCancel={() => onCancel(2)}
                 a={2}
             />
-            {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
+
 
 
         </div>)

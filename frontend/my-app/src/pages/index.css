@@ -2,7 +2,9 @@
   /* display: flex; */
   /* border: solid 3px rgb(36, 18, 18); */
   position: relative;
-  margin: 3vw;
+  margin-top:2vw;
+  margin-left:2vw ;
+  margin-left: 2vw;
 }
 
 .dot {
@@ -37,7 +39,7 @@
   height: 10vw;
 } */
 
-img {
+.chair {
   width: 7vw;
   height: 7vw;
 }

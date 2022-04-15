@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-15 13:40:26
+ * @LastEditTime: 2022-04-15 16:33:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -52,10 +52,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 <Row justify="center" align="middle">
                     <Form
                         form={form}
-                        // layout="vertical"
-                        // labelCol={{ span: 5 }}
-                        // wrapperCol={{ span: 19 }}
-                        name="form_i                                n_modal"
+                        name="form_in_modal"
                         autoComplete="off"
                         initialValues={{
                             modifier: 'public',
@@ -118,7 +115,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                             <h2>UserName</h2>
                             <span><LogoutOutlined />連絡電話</span>
                             <span><LogoutOutlined />連絡信箱</span>
-
                         </Space>
                     </Col>
 
@@ -126,13 +122,8 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                         <hr />
                     </Col>
                     <Col span={13}>
-
                         <Form
-
                             form={form}
-                            // layout="vertical"
-                            // labelCol={{ span: 5 }}
-                            // wrapperCol={{ span: 19 }}
                             name="form_in_modal"
                             autoComplete="off"
                             initialValues={{
@@ -185,10 +176,6 @@ const Home = () => {
             setIsModalVisible2(false);
         }
     };
-
-
-    console.log(data)
-
     const Action = (prop) => {
 
         if (prop === "0") {
@@ -221,15 +208,15 @@ const Home = () => {
 
     return (
         <div>
-            <Header>
+            <Header className="black">
                 <div className="logo" />
                 <Row>
-                    <Col span={5} push={10} style={{
+                    <Col style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
                         時光屋座位使用管理系統
                     </Col>
-                    <Col span={2} push={17} style={{
+                    <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
                         <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />} >
@@ -244,7 +231,7 @@ const Home = () => {
                     <Row>
                         {data.map((d) => (
                             <Col span={6}>
-                                <img src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state)} />
+                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state)} />
                                 <br />
                                 {d.id}
                                 <br />
@@ -261,15 +248,7 @@ const Home = () => {
                     <Avatar className="white" size="small" />可使用 &emsp;
                     <Avatar className="red" size="small" />異常
                 </Space>
-                {/* <div style={{ textAlign: 'center' }}>
-                <Row>
-                    
-                    <Col> <Avatar size="default" />csfdfdfd</Col>
-                    <Col><Avatar size="default" />csfdfdfd</Col>
-                    <Col><Avatar size="default" />csfdfdfd</Col>
-                    <Col><Avatar size="default" />csfdfdfd</Col>
-                </Row> */}
-                {/* </div> */}
+
             </Footer>
 
             <CollectionCreateForm
@@ -277,6 +256,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
+                
                 a={1}
             />
             <CollectionCreateForm
@@ -284,7 +264,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
-                a={2}
+                a={2}      
             />
 
 

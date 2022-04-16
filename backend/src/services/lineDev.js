@@ -17,6 +17,7 @@ const unknownMessageReply = async (event, status) => {
     };
     return await client.replyMessage(event.replyToken, replyMessage);
   } else {
+    console.log("134")
     userMessageReply(event, username);
   }
 };
@@ -30,6 +31,7 @@ const replySeatState = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
+
 const adminMessageReply = async (event, status, username) => {
   console.log("AdminMessageReply");
   if (!status) {
@@ -80,8 +82,8 @@ const adminMessageReply = async (event, status, username) => {
               action: {
                 type: "postback",
                 label: "查看座位現況",
-                data: "hello",
-                displayText: "seat",
+                data: "seat",
+                displayText: "查看座位現況",
               },
               height: "sm",
               style: "link",
@@ -100,6 +102,8 @@ const adminMessageReply = async (event, status, username) => {
   }
 };
 const userMessageReply = async (event, username) => {
+  console.log("unknownuserMessageReply");
+
   const userReplyMessage = {
     type: "text",
     text:
@@ -116,6 +120,36 @@ const replyFeedBackMessage = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessageFeedBack);
 };
+
+const updateMemberLogin=async(memberLogin,memberlineId)=>{
+  await db["Members"].update(
+    { login: memberLogin },
+    {
+      where: {
+        lineId: memberlineId,
+      },
+    }
+  );
+}
+const updateMemberUserName=async(memberUserName,memberlineId)=>{
+  console.log("updateMemberUserName")
+  await db["Members"].update(
+    { username: memberUserName },
+    {
+      where: {
+        lineId: memberlineId,
+      },
+    }
+  );
+}
+const createMemberData=async(memberlineId)=>{
+  await db["Members"].create({
+    lineId: memberlineId,
+    login: 0,
+    cardId: "123",
+    level: 1,
+  });
+}
 const pushAdminMessage = async (id) => {
   let admins = await db["Members"].findAll({
     where: { level: 0 },
@@ -133,6 +167,7 @@ const pushAdminMessage = async (id) => {
       });
   });
 };
+// pushAdminMessage("A1")
 module.exports = {
   config,
   client,
@@ -141,7 +176,9 @@ module.exports = {
   replySeatState,
   adminMessageReply,
   userMessageReply,
-  replySeatState,
   replyFeedBackMessage,
-  pushAdminMessage
+  pushAdminMessage,
+  updateMemberLogin,
+  createMemberData,
+  updateMemberUserName
 };

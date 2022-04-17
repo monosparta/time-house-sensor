@@ -10,10 +10,18 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Home from './pages/index'
+import Login from './pages/Login';
+import Logout from './pages/components/Logout';
+import { useSelector } from 'react-redux';
+import {selectUser} from"./features/counter/userSlice";
+
 function App() {
+  const user=useSelector(selectUser);
+
   return (
     <div className="App">
-     <Home/>
+      {user ? <Logout/> :<Login/>}
+   
     </div>
   );
 }

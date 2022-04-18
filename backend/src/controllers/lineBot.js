@@ -15,12 +15,6 @@ const lineMessageHandler = async (req, res) => {
     //使用者加入官方帳號
     if (event.type === "follow") {
       if (member === null) {
-        // await db["Members"].create({
-        //   lineId: messageUserId,
-        //   login: 0,
-        //   cardId: "123zxc",
-        //   level: 1,
-        // });
         await lineDev.createMemberData(messageUserId)
       }
       return "ok";
@@ -56,21 +50,12 @@ const lineMessageHandler = async (req, res) => {
     //使用者封鎖官方帳號
     if (event.type === "unfollow") {
       await lineDev.updateMemberLogin(0,messageUserId)
-
-      // await db["Members"].update(
-      //   { login: 0 },
-      //   {
-      //     where: {
-      //       lineId: messageUserId,
-      //     },
-      //   }
-      // );
       return "ok";
     }
     //使用者發送非文字訊息(如貼圖、影片、音訊等等)
     if ((event.type !== "message" ) || event.message.type !== "text") {
       const replyResult = await lineDev
-        .unknownMessageReply(event, member.dataValues.login)
+        .unknownMessageReply(event, member.dataValues.login,member.dataValues.username)
         .then((result) => {
           return result;
         })
@@ -86,15 +71,6 @@ const lineMessageHandler = async (req, res) => {
       !member.dataValues.login
     ) {
       await lineDev.updateMemberUserName(event.message.text,messageUserId)
-
-      // await db["Members"].update(
-      //   { username: event.message.text },
-      //   {
-      //     where: {
-      //       lineId: messageUserId,
-      //     },
-      //   }
-      // );
     }
 
     member = await db["Members"].findOne({
@@ -104,15 +80,6 @@ const lineMessageHandler = async (req, res) => {
     if (member.dataValues.level === 0) {
       client.linkRichMenuToUser(messageUserId, adminRichMenu);
       await lineDev.updateMemberLogin(1,messageUserId)
-
-      // await db["Members"].update(
-      //   { login: 1 },
-      //   {
-      //     where: {
-      //       lineId: messageUserId,
-      //     },
-      //   }
-      // );
       const adminReplyResult = await lineDev
         .adminMessageReply(
           event,
@@ -131,15 +98,6 @@ const lineMessageHandler = async (req, res) => {
 
     if (member.dataValues.level === 1) {
       lineDev.updateMemberLogin(1,messageUserId)
-
-      // await db["Members"].update(
-      //   { login: 1 },
-      //   {
-      //     where: {
-      //       lineId: messageUserId,
-      //     },
-      //   }
-      // );
       const userReplyResult = await lineDev
         .userMessageReply(event, member.dataValues.username)
         .then((result) => {

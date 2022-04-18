@@ -8,7 +8,7 @@ const db = require("../models/index");
 const client = new line.Client(config);
 const middleware = line.middleware(config);
 
-const unknownMessageReply = async (event, status) => {
+const unknownMessageReply = async (event, status,username) => {
   console.log("unknownMessageReply");
   if (!status) {
     const replyMessage = {
@@ -143,10 +143,11 @@ const updateMemberUserName=async(memberUserName,memberlineId)=>{
   );
 }
 const createMemberData=async(memberlineId)=>{
+  console.log("createMemberData")
   await db["Members"].create({
     lineId: memberlineId,
     login: 0,
-    cardId: "123",
+    cardId: "123asd",
     level: 1,
   });
 }

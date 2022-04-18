@@ -1,22 +1,25 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-15 16:33:58
+ * @LastEditTime: 2022-04-18 10:42:22
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
 import React, { useEffect, useState } from "react";
+
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
 
 import data from '../json/chair1.json';
 
-import './index.css';
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
 import { LogoutOutlined, GithubOutlined } from '@ant-design/icons';
+
 const { Header, Content, Footer, Sider } = Layout;
+
+
 
 // REDUX
 
@@ -33,7 +36,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
         setValue(e.target.value);
     };
     // 依照座位狀態顯示不同類型的選單
-    if (a == 1) {
+    if (a === 1) {
         // 表單一，可使用位置
         return (
             <Modal
@@ -216,6 +219,8 @@ const Home = () => {
         dispatch(logout())
     }
 
+ 
+
     return (
         <div>
             <Header className="black">
@@ -253,7 +258,7 @@ const Home = () => {
             </Content>
             <Footer style={{ textAlign: 'center' }}>
                 <Space>
-                    <Avatar className="yellow" size="small" />閒置中 &emsp;
+                    <Avatar  style={{ color: "#eb2f96" }} className="yellow" size="small" />閒置中 &emsp;
                     <Avatar className="black" size="small" />使用中 &emsp;
                     <Avatar className="white" size="small" />可使用 &emsp;
                     <Avatar className="red" size="small" />異常

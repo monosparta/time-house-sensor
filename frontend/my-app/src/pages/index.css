@@ -16,7 +16,8 @@
 }
 
 .red{
-  background-color: #FF5A5A;
+  background-color: #FF5A5A !important;
+
 }
 .yellow{
   background-color: #FFC440;

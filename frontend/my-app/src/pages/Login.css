@@ -1,17 +1,42 @@
 .box{
     width: 500px;
-
-    margin: auto;
-    height: auto;
-    padding: 25vh 0;
-  }
-  .content{
-    width: 400px;
-    border: 1px solid #f00;
-    background: #ccc;
+    margin: 0;
+    height: 100vh;
+    padding: 25vh 5vw;
+    
   }
 
 
 .Color{
+  
     background-color: #363F4E;
+    color: rgb(255, 255, 255);
+    display: flex; /* ★ */
+}
+
+
+
+.box1{
+  
+  border: 1px solid #f00;
+  margin: auto;
+  line-height: 200px;
+  text-align: center;
+}
+
+.content{
+            margin:0 auto;
+            position: relative;
+            display: flex;
+            /* justify-content: center; */
+            backdrop-filter: blur(5px);
+            box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h2{
+  color: white !important;
+
 }

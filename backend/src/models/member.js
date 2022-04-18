@@ -28,8 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       cardId: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
       },
       phoneNumber: {
         type: DataTypes.STRING,
@@ -40,7 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       lineId: {
         type: DataTypes.STRING,
       },
-      // 0: admin, 1: general, 2: others
+      // 0: admin, 1: general, 
+      login: {
+        type: DataTypes.INTEGER,
+      },
+      // 0: not logged in, 1: logged in,
       level: {
         type: DataTypes.INTEGER,
       },

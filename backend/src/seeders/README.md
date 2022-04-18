@@ -3,7 +3,7 @@
 ## Implementation
 
 * cd into src directory to do all things below
-* watch out the reference Seats.userCardId -> Members.cardId, so please seed Member-seeder first, then seed Seats-seeder
+* watch out the reference Seats.memberId -> Members.id, so please seed Member-seeder first, then seed Seats-seeder
 
 ``` code = bash
 <!-- if you want to create a demo user for the User table -->

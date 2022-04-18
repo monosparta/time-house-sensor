@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,60 +10,74 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    await queryInterface.bulkInsert('Seats', [
-      {
-        id: 1,
-        state: 0,
-        updatedAt: new Date()
-      },
-      {
-        id: 2,
-        state: -1,
-        updatedAt: new Date()
-      },
-      {
-        id: 3,
-        state: 1,
-        updatedAt: new Date()
-      },
-      {
-        id: 4,
-        state: 0,
-        updatedAt: new Date()
-      },
-      {
-        id: 5,
-        state: 1,
-        updatedAt: new Date()
-      },
-      {
-        id: 6,
-        state: -1,
-        updatedAt: new Date()
-      },
-      {
-        id: 7,
-        state: 1,
-        updatedAt: new Date()
-      },
-      {
-        id: 8,
-        state: 0,
-        updatedAt: new Date()
-      }, 
-      {
-        id: 9,
-        state: 1,
-        userCardId: "123456789",
-        updatedAt: new Date()
-      },
-      {
-        id: 10,
-        state: -1,
-        updatedAt: new Date()
-      },
-    ], {});
+     */
+    await queryInterface.bulkInsert(
+      "Seats",
+      [
+        {
+          id: 1,
+          state: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 2,
+          state: -1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 3,
+          state: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 4,
+          state: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 5,
+          state: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 6,
+          state: -1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 7,
+          state: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 8,
+          state: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 9,
+          state: 1,
+          memberId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 10,
+          state: -1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   async down(queryInterface, Sequelize) {
@@ -73,5 +87,5 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-  }
+  },
 };

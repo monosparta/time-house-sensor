@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,38 +10,42 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-    await queryInterface.bulkInsert('Members', [
-      {
-        username: 'kyle',
-        password: '<bcrypt-ed hash code>',
-        phoneNumber: '',
-        lineId: '',
-        cardId: '',
-        level: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        username: 'tilda',
-        password: '<bcrypt-ed hash code>',
-        phoneNumber: '',
-        lineId: '',
-        cardId: '4275148487',
-        level: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        username: 'rosa',
-        password: '<bcrypt-ed hash code>',
-        phoneNumber: '',
-        lineId: '',
-        level: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-    ], {});
+     */
+    await queryInterface.bulkInsert(
+      "Members",
+      [
+        // {
+        //   username: "kyle",
+        //   password: "<bcrypt-ed hash code>",
+        //   phoneNumber: "",
+        //   lineId: "",
+        //   cardId: "",
+        //   level: 0,
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
+        {
+          username: "tilda",
+          password: "<bcrypt-ed hash code>",
+          phoneNumber: "",
+          lineId: "",
+          cardId: "4275148487",
+          level: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // {
+        //   username: "rosa",
+        //   password: "<bcrypt-ed hash code>",
+        //   phoneNumber: "",
+        //   lineId: "",
+        //   level: 0,
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
+      ],
+      {}
+    );
   },
 
   async down(queryInterface, Sequelize) {
@@ -51,5 +55,5 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-  }
+  },
 };

@@ -53,3 +53,14 @@ hr {
   position: absolute;
   background-color: #000;
 }
+
+
+footer{
+  margin-top: 11vh;
+}
+
+
+.my-modal-class .ant-modal-footer{
+  justify-content: center; 
+  display: flex;
+}

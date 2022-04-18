@@ -36,13 +36,28 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
         setValue(e.target.value);
     };
     // 依照座位狀態顯示不同類型的選單
+    // https://ant.design/components/form/#components-form-demo-form-in-modal
     if (a === 1) {
         // 表單一，可使用位置
         return (
             <Modal
+            className="my-modal-class"
                 visible={visible}
-                okText="Create"
-                cancelText="Cancel"
+                cancelText="取消"
+                okText="確認"
+                footer={[
+                    <Button  style={{background: "#363F4E",color:"white"}}>
+                        確認
+                    </Button>,
+                    <Button
+                       
+                        onClick={onCancel}
+                    >
+                        取消
+                    </Button>,
+                    
+                  ]}
+
                 onCancel={onCancel}
                 closable={false}
                 onOk={() => {
@@ -99,8 +114,8 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 closable={false}
                 visible={visible}
                 title="Create a new collection"
-                okText="Create"
-                cancelText="Cancel"
+                okText="確認"
+                cancelText="取消"
                 width={800}
                 cancelButtonProps={true}
 
@@ -224,7 +239,7 @@ const Home = () => {
     return (
         <div>
             <Header className="black">
-                <div className="logo" />
+                <div className="" />
                 <Row>
                     <Col style={{
                         verticalAlign: 'middle', color: 'white'
@@ -234,7 +249,7 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
+                        <Button style={{background: "#363F4E",color:"white"}}  icon={<LogoutOutlined style={{ color: "#eb2f96" }} />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
                             Logout
                         </Button>
                     </Col>
@@ -256,7 +271,7 @@ const Home = () => {
                     </Row>
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
+            <Footer style={{ textAlign: 'center',background: "white"}}>
                 <Space>
                     <Avatar  style={{ color: "#eb2f96" }} className="yellow" size="small" />閒置中 &emsp;
                     <Avatar className="black" size="small" />使用中 &emsp;

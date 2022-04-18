@@ -7,20 +7,25 @@
  * @FilePath: \time-house-sensor\frontend\my-app\src\App.js
  */
 import React from 'react';
+import Home from './pages/index';
+import Login from './pages/Login';
 import logo from './logo.svg';
 import './App.css';
-import Home from './pages/index'
-import Login from './pages/Login';
-import Logout from './pages/components/Logout';
-import { useSelector } from 'react-redux';
 import {selectUser} from"./features/counter/userSlice";
+import { useSelector } from 'react-redux';
+
+
+
+
+
+import Logout from './pages/components/Logout';
 
 function App() {
   const user=useSelector(selectUser);
 
   return (
     <div className="App">
-      {user ? <Logout/> :<Login/>}
+      {user ? <Home/> :<Login/>}
    
     </div>
   );

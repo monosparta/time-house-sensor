@@ -7,13 +7,18 @@
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
+import React, { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/counter/userSlice';
 
 import data from '../json/chair1.json';
-import React, { useEffect, useState } from "react";
+
 import './index.css';
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
 import { LogoutOutlined, GithubOutlined } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
+
+// REDUX
 
 data.splice(4, 0, {});
 data.splice(8, 0, {});
@@ -204,7 +209,12 @@ const Home = () => {
         }
     };
 
+    // Redux
+    const dispatch=useDispatch();
 
+    const handleLogout =(e)=>{
+        dispatch(logout())
+    }
 
     return (
         <div>
@@ -219,7 +229,7 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />} >
+                        <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
                             Logout
                         </Button>
                     </Col>

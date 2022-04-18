@@ -14,7 +14,7 @@ const login = async (req, res) => {
       });
     }
     const username = req.body.username;
-    if (!(await memberService.checkMemberExists(username))) {
+    if (!(await memberService.checkMemberExistsByUsername(username))) {
       return res.status(403).json({
         type: "/errors/incorrect-user-pass",
         title: "Incorrect username or password.",
@@ -47,7 +47,7 @@ const login = async (req, res) => {
       process.env.JWT_SECRET
     );
     return res.status(200).json({
-      type: "/pass/login-pass",
+      type: "/passes/login-pass",
       title: "login success",
       status: 200,
       detail: "Authentication success.",

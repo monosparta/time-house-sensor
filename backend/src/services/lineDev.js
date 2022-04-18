@@ -151,6 +151,13 @@ const createMemberData=async(memberlineId)=>{
     level: 1,
   });
 }
+const findMemberData=async(memberlineId)=>{
+  console.log("findMemberData")
+  let member=await db["Members"].findOne({
+    where: { lineId: memberlineId },
+  });
+  return member
+}
 const pushAdminMessage = async (id) => {
   let admins = await db["Members"].findAll({
     where: { level: 0 },
@@ -181,5 +188,6 @@ module.exports = {
   pushAdminMessage,
   updateMemberLogin,
   createMemberData,
-  updateMemberUserName
+  updateMemberUserName,
+  findMemberData
 };

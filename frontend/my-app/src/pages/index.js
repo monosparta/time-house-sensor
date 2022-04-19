@@ -1,21 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-19 13:08:45
+ * @LastEditTime: 2022-04-19 16:44:27
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
 import React, { useEffect, useState } from "react";
-
+// hook useDispatch
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
 
 import data from '../json/chair1.json';
 
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
-import { LogoutOutlined, GithubOutlined } from '@ant-design/icons';
+import { LogoutOutlined, GithubOutlined ,CheckCircleOutlined ,ExclamationCircleOutlined  } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -174,7 +174,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
 const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
-
+    
     const onCreate = (values, a) => {
 
         if (a === 1) {
@@ -198,18 +198,22 @@ const Home = () => {
 
         if (prop === "0") {
             notification.open({
-                message: '使用中',
-                description:
-                    'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+                
+                message: '座位狀態為使用中',
+                className: 'custom-class',
+                icon: <CheckCircleOutlined style={{ color: "#C0E54B" }}/>,
                 onClick: () => {
                     console.log('Notification Clicked!');
                 },
             });
         } else if (prop === "-1") {
             notification.open({
-                message: '異常',
-                description:
-                    'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+                message: '座位狀態為異常',
+                className: 'custom-class',
+                icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }}/>,
+                style: {
+                    color: "#FFFFFF"
+                },
                 onClick: () => {
                     console.log('Notification Clicked!');
                 },
@@ -222,9 +226,11 @@ const Home = () => {
         }
     };
 
-    // Redux
+    // Redux 將dispatch解出來
     const dispatch = useDispatch();
+    
 
+    // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
         dispatch(logout())
     }

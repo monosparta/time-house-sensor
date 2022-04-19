@@ -30,6 +30,16 @@
   background-color: #363F4E;
 }
 
+.custom-class{
+  background-color: #656565;
+  justify-content: center;
+  width: 300px;
+
+}
+.ant-notification-notice-message{
+  color: azure;
+}
+
 
 /* .img-b
 {
@@ -44,6 +54,9 @@
   width: 7vw;
   height: 7vw;
 }
+
+.ant-notification-notice-close {     display: none; }
+
 
 hr {
   height: 100%;

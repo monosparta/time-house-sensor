@@ -37,7 +37,7 @@ const Login = () => {
             <Row>
                 <Col span={8} className="Color box">
                     <div className='logo'>
-                    <h2 style={{ color: "while" }}  >時光屋座位管理系統</h2>
+                    <h2 style={{ color: "white" }}  >時光屋座位管理系統</h2>
                     <img src={"../image/logo.png"} alt="logo"></img>
                     </div>
                   

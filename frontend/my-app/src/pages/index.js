@@ -54,22 +54,22 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
         // 表單一，可使用位置
         return (
             <Modal
-            className="my-modal-class"
+                className="my-modal-class"
                 visible={visible}
-                cancelText="取消"
-                okText="確認"
+                cancelText="　取消　"
+                okText="　確認　"
                 footer={[
-                    <Button  style={{background: "#363F4E",color:"white"}}>
+                    <Button  onClick={handleOk} style={{background: "#363F4E",color:"white"}} size='large'>
                         確認
                     </Button>,
                     <Button
-                       
+                    size='large'
                         onClick={onCancel}
                     >
                         取消
                     </Button>,
                     
-                  ]}
+                    ]}
 
                 onCancel={onCancel}
                 closable={false}
@@ -77,6 +77,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                
             >
                 <Row justify="center" align="middle">
+                    <h2 style={{color:"black"}}>座位-目前為可使用座位</h2>
                     <Form
                         form={form}
                         name="form_in_modal"
@@ -90,21 +91,21 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                             name="username"
                             rules={[{ required: true, message: '請輸入使用者名稱' }]}
                         >
-                            <Input />
+                            <Input placeholder="請輸入名稱"/>
                         </Form.Item>
                         <Form.Item
                             label="連絡電話"
                             name="phone"
                             rules={[{ required: true, message: '請輸入聯絡用電話' }]}
                         >
-                            <Input />
+                            <Input placeholder="請輸入連絡電話"/>
                         </Form.Item>
                         <Form.Item
                             label="聯絡信箱"
                             name="email"
                             rules={[{ required: true, message: '請輸入聯絡用信箱' }]}
                         >
-                            <Input />
+                            <Input placeholder="請輸入聯絡信箱"/>
                         </Form.Item>
                     </Form>
                 </Row>
@@ -117,14 +118,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
             <Modal
                 closable={false}
                 visible={visible}
-                title="Create a new collection"
                 okText="確認"
                 cancelText="取消"
                 width={800}
+                className="my-modal-class"
                 cancelButtonProps={true}
                 footer={[
-                    <Button onClick={handleOk}>確定</Button>,
-                    <Button onClick={onCancel}>取消</Button>
+                    <Button onClick={handleOk} style={{background: "#363F4E",color:"white"}} size='large'>確定</Button>,
+                    <Button onClick={onCancel} size="large">取消</Button>
                 ]}
                 onCancel={onCancel}
                 // onOk={() => {
@@ -143,35 +144,43 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                     <Col span={10}>
                         <Space direction="vertical" size="small" >
                             <h2>UserName</h2>
-                            <span><LogoutOutlined />連絡電話</span>
-                            <span><LogoutOutlined />連絡信箱</span>
+                            <span><LogoutOutlined />連絡電話：      <span>0912345678</span></span>
+                     
+                            <span><LogoutOutlined />連絡信箱：<span>user@gmail.com</span></span>
+                            <Button style={{color:"#5CB4FD"}}></Button>
                         </Space>
                     </Col>
 
                     <Col span={1}>
-                        <hr />
+                        <hr/>
                     </Col>
                     <Col span={13}>
+
+                        <h3>座位-目前為閒置座位</h3>
+                        閒置時間：
                         <Form
                             form={form}
                             name="form_in_modal"
-                            autoComplete="off"
                             initialValues={{
                                 modifier: 'public',
+                            }}
+                            labelCol={{
+                                span: 24,
+                            }}
+                            wrapperCol={{
+                                span: 24,
                             }}
 
                         >
                             <Form.Item
-                                label="名　　稱"
-                                name="username"
-                                rules={[{ required: true, message: '請輸入使用者名稱' }]}
+                                label="狀態更改"
+                                name="state"
                             >
-                                <Radio.Group onChange={onChange} value={value}>
-                                    <Radio value={1}></Radio>
-                                    <Radio value={2}>B</Radio>
+                                    <Radio.Group onChange={onChange} value={value}>
+                                    <Radio value={1}>使用中</Radio>
+                                    <Radio value={2}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
-
                         </Form>
                     </Col>
                 </Row>
@@ -206,8 +215,8 @@ const Home = () => {
             setIsModalVisible2(false);
         }
     };
-    const Action = (prop) => {
-
+    const Action = (prop,chair) => {
+        console.log("椅子"+chair);
         if (prop === "0") {
             notification.open({
                 
@@ -262,8 +271,8 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button style={{background: "#363F4E",color:"white"}}  icon={<LogoutOutlined style={{ color: "#eb2f96" }} />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
-                            Logout
+                        <Button style={{background: "#363F4E",color:"white"}}  icon={<LogoutOutlined />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
+                            LOGOUT
                         </Button>
                     </Col>
                 </Row>
@@ -274,7 +283,7 @@ const Home = () => {
                     <Row>
                         {data.map((d) => (
                             <Col span={6}>
-                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state)} />
+                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state,d.id)} />
                                 <br />
                                 {d.id}
                                 <br />
@@ -299,9 +308,9 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
-
                 a={1}
             />
+
             <CollectionCreateForm
                 visible={isModalVisible2}
                 // onCreate={onCreate}

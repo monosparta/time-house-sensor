@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-18 10:42:22
+ * @LastEditTime: 2022-04-19 13:08:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -35,6 +35,19 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
+
+    const handleOk = () => {
+        form
+            .validateFields()
+            .then((values) => {
+                form.resetFields();
+                onCreate(values);
+            })
+            .catch((info) => {
+                console.log('Validate Failed:', info);
+            });
+    };
+
     // 依照座位狀態顯示不同類型的選單
     if (a === 1) {
         // 表單一，可使用位置
@@ -45,17 +58,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 cancelText="Cancel"
                 onCancel={onCancel}
                 closable={false}
-                onOk={() => {
-                    form
-                        .validateFields()
-                        .then((values) => {
-                            form.resetFields();
-                            onCreate(values);
-                        })
-                        .catch((info) => {
-                            console.log('Validate Failed:', info);
-                        });
-                }}
+                footer={[
+                    <Button onClick={handleOk}>確定</Button>,
+                    <Button onClick={onCancel}>取消</Button>
+                ]}
+               
             >
                 <Row justify="center" align="middle">
                     <Form
@@ -103,19 +110,22 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 cancelText="Cancel"
                 width={800}
                 cancelButtonProps={true}
-
+                footer={[
+                    <Button onClick={handleOk}>確定</Button>,
+                    <Button onClick={onCancel}>取消</Button>
+                ]}
                 onCancel={onCancel}
-                onOk={() => {
-                    form
-                        .validateFields()
-                        .then((values) => {
-                            form.resetFields();
-                            onCreate(values);
-                        })
-                        .catch((info) => {
-                            console.log('Validate Failed:', info);
-                        });
-                }}
+                // onOk={() => {
+                //     form
+                //         .validateFields()
+                //         .then((values) => {
+                //             form.resetFields();
+                //             onCreate(values);
+                //         })
+                //         .catch((info) => {
+                //             console.log('Validate Failed:', info);
+                //         });
+                // }}
             >
                 <Row>
                     <Col span={10}>
@@ -213,18 +223,18 @@ const Home = () => {
     };
 
     // Redux
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
-    const handleLogout =(e)=>{
+    const handleLogout = (e) => {
         dispatch(logout())
     }
 
- 
+
 
     return (
         <div>
             <Header className="black">
-                <div className="logo" />
+                <div />
                 <Row>
                     <Col style={{
                         verticalAlign: 'middle', color: 'white'
@@ -234,7 +244,7 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
+                        <Button shape="round" icon={<LogoutOutlined style={{ color: "#eb2f96" }} />} onClick={(e) => { handleLogout(e); e.preventDefault(); }}>
                             Logout
                         </Button>
                     </Col>
@@ -258,7 +268,7 @@ const Home = () => {
             </Content>
             <Footer style={{ textAlign: 'center' }}>
                 <Space>
-                    <Avatar  style={{ color: "#eb2f96" }} className="yellow" size="small" />閒置中 &emsp;
+                    <Avatar style={{ color: "#eb2f96" }} className="yellow" size="small" />閒置中 &emsp;
                     <Avatar className="black" size="small" />使用中 &emsp;
                     <Avatar className="white" size="small" />可使用 &emsp;
                     <Avatar className="red" size="small" />異常
@@ -271,7 +281,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
-                
+
                 a={1}
             />
             <CollectionCreateForm
@@ -279,7 +289,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
-                a={2}      
+                a={2}
             />
 
 

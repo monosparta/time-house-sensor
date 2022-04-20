@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-20 16:23:54
+ * @LastEditTime: 2022-04-20 22:13:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -247,6 +247,17 @@ const Home = () => {
 
             console.log("得到結果了嗎", result[0].memberId);
 
+            axios.get('/api/auth/admin/memberInfo', {
+                params: {
+                    memberId: result[0].memberId
+                }
+            })
+                .then(function (response) {
+                    console.log("我要得到使用者資料"+response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             setIsModalVisible2(true);
             setchair(chair);
         }
@@ -257,6 +268,7 @@ const Home = () => {
 
     // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
+        localStorage.clear();
         dispatch(logout())
     };
 
@@ -274,7 +286,7 @@ const Home = () => {
     seats.splice(4, 0, {});
     seats.splice(8, 0, {});
 
-    console.log("rfrfrf" + seats[0].memberId);
+    // console.log("rfrfrf" + seats[0].memberId);
     return (
         <div>
             <Header className="black">

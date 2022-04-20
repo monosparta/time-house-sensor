@@ -4,27 +4,40 @@ import { useDispatch } from 'react-redux';
 import { login } from '../features/counter/userSlice';
 import './Login.css';
 
-
+import axios from "../Axios.config";
 
 const Login = () => {
 
-    const [name, setName] = useState("");
-    const [pwd, setPwd] = useState("");
+    const [usernameOrMail, setusernameOrMail] = useState("");
+    const [password, setpassword] = useState("");
 
     const dispatch = useDispatch();
 
     const onFinish = async (e) => {
 
         console.log(e);
-        dispatch(
-            login(
-                {
-                    name: e.name,
-                    pwd: e.pwd,
-                    loggedIn: true,
-                }
+        axios.post('/api/login', {
+            usernameOrMail: e.usernameOrMail,
+            password: e.password,
+           // + any other parameters you want to send in the POST request
+          }).then(res => {
+              console.log(res);
+              localStorage.setItem("authorization",res.data.token);
+              dispatch(
+                login(
+                    {
+                        usernameOrMail: e.usernameOrMail,
+                        password: e.password,
+                        loggedIn: true,
+                    }
+                )
             )
-        )
+            // do something with response, and on response
+          }).catch(error => {
+            // do something when request was unsuccessful
+          });
+          
+     
 
     };
 
@@ -32,6 +45,7 @@ const Login = () => {
         console.log('Failed:', errorInfo);
     };
 
+  
     return (
         <div>
             <Row>
@@ -67,8 +81,8 @@ const Login = () => {
                                 >
                                     <Form.Item
                                         label="帳號 Usernamer or Email"
-                                        name="name"
-                                        value={name}
+                                        name="usernameOrMail"
+                                        value={usernameOrMail}
                                         rules={[
                                             {
                                                 required: true,
@@ -80,8 +94,8 @@ const Login = () => {
                                     </Form.Item>
                                     <Form.Item
                                         label="密碼 Password"
-                                        name="pwd"
-                                        value={pwd}
+                                        name="password"
+                                        value={password}
                                         rules={[
                                             {
                                                 required: true,
@@ -92,13 +106,13 @@ const Login = () => {
                                         <Input.Password placeholder="請輸入密碼"/>
                                     </Form.Item>
 
-                                    <Form.Item
+                                    {/* <Form.Item
                                         name="remember"
                                         valuePropName="checked"
                                         offset="1"
                                     >
                                         <Checkbox  className='checkbox-red'>保持登入</Checkbox>
-                                    </Form.Item>
+                                    </Form.Item> */}
 
                                     <Form.Item
 

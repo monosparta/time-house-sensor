@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-20 10:35:01
+ * @LastEditTime: 2022-04-20 15:29:26
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -16,6 +16,7 @@ import data from '../json/chair1.json';
 
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
 import { LogoutOutlined, GithubOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import axios from "../Axios.config";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -26,7 +27,7 @@ data.splice(4, 0, {});
 data.splice(8, 0, {});
 
 // Modal From結合的Component
-const CollectionCreateForm = ({ visible, onCreate, onCancel, a,chair }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal,chair }) => {
     const [form] = Form.useForm();
     // Radio選單
     const [value, setValue] = React.useState(1);
@@ -49,7 +50,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a,chair }) => {
 
     // 依照座位狀態顯示不同類型的選單
     // https://ant.design/components/form/#components-form-demo-form-in-modal
-    if (a === 1) {
+    if (whichModal === 1) {
         // 表單一，可使用位置
         return (
             <Modal
@@ -218,7 +219,7 @@ const Home = () => {
     };
     const Action = (prop, chair) => {
         console.log("椅子" + chair);
-        if (prop === "0") {
+        if (prop === 0) {
             notification.open({
 
                 message: '座位狀態為使用中',
@@ -228,7 +229,7 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === "-1") {
+        } else if (prop === -1) {
             notification.open({
                 message: '座位狀態為異常',
                 className: 'custom-class',
@@ -240,11 +241,11 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === "1") {
+        } else if (prop === 1) {
             setIsModalVisible1(true);
             setchair(chair);
             // setIsModalVisible1(true);
-        } else if (prop === "2") {
+        } else if (prop === 2) {
             setIsModalVisible2(true);
             setchair(chair);
         }
@@ -253,15 +254,28 @@ const Home = () => {
     // Redux 將dispatch解出來
     const dispatch = useDispatch();
 
-
     // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
         dispatch(logout())
-    }
+    };
 
-
-
+  
+    const [seats, setseats] = useState([{},{},{},{},{},{},{},{},{},{}]);
+   
+    useEffect(() => {    
+        axios.get(`/api/seatsInfo`)
+            .then(res => {
+                const aseats =  Object.values(res.data.seats);
+                console.log(aseats);
+                setseats(aseats);
+                // res.data.seats.forEach(items=>setseats(items))
+            })
+     });
+     seats.splice(4, 0, {});
+     seats.splice(8, 0, {});
+    
     return (
+
         <div>
             <Header className="black">
                 <div className="" />
@@ -284,9 +298,9 @@ const Home = () => {
             <Content>
                 <div className="resume">
                     <Row>
-                        {data.map((d) => (
+                        {seats.map((d) => (
                             <Col span={6}>
-                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state, d.id)} />
+                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onClick={() => Action(d.state, d.id)} />
                                 <br />
                                 {d.id}
                                 <br />
@@ -311,7 +325,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
-                a={1}
+                whichModal={1}
                 chair={cchair}
             />
 
@@ -320,7 +334,7 @@ const Home = () => {
                 // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
-                a={2}
+                whichModal={2}
                 chair={cchair}
             />
 

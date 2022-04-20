@@ -4,28 +4,20 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   try {
-    if (!req.body?.username || !req.body?.password) {
+    if (!req.body?.usernameOrMail || !req.body?.password) {
       return res.status(400).json({
-        type: "/errors/incomplete-para",
-        title: "incomplete parameters",
-        status: 400,
-        detail: "missing username or password or both",
-        instance: "/api/login",
+        detail: "參數錯誤，請參考文件",
       });
     }
-    const username = req.body.username;
-    if (!(await memberService.checkMemberExistsByUsername(username))) {
+    const usernameOrMail = req.body.usernameOrMail;
+    if (!(await memberService.checkMemberExistsByUsernameOrMail(usernameOrMail))) {
       return res.status(403).json({
-        type: "/errors/incorrect-user-pass",
-        title: "Incorrect username or password.",
-        status: 403,
-        detail: "Authentication failed due to incorrect username or password.",
-        instance: "/api/login",
+        detail: "帳號或密碼錯誤",
       });
     }
 
     const password = req.body.password;
-    const userInfo = await memberService.getMemberInfoByUsername(username);
+    const userInfo = await memberService.getMemberInfoByUsernameOrMail(usernameOrMail);
     const compareResult = await bcrypt
       .compare(password, userInfo.password)
       .then((result) => {
@@ -34,11 +26,7 @@ const login = async (req, res) => {
 
     if (!compareResult) {
       return res.status(403).json({
-        type: "/errors/incorrect-user-pass",
-        title: "Incorrect username or password.",
-        status: 403,
-        detail: "Authentication failed due to incorrect username or password.",
-        instance: "/api/login",
+        detail: "帳號或密碼錯誤",
       });
     }
 
@@ -47,20 +35,12 @@ const login = async (req, res) => {
       process.env.JWT_SECRET
     );
     return res.status(200).json({
-      type: "/passes/login-pass",
-      title: "login success",
-      status: 200,
-      detail: "Authentication success.",
-      instance: "/api/login",
+      detail: "登入成功",
       token: token,
     });
   } catch (err) {
     return res.json({
-      type: "/errors/server-error",
-      title: "Server error",
-      status: 500,
-      detail: "Please check server logs",
-      instance: "/api/login",
+      detail: "伺服器內部錯誤",
     });
   }
 };

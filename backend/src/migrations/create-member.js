@@ -23,6 +23,7 @@ module.exports = {
       },
       mail: {
         type: Sequelize.STRING,
+        unique: true,
       },
       lineId: {
         type: Sequelize.STRING,

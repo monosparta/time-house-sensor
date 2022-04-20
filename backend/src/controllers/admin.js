@@ -7,11 +7,7 @@ const addMember = async (req, res) => {
     const body = req.body;
     if (!body || !body.username || !body.mail || !body.phoneNumber) {
       return res.status(422).json({
-        type: "/errors/Incomplete-body",
-        title: "Incomplete-body-para.",
-        status: 422,
-        detail: "Incomplete body parameter.",
-        instance: "/api/auth/admin/addUser",
+        detail: "參數錯誤，請參考文件",
       });
     }
 
@@ -24,28 +20,15 @@ const addMember = async (req, res) => {
     );
     if (!created) {
       return res.status(400).json({
-        type: "/errors/username-already-exist",
-        title: "Username already exist.",
-        status: 400,
-        detail: "Username already exist.",
-        instance: "/api/auth/admin/addUser",
+        detail: "該名用戶已存在"
       });
     }
     return res.status(200).json({
-      type: "/passes/create-a-new-member",
-      title: "Successfully create a new member.",
-      status: 200,
-      detail: "Successfully create a new member.",
-      instance: "/api/auth/admin/addUser",
+      detail: "成功新增",
     });
   } catch (err) {
-    console.log(err)
     return res.status(500).json({
-      type: "/errors/internal-error",
-      title: "Server Internal Error",
-      status: 500,
-      detail: "Server internal error, please contact administrator.",
-      instance: "/api/auth/admin/seatState",
+      detail: "伺服器內部錯誤",
     });
   }
 };
@@ -55,31 +38,19 @@ const getMemberById = async (req, res) => {
     let id = req.query?.memberId;
     if (!id) {
       return res.status(422).json({
-        type: "/errors/Incomplete-query",
-        title: "Incomplete-query-para.",
-        status: 422,
-        detail: "Incomplete query parameter.",
-        instance: "/api/auth/admin/memberInfo",
+        detail: "參數錯誤，請參考文件",
       });
     }
 
     if (!(await memberService.checkMemberExistsById(parseInt(id)))) {
       return res.status(404).json({
-        type: "/errors/not-found-member",
-        title: "can not find this member.",
-        status: 404,
-        detail: "can not find this member, please contact administrator",
-        instance: "/api/auth/admin/memberInfo",
+        detail: "該會員並不存在，請聯絡相關人員",
       });
     }
 
     const userInfo = await memberService.getMemberInfoById(parseInt(id));
     return res.status(200).json({
-      type: "/passes/get-member-information",
-      title: "Successfully get member information",
-      status: 200,
-      detail: "Successfully get member information by id.",
-      instance: "/api/auth/admin/memberInfo",
+      detail: "成功取得該使用者之相關資訊",
       member: {
         name: userInfo.username,
         phoneNumber: userInfo.phoneNumber,
@@ -88,11 +59,7 @@ const getMemberById = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      type: "/errors/internal-error",
-      title: "Server Internal Error",
-      status: 500,
-      detail: "Server internal error, please contact administrator.",
-      instance: "/api/auth/admin/memberInfo",
+      detail: "伺服器內部錯誤",
     });
   }
 };
@@ -103,11 +70,7 @@ const updateSeatState = async (req, res) => {
     const username = req.body.username;
     if (!seat || !seat.index || !seat.state || !username) {
       return res.status(422).json({
-        type: "/errors/incorrect-body-info",
-        title: "Incorrect-body-info.",
-        status: 422,
-        detail: "This route path just for admin user.",
-        instance: "/api/auth/admin/seatState",
+        detail: "參數錯誤，請參考文件",
       });
     }
 
@@ -117,21 +80,13 @@ const updateSeatState = async (req, res) => {
       2 < seat.state
     ) {
       return res.status(422).json({
-        type: "/errors/incorrect-seat-info",
-        title: "Incorrect seat index or state.",
-        status: 422,
-        detail: "Incorrect seat index or state.",
-        instance: "/api/auth/admin/seatState",
+        detail: "參數錯誤，請參考文件",
       });
     }
 
     if (!(await memberService.checkMemberExistsByUsername(username))) {
       return res.status(422).json({
-        type: "/errors/no-member",
-        title: "Not found this member.",
-        status: 422,
-        detail: "Not found this member.",
-        instance: "/api/auth/admin/seatState",
+        detail: "該會員並不存在，請聯絡相關人員",
       });
     }
 
@@ -144,30 +99,18 @@ const updateSeatState = async (req, res) => {
     if (result !== "success") {
       console.log(result);
       return res.status(500).json({
-        type: "/errors/internal-error",
-        title: "Server Internal Error",
-        status: 500,
-        detail: "Server internal error, please contact administrator.",
-        instance: "/api/auth/admin/seatState",
+        detail: "伺服器內部錯誤",
       });
     }
 
     //   todo call the python rpc server to change the image
 
     return res.status(200).json({
-      type: "/passes/updated-seat-state",
-      title: "Successfully updated the seat state.",
-      status: 200,
-      detail: "Successfully updated the seat state..",
-      instance: "/api/auth/admin/seatState",
+      detail: "成功修改座位資訊"
     });
   } catch (err) {
     return res.status(500).json({
-      type: "/errors/internal-error",
-      title: "Server Internal Error",
-      status: 500,
-      detail: "Server internal error, please contact administrator.",
-      instance: "/api/auth/admin/seatState",
+      detail: "伺服器內部錯誤",
     });
   }
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-19 16:44:27
+ * @LastEditTime: 2022-04-20 10:35:01
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -15,19 +15,18 @@ import { logout } from '../features/counter/userSlice';
 import data from '../json/chair1.json';
 
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
-import { LogoutOutlined, GithubOutlined ,CheckCircleOutlined ,ExclamationCircleOutlined  } from '@ant-design/icons';
+import { LogoutOutlined, GithubOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-
+// 如果不能傳的話，自己創造一個可以傳的變數
 
 // REDUX
-
 data.splice(4, 0, {});
 data.splice(8, 0, {});
 
 // Modal From結合的Component
-const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, a,chair }) => {
     const [form] = Form.useForm();
     // Radio選單
     const [value, setValue] = React.useState(1);
@@ -59,25 +58,25 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 cancelText="　取消　"
                 okText="　確認　"
                 footer={[
-                    <Button  onClick={handleOk} style={{background: "#363F4E",color:"white"}} size='large'>
+                    <Button onClick={handleOk} style={{ background: "#363F4E", color: "white" }} size='large'>
                         確認
                     </Button>,
                     <Button
-                    size='large'
+                        size='large'
                         onClick={onCancel}
                     >
                         取消
                     </Button>,
-                    
-                    ]}
+
+                ]}
 
                 onCancel={onCancel}
                 closable={false}
-         
-               
+
+
             >
                 <Row justify="center" align="middle">
-                    <h2 style={{color:"black"}}>座位-目前為可使用座位</h2>
+                    <h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2>
                     <Form
                         form={form}
                         name="form_in_modal"
@@ -91,21 +90,21 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                             name="username"
                             rules={[{ required: true, message: '請輸入使用者名稱' }]}
                         >
-                            <Input placeholder="請輸入名稱"/>
+                            <Input placeholder="請輸入名稱" />
                         </Form.Item>
                         <Form.Item
                             label="連絡電話"
                             name="phone"
                             rules={[{ required: true, message: '請輸入聯絡用電話' }]}
                         >
-                            <Input placeholder="請輸入連絡電話"/>
+                            <Input placeholder="請輸入連絡電話" />
                         </Form.Item>
                         <Form.Item
                             label="聯絡信箱"
                             name="email"
                             rules={[{ required: true, message: '請輸入聯絡用信箱' }]}
                         >
-                            <Input placeholder="請輸入聯絡信箱"/>
+                            <Input placeholder="請輸入聯絡信箱" />
                         </Form.Item>
                     </Form>
                 </Row>
@@ -124,39 +123,39 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                 className="my-modal-class"
                 cancelButtonProps={true}
                 footer={[
-                    <Button onClick={handleOk} style={{background: "#363F4E",color:"white"}} size='large'>確定</Button>,
+                    <Button onClick={handleOk} style={{ background: "#363F4E", color: "white" }} size='large'>確定</Button>,
                     <Button onClick={onCancel} size="large">取消</Button>
                 ]}
                 onCancel={onCancel}
-                // onOk={() => {
-                //     form
-                //         .validateFields()
-                //         .then((values) => {
-                //             form.resetFields();
-                //             onCreate(values);
-                //         })
-                //         .catch((info) => {
-                //             console.log('Validate Failed:', info);
-                //         });
-                // }}
+            // onOk={() => {
+            //     form
+            //         .validateFields()
+            //         .then((values) => {
+            //             form.resetFields();
+            //             onCreate(values);
+            //         })
+            //         .catch((info) => {
+            //             console.log('Validate Failed:', info);
+            //         });
+            // }}
             >
                 <Row>
                     <Col span={10}>
                         <Space direction="vertical" size="small" >
                             <h2>UserName</h2>
                             <span><LogoutOutlined />連絡電話：      <span>0912345678</span></span>
-                     
+
                             <span><LogoutOutlined />連絡信箱：<span>user@gmail.com</span></span>
-                            <Button style={{color:"#5CB4FD"}}></Button>
+                            <Button style={{ color: "#5CB4FD" }}></Button>
                         </Space>
                     </Col>
 
                     <Col span={1}>
-                        <hr/>
+                        <hr />
                     </Col>
                     <Col span={13}>
 
-                        <h3>座位-目前為閒置座位</h3>
+                        <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
                             form={form}
@@ -176,7 +175,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
                                 label="狀態更改"
                                 name="state"
                             >
-                                    <Radio.Group onChange={onChange} value={value}>
+                                <Radio.Group onChange={onChange} value={value}>
                                     <Radio value={1}>使用中</Radio>
                                     <Radio value={2}>可使用</Radio>
                                 </Radio.Group>
@@ -195,7 +194,9 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, a }) => {
 const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
-    
+    const [cchair, setchair] = useState("");
+
+
     const onCreate = (values, a) => {
 
         if (a === 1) {
@@ -215,14 +216,14 @@ const Home = () => {
             setIsModalVisible2(false);
         }
     };
-    const Action = (prop,chair) => {
-        console.log("椅子"+chair);
+    const Action = (prop, chair) => {
+        console.log("椅子" + chair);
         if (prop === "0") {
             notification.open({
-                
+
                 message: '座位狀態為使用中',
                 className: 'custom-class',
-                icon: <CheckCircleOutlined style={{ color: "#C0E54B" }}/>,
+                icon: <CheckCircleOutlined style={{ color: "#C0E54B" }} />,
                 onClick: () => {
                     console.log('Notification Clicked!');
                 },
@@ -231,7 +232,7 @@ const Home = () => {
             notification.open({
                 message: '座位狀態為異常',
                 className: 'custom-class',
-                icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }}/>,
+                icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }} />,
                 style: {
                     color: "#FFFFFF"
                 },
@@ -241,15 +242,17 @@ const Home = () => {
             });
         } else if (prop === "1") {
             setIsModalVisible1(true);
+            setchair(chair);
             // setIsModalVisible1(true);
         } else if (prop === "2") {
             setIsModalVisible2(true);
+            setchair(chair);
         }
     };
 
     // Redux 將dispatch解出來
     const dispatch = useDispatch();
-    
+
 
     // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
@@ -271,7 +274,7 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button style={{background: "#363F4E",color:"white"}}  icon={<LogoutOutlined />}  onClick={(e)=>{handleLogout(e);e.preventDefault();}}>
+                        <Button style={{ background: "#363F4E", color: "white" }} icon={<LogoutOutlined />} onClick={(e) => { handleLogout(e); e.preventDefault(); }}>
                             LOGOUT
                         </Button>
                     </Col>
@@ -283,7 +286,7 @@ const Home = () => {
                     <Row>
                         {data.map((d) => (
                             <Col span={6}>
-                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state,d.id)} />
+                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onError={(event) => event.target.style.display = 'none'} onClick={() => Action(d.state, d.id)} />
                                 <br />
                                 {d.id}
                                 <br />
@@ -293,7 +296,7 @@ const Home = () => {
                     </Row>
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center',background: "white"}}>
+            <Footer style={{ textAlign: 'center', background: "white" }}>
                 <Space>
                     <Avatar style={{ color: "#eb2f96" }} className="yellow" size="small" />閒置中 &emsp;
                     <Avatar className="black" size="small" />使用中 &emsp;
@@ -309,6 +312,7 @@ const Home = () => {
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
                 a={1}
+                chair={cchair}
             />
 
             <CollectionCreateForm
@@ -317,6 +321,7 @@ const Home = () => {
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
                 a={2}
+                chair={cchair}
             />
 
 

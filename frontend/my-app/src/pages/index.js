@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-20 15:29:26
+ * @LastEditTime: 2022-04-20 16:23:54
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -11,9 +11,6 @@ import React, { useEffect, useState } from "react";
 // hook useDispatch
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
-
-import data from '../json/chair1.json';
-
 import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
 import { LogoutOutlined, GithubOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from "../Axios.config";
@@ -22,12 +19,9 @@ const { Header, Content, Footer, Sider } = Layout;
 
 // 如果不能傳的話，自己創造一個可以傳的變數
 
-// REDUX
-data.splice(4, 0, {});
-data.splice(8, 0, {});
 
 // Modal From結合的Component
-const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal,chair }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }) => {
     const [form] = Form.useForm();
     // Radio選單
     const [value, setValue] = React.useState(1);
@@ -42,6 +36,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal,chair })
             .then((values) => {
                 form.resetFields();
                 onCreate(values);
+                console.log("A" + values);
             })
             .catch((info) => {
                 console.log('Validate Failed:', info);
@@ -246,6 +241,12 @@ const Home = () => {
             setchair(chair);
             // setIsModalVisible1(true);
         } else if (prop === 2) {
+            // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
+            const result = seats.filter(s =>
+                s.id == chair);
+
+            console.log("得到結果了嗎", result[0].memberId);
+
             setIsModalVisible2(true);
             setchair(chair);
         }
@@ -259,23 +260,22 @@ const Home = () => {
         dispatch(logout())
     };
 
-  
-    const [seats, setseats] = useState([{},{},{},{},{},{},{},{},{},{}]);
-   
-    useEffect(() => {    
+
+    const [seats, setseats] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
+
+    useEffect(() => {
         axios.get(`/api/seatsInfo`)
             .then(res => {
-                const aseats =  Object.values(res.data.seats);
-                console.log(aseats);
+                const aseats = Object.values(res.data.seats);
                 setseats(aseats);
                 // res.data.seats.forEach(items=>setseats(items))
             })
-     });
-     seats.splice(4, 0, {});
-     seats.splice(8, 0, {});
-    
-    return (
+    });
+    seats.splice(4, 0, {});
+    seats.splice(8, 0, {});
 
+    console.log("rfrfrf" + seats[0].memberId);
+    return (
         <div>
             <Header className="black">
                 <div className="" />

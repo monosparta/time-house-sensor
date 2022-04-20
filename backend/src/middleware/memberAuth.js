@@ -1,62 +1,58 @@
 const jwt = require("jsonwebtoken");
 
 const verifyMemberToken = async (req, res, next) => {
-  if (
-    !req.headers?.authorization ||
-    !req.headers.authorization.startsWith("Bearer ")
-  ) {
-    return res.status(403).json({
-      type: "/errors/headers-content-error",
-      title: "Incorrect headers content.",
-      status: 403,
-      detail: "There is no authorization or illegal authorization code.",
-      instance: "/api/auth",
-    });
-  }
-
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.decode(token, { complete: true });
-  if (
-    !decoded.header ||
-    decoded.header?.alg !== "HS256" ||
-    decoded.header?.typ !== "JWT"
-  ) {
-    return res.status(403).json({
-      type: "/errors/incorrect-token-header",
-      title: "Illegal token header.",
-      status: 403,
-      detail: "Token header is illegal.",
-      instance: "/api/auth",
-    });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-    if (err) {
-      return res.status(403).json({
-        type: "/errors/signature-error",
-        title: "Payload mismatches signature.",
-        status: 403,
-        detail: "Payload mismatches signature after.",
-        instance: "/api/auth",
+  try {
+    if (
+      !req.headers?.authorization ||
+      !req.headers.authorization.startsWith("Bearer ")
+    ) {
+      return res.status(422).json({
+        detail: "參數錯誤，請參考文件",
       });
     }
-    req.tokenPayload = payload;
-    next();
-  });
+
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.decode(token, { complete: true });
+    if (
+      !decoded.header ||
+      decoded.header?.alg !== "HS256" ||
+      decoded.header?.typ !== "JWT"
+    ) {
+      return res.status(403).json({
+        detail: "授權錯誤",
+      });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+      if (err) {
+        return res.status(403).json({
+          detail: "授權錯誤",
+        });
+      }
+      req.tokenPayload = payload;
+      next();
+    });
+  } catch (err) {
+    return res.status(500).json({
+      detail: "伺服器內部錯誤",
+    });
+  }
 };
 
 const isAdmin = async (req, res, next) => {
-  // level: 0->admin, 1->member, 2->others
-  if (!req?.tokenPayload || req.tokenPayload?.level) {
-    return res.status(403).json({
-      type: "/errors/incorrect-user-level",
-      title: "Incorrect user level.",
-      status: 403,
-      detail: "This route path just for admin user.",
-      instance: "/api/auth/admin",
+  try {
+    // level: 0->admin, 1->member, 2->others
+    if (!req?.tokenPayload || req.tokenPayload?.level) {
+      return res.status(403).json({
+        detail: "特權使用者授權錯誤",
+      });
+    }
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      detail: "伺服器內部錯誤",
     });
   }
-  next();
 };
 
 module.exports = {

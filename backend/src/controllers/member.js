@@ -4,20 +4,20 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   try {
-    if (!req.body?.username || !req.body?.password) {
+    if (!req.body?.usernameOrMail || !req.body?.password) {
       return res.status(400).json({
         detail: "參數錯誤，請參考文件",
       });
     }
-    const username = req.body.username;
-    if (!(await memberService.checkMemberExistsByUsername(username))) {
+    const usernameOrMail = req.body.usernameOrMail;
+    if (!(await memberService.checkMemberExistsByUsernameOrMail(usernameOrMail))) {
       return res.status(403).json({
         detail: "帳號或密碼錯誤",
       });
     }
 
     const password = req.body.password;
-    const userInfo = await memberService.getMemberInfoByUsername(username);
+    const userInfo = await memberService.getMemberInfoByUsernameOrMail(usernameOrMail);
     const compareResult = await bcrypt
       .compare(password, userInfo.password)
       .then((result) => {

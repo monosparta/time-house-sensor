@@ -1,106 +1,104 @@
 const bcrypt = require("bcrypt");
+const { Op } = require("sequelize");
 const db = require("../models/index");
 
 const getMemberInfoByUsername = async (username) => {
-  try {
-    if (typeof username !== "string") {
-      throw new TypeError("Username must be a string");
-    }
-    if (username.trim() === "") {
-      throw new RangeError("Username must not be empty or space-filled");
-    }
-    return (await db["Members"].findOne({ where: { username: username } }))
-      .dataValues;
-  } catch (err) {
-    return err;
+  if (typeof username !== "string") {
+    throw new TypeError("Username must be a string");
   }
+  if (username.trim() === "") {
+    throw new RangeError("Username must not be empty or space-filled");
+  }
+  return (await db["Members"].findOne({ where: { username: username } }))
+    .dataValues;
 };
 
 const getMemberInfoById = async (id) => {
-  try {
-    if (typeof id !== "number") {
-      throw new TypeError("ID must be a string");
-    }
-    return (await db["Members"].findOne({ where: { id: id } })).dataValues;
-  } catch (err) {
-    return err;
+  if (typeof id !== "number") {
+    throw new TypeError("ID must be a string");
   }
+  return (await db["Members"].findOne({ where: { id: id } })).dataValues;
+};
+
+const getMemberInfoByUsernameOrMail = async (usernameOrMail) => {
+  if (typeof usernameOrMail !== "string") {
+    throw new TypeError("UsernameOrMail must be a string");
+  }
+  const result = await db["Members"].findOne({
+    where: {
+      [Op.or]: [{ username: usernameOrMail }, { mail: usernameOrMail }],
+    },
+  });
+  return result;
 };
 
 const getMemberInfoByLineId = async (lineId) => {
-  try {
-    if (typeof lineId !== "string") {
-      throw new TypeError("LineID must be a string");
-    }
-    if (lineId.trim() === "") {
-      throw new RangeError("LineID must not be empty or space-filled");
-    }
-    return (await db["Members"].findOne({ where: { lineId: lineId } }))
-      .dataValues;
-  } catch (err) {
-    return err;
+  if (typeof lineId !== "string") {
+    throw new TypeError("LineID must be a string");
   }
+  if (lineId.trim() === "") {
+    throw new RangeError("LineID must not be empty or space-filled");
+  }
+  return (await db["Members"].findOne({ where: { lineId: lineId } }))
+    .dataValues;
 };
 
 const checkMemberExistsByUsername = async (username) => {
-  try {
-    if (typeof username !== "string") {
-      throw new TypeError("Username must be a string");
-    }
-    if (username.trim() === "") {
-      throw new RangeError("Username must not be empty or space-filled");
-    }
-    return (
-      (await db["Members"].findOne({ where: { username: username } })) !== null
-    );
-  } catch (err) {
-    return err;
+  if (typeof username !== "string") {
+    throw new TypeError("Username must be a string");
   }
+  if (username.trim() === "") {
+    throw new RangeError("Username must not be empty or space-filled");
+  }
+  return (
+    (await db["Members"].findOne({ where: { username: username } })) !== null
+  );
 };
-const checkMemberExistsById = async (id) => {
-  try {
-    if (typeof id !== "number") {
-      throw new TypeError("Id must be a number");
-    }
-    const member = await db["Members"].findOne({
-      where: { id: id },
-    });
-    return member !== null;
-  } catch (err) {
-    return err;
+
+const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
+  if (typeof usernameOrMail !== "string") {
+    throw new TypeError("Username must be a string");
   }
+  const result = await db["Members"].findOne({
+    where: {
+      [Op.or]: [{ username: usernameOrMail }, { mail: usernameOrMail }],
+    },
+  });
+  return result;
+};
+
+const checkMemberExistsById = async (id) => {
+  if (typeof id !== "number") {
+    throw new TypeError("Id must be a number");
+  }
+  const member = await db["Members"].findOne({
+    where: { id: id },
+  });
+  return member !== null;
 };
 const checkMemberExistsByCardId = async (cardId) => {
-  try {
-    if (typeof cardId !== "string") {
-      throw new TypeError("Card ID must be a string");
-    }
-
-    const member = await db["Members"].findOne({
-      where: { cardId: cardId },
-    });
-    return member !== null;
-  } catch (err) {
-    return err;
+  if (typeof cardId !== "string") {
+    throw new TypeError("Card ID must be a string");
   }
+
+  const member = await db["Members"].findOne({
+    where: { cardId: cardId },
+  });
+  return member !== null;
 };
 
 const getMemberHash = async (username) => {
-  try {
-    if (typeof username !== "string") {
-      throw new TypeError("Username must be a string");
-    }
-    if (username.trim() === "") {
-      throw new RangeError("Username must not be empty or space-filled");
-    }
-    const member = await db["Members"].findOne({
-      where: { username: username },
-    });
-    if (!member?.dataValues) return "";
-    return member.dataValues.password || "";
-  } catch (err) {
-    return err;
+  if (typeof username !== "string") {
+    throw new TypeError("Username must be a string");
   }
+  if (username.trim() === "") {
+    throw new RangeError("Username must not be empty or space-filled");
+  }
+  const member = await db["Members"].findOne({
+    where: { username: username },
+  });
+  if (!member?.dataValues) return "";
+  return member.dataValues.password || "";
 };
 
 const addMember = async (username, mail, phoneNumber, cardId, level) => {
@@ -110,11 +108,11 @@ const addMember = async (username, mail, phoneNumber, cardId, level) => {
       mail: mail,
       phoneNumber: phoneNumber,
       cardId: cardId,
-      level: level
-    }
+      level: level,
+    },
   });
   return [member, created];
-}
+};
 
 module.exports = {
   getMemberInfoByUsername,
@@ -124,5 +122,7 @@ module.exports = {
   checkMemberExistsById,
   checkMemberExistsByCardId,
   getMemberHash,
-  addMember
+  addMember,
+  checkMemberExistsByUsernameOrMail,
+  getMemberInfoByUsernameOrMail,
 };

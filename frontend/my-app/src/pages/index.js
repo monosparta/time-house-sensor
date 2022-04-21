@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-20 22:13:48
+ * @LastEditTime: 2022-04-21 13:43:06
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -20,10 +20,14 @@ const { Header, Content, Footer, Sider } = Layout;
 // 如果不能傳的話，自己創造一個可以傳的變數
 
 
+
 // Modal From結合的Component
-const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,member }) => {
     const [form] = Form.useForm();
+
+
     // Radio選單
+   
     const [value, setValue] = React.useState(1);
     const onChange = e => {
         console.log('radio checked', e.target.value);
@@ -109,6 +113,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }
         );
     } else {
         // 表單二，閒置位置
+        var name=member[0].toString();
+      
+        var phoneNumber=member[1];
+      
+        var mail=member[2];
         return (
             <Modal
                 closable={false}
@@ -123,25 +132,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }
                     <Button onClick={onCancel} size="large">取消</Button>
                 ]}
                 onCancel={onCancel}
-            // onOk={() => {
-            //     form
-            //         .validateFields()
-            //         .then((values) => {
-            //             form.resetFields();
-            //             onCreate(values);
-            //         })
-            //         .catch((info) => {
-            //             console.log('Validate Failed:', info);
-            //         });
-            // }}
             >
                 <Row>
                     <Col span={10}>
                         <Space direction="vertical" size="small" >
-                            <h2>UserName</h2>
-                            <span><LogoutOutlined />連絡電話：      <span>0912345678</span></span>
+                            <h2>{name}</h2>
+                            <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span>
 
-                            <span><LogoutOutlined />連絡信箱：<span>user@gmail.com</span></span>
+                            <span><LogoutOutlined />連絡信箱：<span>{mail}</span></span>
                             <Button style={{ color: "#5CB4FD" }}></Button>
                         </Space>
                     </Col>
@@ -150,7 +148,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }
                         <hr />
                     </Col>
                     <Col span={13}>
-
+                        {console.log("那椅子的蕾型"+typeof(chair)+chair)}
                         <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
@@ -172,8 +170,8 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair }
                                 name="state"
                             >
                                 <Radio.Group onChange={onChange} value={value}>
-                                    <Radio value={1}>使用中</Radio>
-                                    <Radio value={2}>可使用</Radio>
+                                    <Radio value={0}>使用中</Radio>
+                                    <Radio value={1}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
                         </Form>
@@ -191,6 +189,7 @@ const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
     const [cchair, setchair] = useState("");
+    const [vacantSeaUser, setVacantSeaUser] = useState([{}]);
 
 
     const onCreate = (values, a) => {
@@ -247,17 +246,25 @@ const Home = () => {
 
             console.log("得到結果了嗎", result[0].memberId);
 
-            axios.get('/api/auth/admin/memberInfo', {
-                params: {
-                    memberId: result[0].memberId
-                }
-            })
-                .then(function (response) {
-                    console.log("我要得到使用者資料"+response);
+
+                axios.get('/api/auth/admin/memberInfo', {
+                    params: {
+                        memberId: result[0].memberId
+                    }, headers:
+                    {
+                        Authorization: `Bearer ` + localStorage.getItem('authorization')
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                    .then(function (res) {
+                        console.log("我要得到使用者資料" + res);
+                        setVacantSeaUser(Object.values(res.data.member))
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+          
+
+
             setIsModalVisible2(true);
             setchair(chair);
         }
@@ -268,13 +275,13 @@ const Home = () => {
 
     // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
-        localStorage.clear();
+        // localStorage.clear();
+        localStorage.removeItem('authorization');
         dispatch(logout())
     };
 
 
     const [seats, setseats] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-
     useEffect(() => {
         axios.get(`/api/seatsInfo`)
             .then(res => {
@@ -283,6 +290,7 @@ const Home = () => {
                 // res.data.seats.forEach(items=>setseats(items))
             })
     });
+
     seats.splice(4, 0, {});
     seats.splice(8, 0, {});
 
@@ -339,6 +347,7 @@ const Home = () => {
                 onCancel={() => onCancel(1)}
                 whichModal={1}
                 chair={cchair}
+                member={""}
             />
 
             <CollectionCreateForm
@@ -348,6 +357,7 @@ const Home = () => {
                 onCancel={() => onCancel(2)}
                 whichModal={2}
                 chair={cchair}
+                member={vacantSeaUser}
             />
 
 

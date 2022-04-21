@@ -19,10 +19,10 @@ const Login = () => {
         axios.post('/api/login', {
             usernameOrMail: e.usernameOrMail,
             password: e.password,
-           // + any other parameters you want to send in the POST request
-          }).then(res => {
-              console.log(res);
-              localStorage.setItem("authorization",res.data.token);
+            // + any other parameters you want to send in the POST request
+        }).then(res => {
+            console.log(res);
+            localStorage.setItem("authorization", res.data.token);
               dispatch(
                 login(
                     {
@@ -33,11 +33,11 @@ const Login = () => {
                 )
             )
             // do something with response, and on response
-          }).catch(error => {
+        }).catch(error => {
             // do something when request was unsuccessful
-          });
-          
-     
+        });
+
+
 
     };
 
@@ -45,16 +45,16 @@ const Login = () => {
         console.log('Failed:', errorInfo);
     };
 
-  
+
     return (
         <div>
             <Row>
                 <Col span={8} className="Color box">
                     <div className='logo'>
-                    <h2 style={{ color: "white" }}  >時光屋座位管理系統</h2>
-                    <img src={"../image/logo.png"} alt="logo"></img>
+                        <h2 style={{ color: "white" }}  >時光屋座位管理系統</h2>
+                        <img src={"../image/logo.png"} alt="logo"></img>
                     </div>
-                  
+
                 </Col>
                 <Col span={16}>
                     <div class="box">
@@ -90,7 +90,7 @@ const Login = () => {
                                             },
                                         ]}
                                     >
-                                        <Input placeholder="請輸入帳號"/>
+                                        <Input placeholder="請輸入帳號" />
                                     </Form.Item>
                                     <Form.Item
                                         label="密碼 Password"
@@ -103,7 +103,7 @@ const Login = () => {
                                             },
                                         ]}
                                     >
-                                        <Input.Password placeholder="請輸入密碼"/>
+                                        <Input.Password placeholder="請輸入密碼" />
                                     </Form.Item>
 
                                     {/* <Form.Item
@@ -117,7 +117,7 @@ const Login = () => {
                                     <Form.Item
 
                                     >
-                                        <Button type="primary" htmlType="submit" block  size='large' style={{ background: "#363F4E", borderColor: "#363F4E" }}>
+                                        <Button type="primary" htmlType="submit" block size='large' style={{ background: "#363F4E", borderColor: "#363F4E" }}>
                                             立即登入
                                         </Button>
                                     </Form.Item>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-21 13:43:06
+ * @LastEditTime: 2022-04-21 21:45:32
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -22,12 +22,12 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 // Modal From結合的Component
-const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,member }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, member }) => {
     const [form] = Form.useForm();
 
 
     // Radio選單
-   
+
     const [value, setValue] = React.useState(1);
     const onChange = e => {
         console.log('radio checked', e.target.value);
@@ -40,7 +40,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
             .then((values) => {
                 form.resetFields();
                 onCreate(values);
-                console.log("A" + values);
+                console.log("得到的值" + values);
             })
             .catch((info) => {
                 console.log('Validate Failed:', info);
@@ -94,14 +94,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
                         </Form.Item>
                         <Form.Item
                             label="連絡電話"
-                            name="phone"
+                            name="phoneNumber"
                             rules={[{ required: true, message: '請輸入聯絡用電話' }]}
                         >
                             <Input placeholder="請輸入連絡電話" />
                         </Form.Item>
                         <Form.Item
                             label="聯絡信箱"
-                            name="email"
+                            name="mail"
                             rules={[{ required: true, message: '請輸入聯絡用信箱' }]}
                         >
                             <Input placeholder="請輸入聯絡信箱" />
@@ -113,11 +113,13 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
         );
     } else {
         // 表單二，閒置位置
-        var name=member[0].toString();
-      
-        var phoneNumber=member[1];
-      
-        var mail=member[2];
+        var username = "";
+        // {console.log(member)}
+        username=member[0].toString();
+        // {console.log(typeof(username))}
+        var phoneNumber = member[1];
+
+        var mail = member[2];
         return (
             <Modal
                 closable={false}
@@ -136,9 +138,9 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
                 <Row>
                     <Col span={10}>
                         <Space direction="vertical" size="small" >
-                            <h2>{name}</h2>
+                            <h2>{username}</h2>
                             <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span>
-
+                           
                             <span><LogoutOutlined />連絡信箱：<span>{mail}</span></span>
                             <Button style={{ color: "#5CB4FD" }}></Button>
                         </Space>
@@ -148,7 +150,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
                         <hr />
                     </Col>
                     <Col span={13}>
-                        {console.log("那椅子的蕾型"+typeof(chair)+chair)}
+                
                         <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
@@ -174,6 +176,22 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair,m
                                     <Radio value={1}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
+
+                            <Form.Item
+                                name="index"
+                                noStyle
+                                initialValue={chair}
+                            >
+                                <Input type="hidden"></Input>
+                            </Form.Item>
+                            <Form.Item
+                                name="username"
+                                noStyle
+                                initialValue={username}
+                            >
+                                <Input type="hidden"></Input>
+                            </Form.Item>
+                    
                         </Form>
                     </Col>
                 </Row>
@@ -195,7 +213,31 @@ const Home = () => {
     const onCreate = (values, a) => {
 
         if (a === 1) {
-            console.log('嗨Received values of form1: ', values);
+
+            var data = JSON.stringify({
+                "username": values.username,
+                "mail": values.mail,
+                "phoneNumber": values.phoneNumber
+            });
+
+            var config = {
+                method: 'post',
+                url: '/api/auth/admin/addUser',
+                headers: {
+                    Authorization: `Bearer ` + localStorage.getItem('authorization'),
+
+                },
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
             setIsModalVisible1(false);
         } else {
             console.log('嗨Received values of form2: ', values);
@@ -247,22 +289,22 @@ const Home = () => {
             console.log("得到結果了嗎", result[0].memberId);
 
 
-                axios.get('/api/auth/admin/memberInfo', {
-                    params: {
-                        memberId: result[0].memberId
-                    }, headers:
-                    {
-                        Authorization: `Bearer ` + localStorage.getItem('authorization')
-                    }
+            axios.get('/api/auth/admin/memberInfo', {
+                params: {
+                    memberId: result[0].memberId
+                }, headers:
+                {
+                    Authorization: `Bearer ` + localStorage.getItem('authorization')
+                }
+            })
+                .then(function (res) {
+                    console.log("我要得到使用者資料" + res.data.member.name);
+                    setVacantSeaUser(Object.values(res.data.member))
                 })
-                    .then(function (res) {
-                        console.log("我要得到使用者資料" + res);
-                        setVacantSeaUser(Object.values(res.data.member))
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-          
+                .catch(function (error) {
+                    console.log(error);
+                });
+
 
 
             setIsModalVisible2(true);

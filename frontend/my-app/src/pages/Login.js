@@ -73,7 +73,7 @@ const Login = () => {
                                     initialValues={{
                                         remember: true,
                                     }}
-                                    onFinish={(e) => { onFinish(e); e.preventDefault(); }}
+                                    onFinish={(e) => { onFinish(e);  }}
                                     // useForm.js:884 TypeError: e.preventDefault is not a function
                                     // https://ithelp.ithome.com.tw/articles/10245434
                                     onFinishFailed={onFinishFailed}

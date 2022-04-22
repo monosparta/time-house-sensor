@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-22 09:28:06
+ * @LastEditTime: 2022-04-22 18:26:29
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -11,13 +11,12 @@ import React, { useEffect, useState } from "react";
 // hook useDispatch
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
-import { Alert, Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Badge, Avatar } from 'antd';
-import { LogoutOutlined, GithubOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar } from 'antd';
+import { LogoutOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from "../Axios.config";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
-// 如果不能傳的話，自己創造一個可以傳的變數
 
 
 
@@ -26,11 +25,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
     const [form] = Form.useForm();
 
     // Radio選單
+    const [chioces, Chioces] = React.useState(1);
 
-    const [value, setValue] = React.useState(1);
     const onChange = e => {
         console.log('radio checked', e.target.value);
-        setValue(e.target.value);
+        Chioces(e.target.value);
     };
 
     const handleOk = () => {
@@ -112,7 +111,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
     } else {
         // 表單二，閒置位置
         var username = "";
-        username=member.name;
+        username = member.name;
         // {console.log(typeof(username))}
         var phoneNumber = member.phoneNumber;
 
@@ -137,7 +136,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                         <Space direction="vertical" size="small" >
                             <h2>{username}</h2>
                             <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span>
-                           
+
                             <span><LogoutOutlined />連絡信箱：<span>{mail}</span></span>
                             <Button style={{ color: "#5CB4FD" }}></Button>
                         </Space>
@@ -147,7 +146,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                         <hr />
                     </Col>
                     <Col span={13}>
-                
+
                         <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
@@ -168,9 +167,9 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                                 label="狀態更改"
                                 name="state"
                             >
-                                <Radio.Group onChange={onChange} value={value}>
-                                    <Radio value={0}>使用中</Radio>
-                                    <Radio value={1}>可使用</Radio>
+                                <Radio.Group onChange={onChange} value={chioces}>
+                                    <Radio value={1}>使用中</Radio>
+                                    <Radio value={0}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
 
@@ -188,7 +187,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                             >
                                 <Input type="hidden"></Input>
                             </Form.Item>
-                    
+
                         </Form>
                     </Col>
                 </Row>
@@ -203,11 +202,13 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
 const Home = () => {
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
-    const [cchair, setchair] = useState("");
-    const [vacantSeaUser, setVacantSeaUser] = useState([{}]);
-  
-    
+    const [selectedChair, setSelectedChair] = useState("");
+    const [user, setUser] = useState({});
 
+
+    // useEffect(() => {
+    //     console.log('嗨@@@@Received values of form2: ', vacantSeatUser);
+    // }, [vacantSeatUser]);
 
     const onCreate = (values, a) => {
 
@@ -239,6 +240,34 @@ const Home = () => {
 
             setIsModalVisible1(false);
         } else {
+            console.log('哪裡錯誤 ', values.index);
+            console.log('哪裡錯誤 ', values.state);
+            console.log('哪裡錯誤阿使用者名稱 ', values.username);
+            var data = JSON.stringify({
+                "seat": {
+                    "index": values.index,
+                    "state": values.state,
+                },
+                "username": values.username
+            });
+
+            var config = {
+                method: 'put',
+                url: '/api/auth/admin/seatState',
+                headers: {
+                    Authorization: `Bearer ` + localStorage.getItem('authorization'),
+                },
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
             console.log('嗨Received values of form2: ', values);
             setIsModalVisible2(false);
         }
@@ -278,16 +307,12 @@ const Home = () => {
             });
         } else if (prop === 1) {
             setIsModalVisible1(true);
-            setchair(chair);
-            // setIsModalVisible1(true);
+            setSelectedChair(chair);
         } else if (prop === 2) {
             // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
             const result = seats.filter(s =>
                 s.id == chair);
-
             console.log("得到結果了嗎", result[0].memberId);
-
-
             axios.get('/api/auth/admin/memberInfo', {
                 params: {
                     memberId: result[0].memberId
@@ -298,16 +323,13 @@ const Home = () => {
             })
                 .then(function (res) {
                     console.log("我要得到使用者資料" + res.data.member.name);
-                    setVacantSeaUser(res.data.member)
+                    setUser(res.data.member)
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-
-
-
             setIsModalVisible2(true);
-            setchair(chair);
+            setSelectedChair(chair);
         }
     };
 
@@ -322,20 +344,41 @@ const Home = () => {
     };
 
 
-    const [seats, setseats] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-    useEffect(() => {
+    const [seats, setSeats] = useState([{}]);
+
+    const callApi=()=>{
+        console.log("TEST");
         axios.get(`/api/seatsInfo`)
-            .then(res => {
-                const aseats = Object.values(res.data.seats);
-                setseats(aseats);
-                // res.data.seats.forEach(items=>setseats(items))
-            })
-    });
+                .then(res => {
+                    console.log(res.data)
+                    let tempSeat = res.data.seats;
+                    console.log(tempSeat)
+                    tempSeat.splice(4, 0, {});
+                    tempSeat.splice(8, 0, {});
+                    console.log(tempSeat)
+                    setSeats(tempSeat);
+                })
+    }
+    useEffect(() => {
+        callApi();
+        let timer = setInterval(() => {
+            callApi();
+            // axios.get(`/api/seatsInfo`)
+            //     .then(res => {
+            //         let tempSeat = Object.values(res.data.seats);
+            //         tempSeat = tempSeat.splice(4, 0, {});
+            //         tempSeat = tempSeat.splice(8, 0, {});
+            //         setSeats(tempSeat);
 
-    seats.splice(4, 0, {});
-    seats.splice(8, 0, {});
+            //     })
+        }, 10000)
+        return ()=>clearInterval(timer);
+    }, []);
 
-    // console.log("rfrfrf" + seats[0].memberId);
+
+
+
+
     return (
         <div>
             <Header className="black">
@@ -349,7 +392,7 @@ const Home = () => {
                     <Col span={2} push={18} style={{
                         verticalAlign: 'middle', color: 'white'
                     }}>
-                        <Button style={{ background: "#363F4E", color: "white" }} icon={<LogoutOutlined />} onClick={(e) => { handleLogout(e); e.preventDefault(); }}>
+                        <Button style={{ background: "#363F4E", color: "white" }} icon={<LogoutOutlined />} onClick={(e) => { handleLogout(e); }}>
                             LOGOUT
                         </Button>
                     </Col>
@@ -359,11 +402,12 @@ const Home = () => {
             <Content>
                 <div className="resume">
                     <Row>
-                        {seats.map((d) => (
+
+                        {seats.map((seat) => (
                             <Col span={6}>
-                                <img className="chair" src={"../image/" + d.state + ".png"} alt=" " onClick={() => Action(d.state, d.id)} />
+                                <img className="chair" src={"../image/" + seat.state + ".png"} alt=" " onClick={() => Action(seat.state, seat.id)} />
                                 <br />
-                                {d.id}
+                                {seat.id}
                                 <br />
                                 <br />
                             </Col>
@@ -387,7 +431,7 @@ const Home = () => {
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
                 whichModal={1}
-                chair={cchair}
+                chair={selectedChair}
                 member={""}
             />
 
@@ -397,8 +441,8 @@ const Home = () => {
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
                 whichModal={2}
-                chair={cchair}
-                member={vacantSeaUser}
+                chair={selectedChair}
+                member={user}
             />
 
 

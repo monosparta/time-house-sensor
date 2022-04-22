@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-21 21:45:32
+ * @LastEditTime: 2022-04-22 09:28:06
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -25,7 +25,6 @@ const { Header, Content, Footer, Sider } = Layout;
 const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, member }) => {
     const [form] = Form.useForm();
 
-
     // Radio選單
 
     const [value, setValue] = React.useState(1);
@@ -40,7 +39,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
             .then((values) => {
                 form.resetFields();
                 onCreate(values);
-                console.log("得到的值" + values);
             })
             .catch((info) => {
                 console.log('Validate Failed:', info);
@@ -114,12 +112,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
     } else {
         // 表單二，閒置位置
         var username = "";
-        // {console.log(member)}
-        username=member[0].toString();
+        username=member.name;
         // {console.log(typeof(username))}
-        var phoneNumber = member[1];
+        var phoneNumber = member.phoneNumber;
 
-        var mail = member[2];
+        var mail = member.mail;
         return (
             <Modal
                 closable={false}
@@ -208,6 +205,8 @@ const Home = () => {
     const [isModalVisible2, setIsModalVisible2] = useState(false);
     const [cchair, setchair] = useState("");
     const [vacantSeaUser, setVacantSeaUser] = useState([{}]);
+  
+    
 
 
     const onCreate = (values, a) => {
@@ -299,7 +298,7 @@ const Home = () => {
             })
                 .then(function (res) {
                     console.log("我要得到使用者資料" + res.data.member.name);
-                    setVacantSeaUser(Object.values(res.data.member))
+                    setVacantSeaUser(res.data.member)
                 })
                 .catch(function (error) {
                     console.log(error);

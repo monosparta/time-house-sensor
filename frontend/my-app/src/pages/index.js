@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-22 18:26:29
+ * @LastEditTime: 2022-04-24 17:10:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -32,7 +32,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
         Chioces(e.target.value);
     };
 
-    const handleOk = () => {
+    const handleSubmit = () => {
         form
             .validateFields()
             .then((values) => {
@@ -55,7 +55,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                 cancelText="　取消　"
                 okText="　確認　"
                 footer={[
-                    <Button onClick={handleOk} style={{ background: "#363F4E", color: "white" }} size='large'>
+                    <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>
                         確認
                     </Button>,
                     <Button
@@ -112,7 +112,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
         // 表單二，閒置位置
         var username = "";
         username = member.name;
-        // {console.log(typeof(username))}
         var phoneNumber = member.phoneNumber;
 
         var mail = member.mail;
@@ -126,7 +125,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                 className="my-modal-class"
                 cancelButtonProps={true}
                 footer={[
-                    <Button onClick={handleOk} style={{ background: "#363F4E", color: "white" }} size='large'>確定</Button>,
+                    <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>確定</Button>,
                     <Button onClick={onCancel} size="large">取消</Button>
                 ]}
                 onCancel={onCancel}
@@ -146,7 +145,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                         <hr />
                     </Col>
                     <Col span={13}>
-
                         <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
@@ -161,7 +159,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                             wrapperCol={{
                                 span: 24,
                             }}
-
                         >
                             <Form.Item
                                 label="狀態更改"
@@ -172,7 +169,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                                     <Radio value={0}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
-
                             <Form.Item
                                 name="index"
                                 noStyle
@@ -187,7 +183,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                             >
                                 <Input type="hidden"></Input>
                             </Form.Item>
-
                         </Form>
                     </Col>
                 </Row>
@@ -205,11 +200,6 @@ const Home = () => {
     const [selectedChair, setSelectedChair] = useState("");
     const [user, setUser] = useState({});
 
-
-    // useEffect(() => {
-    //     console.log('嗨@@@@Received values of form2: ', vacantSeatUser);
-    // }, [vacantSeatUser]);
-
     const onCreate = (values, a) => {
 
         if (a === 1) {
@@ -225,7 +215,6 @@ const Home = () => {
                 url: '/api/auth/admin/addUser',
                 headers: {
                     Authorization: `Bearer ` + localStorage.getItem('authorization'),
-
                 },
                 data: data
             };
@@ -240,13 +229,11 @@ const Home = () => {
 
             setIsModalVisible1(false);
         } else {
-            console.log('哪裡錯誤 ', values.index);
-            console.log('哪裡錯誤 ', values.state);
-            console.log('哪裡錯誤阿使用者名稱 ', values.username);
+            console.log('哪裡錯誤阿使用者名稱0可使用 ', values.username);
             var data = JSON.stringify({
                 "seat": {
                     "index": values.index,
-                    "state": values.state,
+                    "state": values.state.toString(),
                 },
                 "username": values.username
             });
@@ -269,7 +256,9 @@ const Home = () => {
                 });
 
             console.log('嗨Received values of form2: ', values);
+            callSeatApi();
             setIsModalVisible2(false);
+            
         }
 
 
@@ -283,7 +272,7 @@ const Home = () => {
     };
     const Action = (prop, chair) => {
         console.log("椅子" + chair);
-        if (prop === 0) {
+        if (prop === 1) {
             notification.open({
 
                 message: '座位狀態為使用中',
@@ -305,13 +294,13 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === 1) {
+        } else if (prop === 0) {
             setIsModalVisible1(true);
             setSelectedChair(chair);
         } else if (prop === 2) {
             // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
             const result = seats.filter(s =>
-                s.id == chair);
+            s.id == chair);
             console.log("得到結果了嗎", result[0].memberId);
             axios.get('/api/auth/admin/memberInfo', {
                 params: {
@@ -346,13 +335,12 @@ const Home = () => {
 
     const [seats, setSeats] = useState([{}]);
 
-    const callApi=()=>{
+    const callSeatApi=()=>{
         console.log("TEST");
         axios.get(`/api/seatsInfo`)
                 .then(res => {
                     console.log(res.data)
                     let tempSeat = res.data.seats;
-                    console.log(tempSeat)
                     tempSeat.splice(4, 0, {});
                     tempSeat.splice(8, 0, {});
                     console.log(tempSeat)
@@ -360,17 +348,9 @@ const Home = () => {
                 })
     }
     useEffect(() => {
-        callApi();
+        callSeatApi();
         let timer = setInterval(() => {
-            callApi();
-            // axios.get(`/api/seatsInfo`)
-            //     .then(res => {
-            //         let tempSeat = Object.values(res.data.seats);
-            //         tempSeat = tempSeat.splice(4, 0, {});
-            //         tempSeat = tempSeat.splice(8, 0, {});
-            //         setSeats(tempSeat);
-
-            //     })
+            callSeatApi();
         }, 10000)
         return ()=>clearInterval(timer);
     }, []);
@@ -427,7 +407,6 @@ const Home = () => {
 
             <CollectionCreateForm
                 visible={isModalVisible1}
-                // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 1)}
                 onCancel={() => onCancel(1)}
                 whichModal={1}
@@ -437,7 +416,6 @@ const Home = () => {
 
             <CollectionCreateForm
                 visible={isModalVisible2}
-                // onCreate={onCreate}
                 onCreate={(e) => onCreate(e, 2)}
                 onCancel={() => onCancel(2)}
                 whichModal={2}

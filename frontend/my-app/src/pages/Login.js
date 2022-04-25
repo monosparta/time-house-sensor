@@ -10,20 +10,16 @@ const Login = () => {
 
     const [usernameOrMail, setusernameOrMail] = useState("");
     const [password, setpassword] = useState("");
-
     const dispatch = useDispatch();
-
     const onFinish = async (e) => {
-
         console.log(e);
         axios.post('/api/login', {
             usernameOrMail: e.usernameOrMail,
             password: e.password,
-            // + any other parameters you want to send in the POST request
         }).then(res => {
             console.log(res);
             localStorage.setItem("authorization", res.data.token);
-              dispatch(
+            dispatch(
                 login(
                     {
                         usernameOrMail: e.usernameOrMail,
@@ -36,16 +32,10 @@ const Login = () => {
         }).catch(error => {
             // do something when request was unsuccessful
         });
-
-
-
     };
-
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
-
     return (
         <div>
             <Row>
@@ -73,7 +63,7 @@ const Login = () => {
                                     initialValues={{
                                         remember: true,
                                     }}
-                                    onFinish={(e) => { onFinish(e);  }}
+                                    onFinish={(e) => { onFinish(e); }}
                                     // useForm.js:884 TypeError: e.preventDefault is not a function
                                     // https://ithelp.ithome.com.tw/articles/10245434
                                     onFinishFailed={onFinishFailed}
@@ -113,9 +103,7 @@ const Login = () => {
                                     >
                                         <Checkbox  className='checkbox-red'>保持登入</Checkbox>
                                     </Form.Item> */}
-
                                     <Form.Item
-
                                     >
                                         <Button type="primary" htmlType="submit" block size='large' style={{ background: "#363F4E", borderColor: "#363F4E" }}>
                                             立即登入
@@ -123,12 +111,10 @@ const Login = () => {
                                     </Form.Item>
                                 </Form>
                             </div>
-
                         </div>
                     </div>
                 </Col>
             </Row>
-
         </div>
     )
 }

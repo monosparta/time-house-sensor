@@ -1,23 +1,42 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-24 17:10:48
+ * @LastEditTime: 2022-04-25 12:00:38
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // hook useDispatch
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
-import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar } from 'antd';
+// import {SendMail} from './components/SendMail';
+import emailjs from '@emailjs/browser';
+import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar,message } from 'antd';
 import { LogoutOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from "../Axios.config";
 
 const { Header, Content, Footer } = Layout;
+const { TextArea } = Input;
+
+const sendEmail = (e) => {
+    e.preventDefault();
+console.log("e"+e);
+console.log("e.mail"+e.mail);
+    emailjs.sendForm('service_r37qfj4', 'template_dgyqrz8', e.target, 'tc62l1C-WQwcxdnGn')
+        .then((result) => {
+            console.log(result.text);
+            message.success('Send email success！', 5);
+        }, (error) => {
+            console.log(error.text);
+            message.error('An error occurred, please try again', 5);
+        });
+    e.target.reset();
+    e.target.resetFields();
 
 
+};
 
 
 // Modal From結合的Component
@@ -113,7 +132,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
         var username = "";
         username = member.name;
         var phoneNumber = member.phoneNumber;
-
         var mail = member.mail;
         return (
             <Modal
@@ -132,13 +150,25 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
             >
                 <Row>
                     <Col span={10}>
-                        <Space direction="vertical" size="small" >
-                            <h2>{username}</h2>
-                            <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span>
-
-                            <span><LogoutOutlined />連絡信箱：<span>{mail}</span></span>
-                            <Button style={{ color: "#5CB4FD" }}></Button>
+                    <form id="contact" ref={form} onSubmit={sendEmail}>
+                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                            <Row>
+                                <Col span={10}> <h2>{username}</h2></Col>
+                                <Col span={14}> <input type="hidden" name="username"  value={username}/></Col>
+                            </Row>
+                            <Row>
+                                <Col span={9}> <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span></Col>
+    
+                            </Row>
+                            <Row>
+                                <Col span={9}><span><LogoutOutlined />連絡信箱：<span>{mail}</span></span></Col>
+                                <Col span={14}> <input type="hidden" name="mail" value={mail}/></Col>
+                            </Row>
+                            <Button type="primary" htmlType="submit" >
+                                Send
+                            </Button>
                         </Space>
+                        </form>
                     </Col>
 
                     <Col span={1}>
@@ -258,7 +288,7 @@ const Home = () => {
             console.log('嗨Received values of form2: ', values);
             callSeatApi();
             setIsModalVisible2(false);
-            
+
         }
 
 
@@ -300,7 +330,7 @@ const Home = () => {
         } else if (prop === 2) {
             // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
             const result = seats.filter(s =>
-            s.id == chair);
+                s.id == chair);
             console.log("得到結果了嗎", result[0].memberId);
             axios.get('/api/auth/admin/memberInfo', {
                 params: {
@@ -335,24 +365,23 @@ const Home = () => {
 
     const [seats, setSeats] = useState([{}]);
 
-    const callSeatApi=()=>{
-        console.log("TEST");
+    const callSeatApi = () => {
         axios.get(`/api/seatsInfo`)
-                .then(res => {
-                    console.log(res.data)
-                    let tempSeat = res.data.seats;
-                    tempSeat.splice(4, 0, {});
-                    tempSeat.splice(8, 0, {});
-                    console.log(tempSeat)
-                    setSeats(tempSeat);
-                })
+            .then(res => {
+                console.log(res.data)
+                let tempSeat = res.data.seats;
+                tempSeat.splice(4, 0, {});
+                tempSeat.splice(8, 0, {});
+                console.log(tempSeat)
+                setSeats(tempSeat);
+            })
     }
     useEffect(() => {
         callSeatApi();
         let timer = setInterval(() => {
             callSeatApi();
         }, 10000)
-        return ()=>clearInterval(timer);
+        return () => clearInterval(timer);
     }, []);
 
 

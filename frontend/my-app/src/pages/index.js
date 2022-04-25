@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-25 12:00:38
+ * @LastEditTime: 2022-04-25 15:50:08
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -122,6 +122,13 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                         >
                             <Input placeholder="請輸入聯絡信箱" />
                         </Form.Item>
+                        <Form.Item
+                                name="index"
+                                noStyle
+                                initialValue={chair}
+                            >
+                                <Input type="hidden"></Input>
+                        </Form.Item>
                     </Form>
                 </Row>
             </Modal>
@@ -195,8 +202,8 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                                 name="state"
                             >
                                 <Radio.Group onChange={onChange} value={chioces}>
-                                    <Radio value={1}>使用中</Radio>
-                                    <Radio value={0}>可使用</Radio>
+                                    <Radio value={0}>使用中</Radio>
+                                    <Radio value={1}>可使用</Radio>
                                 </Radio.Group>
                             </Form.Item>
                             <Form.Item
@@ -233,7 +240,7 @@ const Home = () => {
     const onCreate = (values, a) => {
 
         if (a === 1) {
-
+            
             var data = JSON.stringify({
                 "username": values.username,
                 "mail": values.mail,
@@ -249,17 +256,44 @@ const Home = () => {
                 data: data
             };
 
-            axios(config)
+                axios(config)
                 .then(function (response) {
                     console.log(JSON.stringify(response.data));
+                    var data = JSON.stringify({
+                        "seat": {
+                            "index": values.index,
+                            "state": "0",
+                        },
+                        "username": values.username
+                    });
+        
+                    var config = {
+                        method: 'put',
+                        url: '/api/auth/admin/seatState',
+                        headers: {
+                            Authorization: `Bearer ` + localStorage.getItem('authorization'),
+                        },
+                        data: data
+                    };
+        
+                    axios(config)
+                        .then(function (response) {
+                            console.log(JSON.stringify(response.data));
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-
+                // 更改狀態
+                
+                
             setIsModalVisible1(false);
         } else {
             console.log('哪裡錯誤阿使用者名稱0可使用 ', values.username);
+            
             var data = JSON.stringify({
                 "seat": {
                     "index": values.index,
@@ -267,24 +301,7 @@ const Home = () => {
                 },
                 "username": values.username
             });
-
-            var config = {
-                method: 'put',
-                url: '/api/auth/admin/seatState',
-                headers: {
-                    Authorization: `Bearer ` + localStorage.getItem('authorization'),
-                },
-                data: data
-            };
-
-            axios(config)
-                .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
+            callSeatStateApi (data);
             console.log('嗨Received values of form2: ', values);
             callSeatApi();
             setIsModalVisible2(false);
@@ -302,7 +319,7 @@ const Home = () => {
     };
     const Action = (prop, chair) => {
         console.log("椅子" + chair);
-        if (prop === 1) {
+        if (prop === 0) {
             notification.open({
 
                 message: '座位狀態為使用中',
@@ -324,7 +341,7 @@ const Home = () => {
                     console.log('Notification Clicked!');
                 },
             });
-        } else if (prop === 0) {
+        } else if (prop === 1) {
             setIsModalVisible1(true);
             setSelectedChair(chair);
         } else if (prop === 2) {
@@ -357,7 +374,6 @@ const Home = () => {
 
     // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
-        // localStorage.clear();
         localStorage.removeItem('authorization');
         dispatch(logout())
     };
@@ -375,6 +391,28 @@ const Home = () => {
                 console.log(tempSeat)
                 setSeats(tempSeat);
             })
+    }
+
+    const callSeatStateApi = (data) => {
+
+        var config = {
+            method: 'put',
+            url: '/api/auth/admin/seatState',
+            headers: {
+                Authorization: `Bearer ` + localStorage.getItem('authorization'),
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
     }
     useEffect(() => {
         callSeatApi();
@@ -411,12 +449,15 @@ const Home = () => {
             <Content>
                 <div className="resume">
                     <Row>
-
-                        {seats.map((seat) => (
+                   
+                        {seats.map((seat,i) => (
                             <Col span={6}>
-                                <img className="chair" src={"../image/" + seat.state + ".png"} alt=" " onClick={() => Action(seat.state, seat.id)} />
+                            {console.log("位置更新的狀況"+i,seat.state)}
+                                <img key={"http://localhost:3000/static/img/seats/" + seat.id + ".png"} className="chair" src={"http://localhost:3000/static/img/seats/" + seat.id + ".png?date="+new Date()} alt=" " onClick={() => Action(seat.state, seat.id)} />
+                                {/* <img className="chair" src={"../image/" + seat.state + ".png"} alt=" " onClick={() => Action(seat.state, seat.id)} /> */}
                                 <br />
                                 {seat.id}
+                                {console.log("===位置更新的狀況===")}
                                 <br />
                                 <br />
                             </Col>

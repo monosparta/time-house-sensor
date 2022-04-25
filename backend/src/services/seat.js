@@ -19,7 +19,9 @@ const updateSeatState = async (index, state, memberId) => {
     ) {
       throw new RangeError("Index or State is out of range or not an integer");
     }
-
+    if (state === 1) {
+      memberId = null;
+    }
     const seat = await db["Seats"].update(
       { state: state, memberId: memberId },
       { where: { id: index } }

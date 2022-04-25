@@ -85,7 +85,7 @@ const updateSeatState = async (req, res) => {
     }
 
     if (!(await memberService.checkMemberExistsByUsername(username))) {
-      return res.status(04).json({
+      return res.status(404).json({
         detail: "該會員並不存在，請聯絡相關人員",
       });
     }

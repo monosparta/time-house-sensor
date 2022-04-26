@@ -1,29 +1,27 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-25 15:50:08
+ * @LastEditTime: 2022-04-26 14:35:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
 import React, { useEffect, useState, useRef } from "react";
-// hook useDispatch
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/counter/userSlice';
-// import {SendMail} from './components/SendMail';
 import emailjs from '@emailjs/browser';
-import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar,message } from 'antd';
-import { LogoutOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar, message } from 'antd';
+import { LogoutOutlined, CheckCircleOutlined, ExclamationCircleOutlined, MobileOutlined, MailOutlined } from '@ant-design/icons';
 import axios from "../Axios.config";
 
 const { Header, Content, Footer } = Layout;
-const { TextArea } = Input;
+var nodemailer = require('nodemailer');
 
 const sendEmail = (e) => {
     e.preventDefault();
-console.log("e"+e);
-console.log("e.mail"+e.mail);
+    console.log("e" + e);
+    console.log("e.mail" + e.mail);
     emailjs.sendForm('service_r37qfj4', 'template_dgyqrz8', e.target, 'tc62l1C-WQwcxdnGn')
         .then((result) => {
             console.log(result.text);
@@ -74,65 +72,67 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                 cancelText="　取消　"
                 okText="　確認　"
                 footer={[
-                    <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>
-                        確認
-                    </Button>,
-                    <Button
-                        size='large'
-                        onClick={onCancel}
-                    >
-                        取消
-                    </Button>,
-
+                    <Space size="middle">
+                        <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>
+                            確認
+                        </Button>
+                        <Button
+                            size='large'
+                            onClick={onCancel}
+                            style={{color:"#363F4E"}}
+                        >
+                            <b>取消</b>
+                        </Button>
+                    </Space>
                 ]}
-
                 onCancel={onCancel}
                 closable={false}
-
-
             >
                 <Row justify="center" align="middle">
-                    <h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2>
-                    <Form
-                        form={form}
-                        name="form_in_modal"
-                        autoComplete="off"
-                        initialValues={{
-                            modifier: 'public',
-                        }}
-                    >
-                        <Form.Item
-                            label="名　　稱"
-                            name="username"
-                            rules={[{ required: true, message: '請輸入使用者名稱' }]}
+                    <Space direction="vertical">
+                        <h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2>
+                        <Form
+                            form={form}
+                            name="form_in_modal"
+                            autoComplete="off"
+                            initialValues={{
+                                modifier: 'public',
+                            }}
                         >
-                            <Input placeholder="請輸入名稱" />
-                        </Form.Item>
-                        <Form.Item
-                            label="連絡電話"
-                            name="phoneNumber"
-                            rules={[{ required: true, message: '請輸入聯絡用電話' }]}
-                        >
-                            <Input placeholder="請輸入連絡電話" />
-                        </Form.Item>
-                        <Form.Item
-                            label="聯絡信箱"
-                            name="mail"
-                            rules={[{ required: true, message: '請輸入聯絡用信箱' }]}
-                        >
-                            <Input placeholder="請輸入聯絡信箱" />
-                        </Form.Item>
-                        <Form.Item
+
+                            <Form.Item
+                                label="名　　稱"
+                                name="username"
+                                rules={[{ required: true, message: '請輸入使用者名稱' }]}
+                            >
+                                <Input placeholder="請輸入名稱" />
+                            </Form.Item>
+                            <Form.Item
+                                label="連絡電話"
+                                name="phoneNumber"
+                                rules={[{ required: true, message: '請輸入聯絡用電話' }]}
+                            >
+                                <Input placeholder="請輸入連絡電話" />
+                            </Form.Item>
+                            <Form.Item
+                                label="聯絡信箱"
+                                name="mail"
+                                rules={[{ required: true, message: '請輸入聯絡用信箱' }]}
+                            >
+                                <Input placeholder="請輸入聯絡信箱" />
+                            </Form.Item>
+                            <Form.Item
                                 name="index"
                                 noStyle
                                 initialValue={chair}
                             >
                                 <Input type="hidden"></Input>
-                        </Form.Item>
-                    </Form>
+                            </Form.Item>
+
+                        </Form>
+                    </Space>
                 </Row>
             </Modal>
-
         );
     } else {
         // 表單二，閒置位置
@@ -146,42 +146,49 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                 visible={visible}
                 okText="確認"
                 cancelText="取消"
-                width={800}
-                className="my-modal-class"
+                width={500}
+                className="idle-modal-class"
                 cancelButtonProps={true}
                 footer={[
-                    <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>確定</Button>,
-                    <Button onClick={onCancel} size="large">取消</Button>
+                    <Space size="middle">
+                        <Button onClick={handleSubmit} style={{ background: "#363F4E", color: "white" }} size='large'>確定</Button>
+                        <Button onClick={onCancel} size="large"> <b>取消</b></Button>
+                    </Space>
                 ]}
                 onCancel={onCancel}
             >
                 <Row>
-                    <Col span={10}>
-                    <form id="contact" ref={form} onSubmit={sendEmail}>
-                        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-                            <Row>
-                                <Col span={10}> <h2>{username}</h2></Col>
-                                <Col span={14}> <input type="hidden" name="username"  value={username}/></Col>
-                            </Row>
-                            <Row>
-                                <Col span={9}> <span><LogoutOutlined />連絡電話：<span>{phoneNumber}</span></span></Col>
-    
-                            </Row>
-                            <Row>
-                                <Col span={9}><span><LogoutOutlined />連絡信箱：<span>{mail}</span></span></Col>
-                                <Col span={14}> <input type="hidden" name="mail" value={mail}/></Col>
-                            </Row>
-                            <Button type="primary" htmlType="submit" >
-                                Send
-                            </Button>
-                        </Space>
+                    <Col span={11}>
+                        <form id="contact" ref={form} onSubmit={sendEmail}>
+                            <Space direction="vertical" size="small" style={{ display: 'flex' }}>
+                                <Row>
+                                    <Col span={10}> <h2>{username}</h2></Col>
+                                    <Col span={14}> <input type="hidden" name="username" value={username} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col span={24}> <span><MobileOutlined />{phoneNumber}</span></Col>
+                                </Row>
+                                <Row>
+                                    <Col span={24}><span><MailOutlined /> {mail}</span></Col>
+                                    <Col span={14}> <input type="hidden" name="mail" value={mail} /></Col>
+                                </Row>
+                                <Row>
+                                    <Col offset={4}>
+                                    <br/>
+                                        <Button type="primary" htmlType="submit">
+                                            寄送通知
+                                        </Button>
+                                    </Col>
+                                </Row>
+
+                            </Space>
                         </form>
                     </Col>
 
                     <Col span={1}>
                         <hr />
                     </Col>
-                    <Col span={13}>
+                    <Col span={12}>
                         <h3>座位{chair}-目前為閒置座位</h3>
                         閒置時間：
                         <Form
@@ -218,13 +225,13 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                                 noStyle
                                 initialValue={username}
                             >
+                                {console.log("取得username" + username)}
                                 <Input type="hidden"></Input>
                             </Form.Item>
                         </Form>
                     </Col>
                 </Row>
             </Modal>
-
         );
     }
 
@@ -240,7 +247,7 @@ const Home = () => {
     const onCreate = (values, a) => {
 
         if (a === 1) {
-            
+
             var data = JSON.stringify({
                 "username": values.username,
                 "mail": values.mail,
@@ -256,7 +263,7 @@ const Home = () => {
                 data: data
             };
 
-                axios(config)
+            axios(config)
                 .then(function (response) {
                     console.log(JSON.stringify(response.data));
                     var data = JSON.stringify({
@@ -266,34 +273,16 @@ const Home = () => {
                         },
                         "username": values.username
                     });
-        
-                    var config = {
-                        method: 'put',
-                        url: '/api/auth/admin/seatState',
-                        headers: {
-                            Authorization: `Bearer ` + localStorage.getItem('authorization'),
-                        },
-                        data: data
-                    };
-        
-                    axios(config)
-                        .then(function (response) {
-                            console.log(JSON.stringify(response.data));
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
+                    callSeatStateApi(data);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-                // 更改狀態
-                
-                
+            // 更改狀態
             setIsModalVisible1(false);
         } else {
-            console.log('哪裡錯誤阿使用者名稱0可使用 ', values.username);
-            
+            console.log('哪裡錯誤阿使用者名稱有得到嗎？？？ ', values.username);
+
             var data = JSON.stringify({
                 "seat": {
                     "index": values.index,
@@ -301,9 +290,8 @@ const Home = () => {
                 },
                 "username": values.username
             });
-            callSeatStateApi (data);
+            callSeatStateApi(data);
             console.log('嗨Received values of form2: ', values);
-            callSeatApi();
             setIsModalVisible2(false);
 
         }
@@ -369,10 +357,7 @@ const Home = () => {
         }
     };
 
-    // Redux 將dispatch解出來
     const dispatch = useDispatch();
-
-    // 更動state時直接呼叫它，想要選擇的更動規則、想要傳的參數
     const handleLogout = (e) => {
         localStorage.removeItem('authorization');
         dispatch(logout())
@@ -407,6 +392,7 @@ const Home = () => {
         axios(config)
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
+                callSeatApi();
             })
             .catch(function (error) {
                 console.log(error);
@@ -447,17 +433,13 @@ const Home = () => {
             </Header>
 
             <Content>
-                <div className="resume">
+                <div className="resume" >
                     <Row>
-                   
-                        {seats.map((seat,i) => (
+
+                        {seats.map((seat, i) => (
                             <Col span={6}>
-                            {console.log("位置更新的狀況"+i,seat.state)}
-                                <img key={"http://localhost:3000/static/img/seats/" + seat.id + ".png"} className="chair" src={"http://localhost:3000/static/img/seats/" + seat.id + ".png?date="+new Date()} alt=" " onClick={() => Action(seat.state, seat.id)} />
-                                {/* <img className="chair" src={"../image/" + seat.state + ".png"} alt=" " onClick={() => Action(seat.state, seat.id)} /> */}
-                                <br />
-                                {seat.id}
-                                {console.log("===位置更新的狀況===")}
+                                {console.log("位置更新的狀況" + i, seat.state)}
+                                <img key={"http://localhost:3000/static/img/seats/" + seat.id + ".png"} className="chair" src={"http://localhost:3000/static/img/seats/" + seat.id + ".png?date=" + new Date()} alt=" " onClick={() => Action(seat.state, seat.id)} />
                                 <br />
                                 <br />
                             </Col>

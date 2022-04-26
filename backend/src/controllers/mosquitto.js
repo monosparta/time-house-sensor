@@ -1,0 +1,34 @@
+const { memberService, seatService } = require("../services/index");
+const lineDev = require("../services/lineDev");
+const seatState = require("../utils/seatState");
+/**
+ *
+ * @param {seatUseState} 0: nobody, 1: someone
+ */
+const IRHandler = async ({ index, seatUseState, time }) => {
+  const seat = await seatService.getOneSeatInfo(index);
+  if (seatUseState === 0) {
+    seatService.updateSeatState(index, seatState.IDLE_TOO_LONG, seat.memberId);
+    lineDev.pushAdminMessage(index);
+  } else if (seatUseState === 1) {
+    seatService.updateSeatState(index, seatState.USING, seat.memberId);
+  }
+};
+
+const RFIDHandler = async ({ index, cardId, time }) => {
+  const memberInfo = await memberService.getMemberInfoByCardId(cardId);
+  if (!memberInfo) {
+    return;
+  }
+  seatService.updateSeatState(index, seatState.USING, memberInfo.id);
+};
+
+const errorHandler = async ({ index, errorMessage, sensorName, time }) => {
+  seatService.updateSeatState(index, seatState.ERROR, null);
+};
+
+module.exports = {
+  IRHandler,
+  RFIDHandler,
+  errorHandler,
+};

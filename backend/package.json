@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "unit": "node src/services/drawer.js",
+    "unit": "node src/controllers/mosquitto.js",
     "test": "jest --detectOpenHandles",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
@@ -36,6 +36,7 @@
     "grpc": "^1.24.11",
     "grpc-tools": "^1.11.2",
     "jsonwebtoken": "^8.5.1",
+    "mqtt": "^4.3.7",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
     "sequelize": "^6.18.0",

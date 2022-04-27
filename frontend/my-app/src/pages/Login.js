@@ -1,40 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/counter/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, userSelector, loginUser, clearState } from '../features/counter/userSlice';
 import './Login.css';
-
+import { useNavigate } from 'react-router-dom';
 import axios from "../Axios.config";
-
+import toast from 'react-hot-toast';
 const Login = () => {
 
-    const [usernameOrMail, setusernameOrMail] = useState("");
-    const [password, setpassword] = useState("");
+
+    const { usernameOrMail, password } = useSelector(userSelector);
+    const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
     const dispatch = useDispatch();
-    const onFinish = async (e) => {
-        console.log(e);
-        axios.post('/api/login', {
-            usernameOrMail: e.usernameOrMail,
-            password: e.password,
-        }).then(res => {
-            console.log(res);
-            localStorage.setItem("authorization", res.data.token);
-            dispatch(
-                login(
-                    {
-                        usernameOrMail: e.usernameOrMail,
-                        password: e.password,
-                        loggedIn: true,
-                    }
-                )
-            )
-            // do something with response, and on response
-        }).catch(error => {
-            // do something when request was unsuccessful
-        });
+    const navigate = useNavigate();
+
+    const onFinish = async (data) => {
+        dispatch(loginUser(data));
     };
+
+    useEffect(() => {
+
+        if (isError) {
+
+            toast.error(errorMessage);
+
+            dispatch(clearState());
+
+        }
+
+        if (isSuccess) {
+
+            dispatch(clearState());
+
+            navigate('/');
+
+        }
+
+    }, [isError, isSuccess]);
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        navigate('/login');
     };
     return (
         <div>
@@ -95,14 +101,6 @@ const Login = () => {
                                     >
                                         <Input.Password placeholder="請輸入密碼" />
                                     </Form.Item>
-
-                                    {/* <Form.Item
-                                        name="remember"
-                                        valuePropName="checked"
-                                        offset="1"
-                                    >
-                                        <Checkbox  className='checkbox-red'>保持登入</Checkbox>
-                                    </Form.Item> */}
                                     <Form.Item
                                     >
                                         <Button type="primary" htmlType="submit" block size='large' style={{ background: "#363F4E", borderColor: "#363F4E" }}>

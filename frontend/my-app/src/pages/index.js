@@ -1,19 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-26 15:38:14
+ * @LastEditTime: 2022-04-27 16:07:22
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import { logout } from '../features/counter/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, loginUser, userSelector, clearState } from '../features/counter/userSlice';
 import emailjs from '@emailjs/browser';
 import { Layout, Button, Row, Col, Modal, Space, notification, Form, Input, Radio, Avatar, message } from 'antd';
 import { LogoutOutlined, CheckCircleOutlined, ExclamationCircleOutlined, MobileOutlined, MailOutlined } from '@ant-design/icons';
 import axios from "../Axios.config";
+import { useNavigate } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
@@ -78,7 +79,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                         <Button
                             size='large'
                             onClick={onCancel}
-                            style={{color:"#363F4E"}}
+                            style={{ color: "#363F4E" }}
                         >
                             <b>取消</b>
                         </Button>
@@ -173,7 +174,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, whichModal, chair, 
                                 </Row>
                                 <Row>
                                     <Col offset={4}>
-                                    <br/>
+                                        <br />
                                         <Button type="primary" htmlType="submit">
                                             寄送通知
                                         </Button>
@@ -257,7 +258,7 @@ const Home = () => {
                 method: 'post',
                 url: '/api/auth/admin/addUser',
                 headers: {
-                    Authorization: `Bearer ` + localStorage.getItem('authorization'),
+                    Authorization: `Bearer ` + localStorage.getItem('authorized_keys'),
                 },
                 data: data
             };
@@ -341,7 +342,7 @@ const Home = () => {
                     memberId: result[0].memberId
                 }, headers:
                 {
-                    Authorization: `Bearer ` + localStorage.getItem('authorization')
+                    Authorization: `Bearer ` + localStorage.getItem('authorized_keys')
                 }
             })
                 .then(function (res) {
@@ -355,11 +356,37 @@ const Home = () => {
             setSelectedChair(chair);
         }
     };
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { isFetching, isError } = useSelector(userSelector)
+
+    useEffect(() => {
+
+        return () => {
+
+            dispatch(clearState());
+
+        };
+
+    }, []);
+
+    useEffect(() => {
+
+        if (isError) {
+
+            dispatch(clearState())
+
+            navigate("/login")
+
+        }
+
+    }, [isError])
+
+
+
     const handleLogout = (e) => {
-        localStorage.removeItem('authorization');
-        dispatch(logout())
+        localStorage.removeItem('authorized_keys');
+        navigate("/login")
     };
 
 
@@ -383,7 +410,7 @@ const Home = () => {
             method: 'put',
             url: '/api/auth/admin/seatState',
             headers: {
-                Authorization: `Bearer ` + localStorage.getItem('authorization'),
+                Authorization: `Bearer ` + localStorage.getItem('authorized_keys'),
             },
             data: data
         };
@@ -438,7 +465,7 @@ const Home = () => {
                         {seats.map((seat, i) => (
                             <Col span={6}>
                                 {console.log("位置更新的狀況" + i, seat.state)}
-                                <img key={"http://localhost:3000/static/img/seats/" + seat.id + ".png"} className="chair" src={"http://localhost:3000/static/img/seats/" + seat.id + ".png?date=" + new Date()} alt=" " onClick={() => Action(seat.state, seat.id)} />
+                                <img key={seat.id} className="chair" src={"http://localhost:3000/static/img/seats/" + seat.id + ".png?date=" + new Date()} alt=" " onClick={() => Action(seat.state, seat.id)} />
                                 <br />
                                 <br />
                             </Col>

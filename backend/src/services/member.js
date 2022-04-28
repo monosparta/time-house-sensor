@@ -32,6 +32,15 @@ const getMemberInfoByUsernameOrMail = async (usernameOrMail) => {
   return result;
 };
 
+const getMemberInfoByCardId = async (cardId) => {
+  const result = await db["Members"].findOne({
+    where: {
+      cardId: cardId,
+    },
+  });
+  return result?.dataValues;
+};
+
 const getMemberInfoByLineId = async (lineId) => {
   if (typeof lineId !== "string") {
     throw new TypeError("LineID must be a string");
@@ -118,6 +127,7 @@ module.exports = {
   getMemberInfoByUsername,
   getMemberInfoById,
   getMemberInfoByLineId,
+  getMemberInfoByCardId,
   checkMemberExistsByUsername,
   checkMemberExistsById,
   checkMemberExistsByCardId,

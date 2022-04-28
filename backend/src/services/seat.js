@@ -1,11 +1,16 @@
 const db = require("../models/index");
 
-const updateSeatState = async (index, state, memberId, updateTime=new Date()) => {
+const updateSeatState = async (
+  index,
+  state,
+  memberId,
+  updateTime = new Date()
+) => {
   if (state === 1) {
     memberId = null;
   }
   const seat = await db["Seats"].update(
-    { state: state, memberId: memberId, updatedAt: updateTime},
+    { state: state, memberId: memberId, updatedAt: updateTime },
     { where: { id: index } }
   );
   return "success";
@@ -16,6 +21,19 @@ const getAllSeatInfo = async () => {
   seats = seats.map((seat) => {
     return seat.dataValues;
   });
+  seats.forEach((seat) => {
+    if (seat.state === 2) {
+      const updateTime = new Date(seat.updatedAt);
+      const current = new Date();
+      const minutes = parseInt(
+        (current.getTime() - updateTime.getTime()) / (1000 * 60)
+      );
+      seat.idleMinutes = minutes;
+    }
+    else {
+      seat.idleMinutes = 0;
+    }
+  })
   return seats;
 };
 
@@ -37,3 +55,4 @@ module.exports = {
   getOneSeatInfo,
   checkSeatIndexExist,
 };
+getAllSeatInfo()

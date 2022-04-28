@@ -102,8 +102,6 @@ const updateSeatState = async (req, res) => {
       });
     }
 
-    //   todo call the python rpc server to change the image
-
     return res.status(200).json({
       detail: "成功修改座位資訊"
     });

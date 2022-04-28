@@ -1,4 +1,3 @@
-import numpy as np
 import os
 import requests
 from PIL import ImageFont, ImageDraw, Image
@@ -9,7 +8,8 @@ currentDir = os.path.dirname(__file__)
 
 rawImgSourceDir = os.path.join(currentDir + "/../private/seats/")
 basemapPath = rawImgSourceDir + "basemap-1200x728.png"
-clockIconPath = rawImgSourceDir + "clockIcon.png"
+warningIconPath = rawImgSourceDir + "warningIcon.png"
+warningIcon = Image.open(warningIconPath)
 
 imgDesDir = currentDir + "/../public/img/seats/"
 seatsSelfProcessInfo = [
@@ -71,20 +71,29 @@ def drawEachSeatForWeb():
         img = Image.open(seatsStateInfo[state + 1]["path"])
         img = img.rotate(seatsSelfProcessInfo[id]["rotation"])
         canvas = ImageDraw.Draw(img)
-        if seatsSelfProcessInfo[id]["rotation"]:
+        if state == 2:
+            if seatsSelfProcessInfo[id]["rotation"]:
+                img.paste(warningIcon, (48, 70), warningIcon)
+            else:
+                img.paste(warningIcon, (48, 29), warningIcon)
+        elif seatsSelfProcessInfo[id]["rotation"]:
             canvas.text(
                 (55, 75), seatsSelfProcessInfo[id]["no"], seatsStateInfo[state + 1]["fontColor"], fontType)
         else:
             canvas.text(
                 (55, 34), seatsSelfProcessInfo[id]["no"], seatsStateInfo[state + 1]["fontColor"], fontType)
+        img = img.resize((180, 180))
         img.save(imgDesDir + str(id) + ".png")
 
 
 while True:
-    response = requests.get(
-        "http://" + os.getenv("EXPRESS_SERVER") + ":" + os.getenv("EXPRESS_PORT") + "/api/seatsInfo")
+    try:
+        response = requests.get(
+            "http://" + os.getenv("EXPRESS_SERVER") + ":" + os.getenv("EXPRESS_PORT") + "/api/seatsInfo")
+    except requests.exceptions.ConnectionError:
+        continue
     seats = response.json()["seats"]
 
     drawEachSeatForWeb()
     drawSeatMapForGeneralLineMember()
-    time.sleep(10)
+    time.sleep(1)

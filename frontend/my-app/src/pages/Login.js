@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, message,Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, userSelector, loginUser, clearState } from '../features/counter/userSlice';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import axios from "../Axios.config";
 import toast from 'react-hot-toast';
 const Login = () => {
 
@@ -16,22 +15,23 @@ const Login = () => {
 
     const onFinish = async (data) => {
         dispatch(loginUser(data));
+        console.log("AA"+dispatch(loginUser(data)));
     };
 
     useEffect(() => {
 
         if (isError) {
+            // dispatch(clearState());
+            console.log("Error...");
 
-            toast.error(errorMessage);
-
-            dispatch(clearState());
-
+    
         }
-
-        if (isSuccess) {
-
+        if (isFetching) {
             dispatch(clearState());
-
+            console.log("Waiting...");
+        }
+        if (isSuccess) {
+            dispatch(clearState());
             navigate('/');
 
         }
@@ -48,17 +48,18 @@ const Login = () => {
                 <Col span={8} className="Color box">
                     <div className='logo'>
                         <h2 style={{ color: "white" }}  >時光屋座位管理系統</h2>
-                        <img src={"../image/logo.png"} alt="logo"></img>
+                        <div className='image'>
+                            <img src={"../image/logo.png"} alt="logo"></img>
+                        </div>
                     </div>
-
                 </Col>
                 <Col span={16}>
                     <div class="box">
                         <div class="content">
                             <div class="form">
-                                <h3>Sign In</h3>
+                                <br />
+                                <h1>Sign In</h1>
                                 <Form
-
                                     name="basic"
                                     labelCol={{
                                         span: 24,
@@ -75,6 +76,11 @@ const Login = () => {
                                     onFinishFailed={onFinishFailed}
                                     autoComplete="off"
                                 >
+                                {console.log("前"+isError)}
+                                        {isError ?
+                                            <Alert message={errorMessage} type="error" showIcon/> : null
+                                            }
+                                            {console.log("後"+isError)}
                                     <Form.Item
                                         label="帳號 Usernamer or Email"
                                         name="usernameOrMail"
@@ -86,7 +92,7 @@ const Login = () => {
                                             },
                                         ]}
                                     >
-                                        <Input placeholder="請輸入帳號" />
+                                        <Input size="large" placeholder="請輸入帳號" />
                                     </Form.Item>
                                     <Form.Item
                                         label="密碼 Password"
@@ -99,10 +105,11 @@ const Login = () => {
                                             },
                                         ]}
                                     >
-                                        <Input.Password placeholder="請輸入密碼" />
+                                        <Input.Password size="large" placeholder="請輸入密碼" />
                                     </Form.Item>
                                     <Form.Item
                                     >
+
                                         <Button type="primary" htmlType="submit" block size='large' style={{ background: "#363F4E", borderColor: "#363F4E" }}>
                                             立即登入
                                         </Button>

@@ -9,8 +9,21 @@
 }
 
 .logo {
-  margin: 10vh 0;
+  margin: 10vh 3vw;
   width: auto;
+  position:relative;
+}
+
+.logo .image{
+
+  position: absolute;
+  left: 10%;
+}
+.image img{
+  max-height: 100%;  
+  max-width: 100%; 
+  width: auto;
+  height: auto;
 
 }
 
@@ -42,10 +55,10 @@
   align-items: flex-start;
   justify-content: center;
   width: 35vw;
-  backdrop-filter: blur(5px);
-  box-shadow: 25px 25px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border: 10px solid rgba(255, 255, 255, 0.2);
+  /* backdrop-filter: blur(5px); */
+  box-shadow: 1px 1px 5px 5px rgb(200, 200, 200,0.5);
+  border-radius:5px;
+  
 
 }
 
@@ -54,7 +67,7 @@
 } */
 
 .form {
-  padding: 10px;
+  padding: 25px;
   flex-direction: column;
   display: flex;
   text-align: left;

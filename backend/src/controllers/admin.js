@@ -11,6 +11,20 @@ const addMember = async (req, res) => {
       });
     }
 
+    const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    if(body.mail.search(emailRule) === -1) {
+      return res.status(422).json({
+        detail: "參數錯誤，請參考文件",
+      });
+    }
+    const phoneNumberRule = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/i;
+    if(body.phoneNumber.search(phoneNumberRule) === -1) {
+      return res.status(422).json({
+        detail: "參數錯誤，請參考文件",
+      });
+    }
+
+
     const [member, created] = await memberService.addMember(
       body.username,
       body.mail,

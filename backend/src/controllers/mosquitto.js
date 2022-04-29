@@ -11,7 +11,8 @@ const IRHandler = async ({ index, seatUseState }) => {
     if (seat.state === 1) {
       return;
     }
-    seatService.updateSeatState(index, seatState.IDLE_TOO_LONG, seat.memberId);
+    const idleTime = new Date(new Date().getTime() - 1000*60*30);
+    seatService.updateSeatState(index, seatState.IDLE_TOO_LONG, seat.memberId, idleTime);
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
@@ -31,11 +32,6 @@ const errorHandler = async ({ index, errorMessage, sensorName }) => {
   seatService.updateSeatState(index, seatState.ERROR, null);
 };
 
-// errorHandler({index: 1, errorMessage: "", sensorName: "", time: new Date()})
-
-// RFIDHandler({index: 1, cardId: "0123456789", time: new Date()});
-
-// IRHandler({index: 1, seatUseState: 1, time: new Date()})
 
 module.exports = {
   IRHandler,

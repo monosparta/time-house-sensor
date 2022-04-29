@@ -48,7 +48,7 @@ def drawSeatMapForGeneralLineMember():
     for seat in seats:
         id, state = seat["id"], seat["state"]
         seatImg = Image.open(
-            seatsStateInfo[state + 1 if state != 2 else 0]["path"])
+            seatsStateInfo[state + 1 if state != 2 else 0+1]["path"])
         seatImg = seatImg.rotate(seatsSelfProcessInfo[id]["rotation"])
         canvas = ImageDraw.Draw(seatImg)
         if seatsSelfProcessInfo[id]["rotation"]:

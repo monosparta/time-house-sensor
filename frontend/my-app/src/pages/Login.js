@@ -88,7 +88,7 @@ const Login = () => {
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Please input your username!',
+                                                message: '請輸入您的帳號或信箱!',
                                             },
                                         ]}
                                     >
@@ -101,11 +101,18 @@ const Login = () => {
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Please input your password!',
+                                                message: '請輸入您的密碼!',
                                             },
                                         ]}
                                     >
                                         <Input.Password size="large" placeholder="請輸入密碼" />
+                                    </Form.Item>
+                                     <Form.Item
+                                      
+                                        valuePropName="checked"
+                                        offset="1"
+                                    >
+                                        <Checkbox  className='checkbox-red'>保持登入</Checkbox>
                                     </Form.Item>
                                     <Form.Item
                                     >

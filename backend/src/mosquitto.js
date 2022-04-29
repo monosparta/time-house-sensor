@@ -22,13 +22,17 @@ client.on("connect", () => {
 });
 
 client.on("message", (topic, payload) => {
-  console.log("Received Message:", topic, payload.toString());
-  if (topic === "IR") {
-    mqttController.IRHandler(payload);
-  } else if (topic === "RFID") {
-    mqttController.RFIDHandler(payload);
-  } else if (topic === "Error") {
-    mqttController.errorHandler(payload);
+  payload = JSON.parse(payload);
+  try {
+    if (topic === "IR") {
+      mqttController.IRHandler(payload);
+    } else if (topic === "RFID") {
+      mqttController.RFIDHandler(payload);
+    } else if (topic === "Error") {
+      mqttController.errorHandler(payload);
+    }
+  } catch (error) {
+    return;
   }
 });
 

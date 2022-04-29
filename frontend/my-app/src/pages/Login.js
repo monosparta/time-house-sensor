@@ -23,16 +23,16 @@ const Login = () => {
         if (isError) {
             // dispatch(clearState());
             console.log("Error...");
-
-    
         }
         if (isFetching) {
             dispatch(clearState());
             console.log("Waiting...");
         }
         if (isSuccess) {
-            dispatch(clearState());
+            console.log("準備跳轉囉")
             navigate('/');
+            dispatch(clearState());
+            
 
         }
 

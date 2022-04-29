@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-04-29 11:41:47
+ * @LastEditTime: 2022-04-29 13:30:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -115,7 +115,7 @@ const CollectionCreateForm = ({
         >
         <Row justify="center" align="middle">
             <Space direction="vertical">
-            <h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2>
+            <div className="center"><h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2></div>
             <Form
                 form={form}
                 name="form_in_modal"
@@ -150,7 +150,7 @@ const CollectionCreateForm = ({
                 ]}
                 // helperText={helperTextCorrect}
                 >
-                <Input placeholder="請輸入連絡電話"/>
+                <Input maxLength={10} placeholder="請輸入連絡電話"/>
                 </Form.Item>
                 <Form.Item
                 label="聯絡信箱"
@@ -210,17 +210,17 @@ const CollectionCreateForm = ({
               >
                 <Row>
                   <Col span={10}>
-                    {" "}
+                 
                     <h2>{username}</h2>
                   </Col>
                   <Col span={14}>
-                    {" "}
+                  
                     <input type="hidden" name="username" value={username} />
                   </Col>
                 </Row>
                 <Row>
                   <Col span={24}>
-                    {" "}
+                  
                     <span>
                       <MobileOutlined />
                       {phoneNumber}
@@ -501,9 +501,9 @@ const Home = () => {
 
       <Content>
         <div className="resume">
-          <Row>
+          <Row justify="center">
             {seats.map((seat, i) => (
-              <Col span={6}>
+              <Col span={6} >
                 {console.log("位置更新的狀況" + i, seat.state)}
                 <Tooltip
                   title={
@@ -520,8 +520,7 @@ const Home = () => {
                     src={
                       "http://localhost:3000/static/img/seats/" +
                       seat.id +
-                      ".png?date=" +
-                      new Date()
+                    ".png?date=" +new Date()
                     }
                     alt=" "
                     onClick={() => Action(seat.state, seat.id)}

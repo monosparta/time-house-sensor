@@ -3,8 +3,8 @@
   border: solid 10px #E9E9E9;
   position: relative;
   margin-top:3vw;
-  margin-left:4vw ;
-  margin-right: 4vw;
+  margin-left:11vw ;
+  margin-right: 9vw;
 }
 
 .dot {
@@ -138,4 +138,8 @@ footer{
   #contact{
     padding: 15px;
   
+  }
+
+  .center{
+    padding-left: 8%;
   }

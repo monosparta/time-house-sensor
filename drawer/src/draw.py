@@ -1,7 +1,7 @@
 import os
 import requests
 from PIL import ImageFont, ImageDraw, Image
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import time
 
 currentDir = os.path.dirname(__file__)
@@ -57,10 +57,13 @@ def drawSeatMapForGeneralLineMember():
             canvas.text(
                 (55, 34), seatsSelfProcessInfo[id]["no"], seatsStateInfo[state + 1]["fontColor"], fontType)
         basemap.paste(seatImg, position[id-1], seatImg)
-        
+
     basemapCanvas = ImageDraw.Draw(basemap)
-    basemapCanvas.text((996, 682), datetime.now().strftime(
-            "%Y/%m/%d %H:%M:%S").replace("-", "/"), (0, 0, 0, 255), fontType)
+    utcTime = datetime.utcnow()
+    localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
+    localTimeString = localTIme.strftime(
+        "%Y/%m/%d %H:%M:%S").replace("-", "/")
+    basemapCanvas.text((996, 682), localTimeString, (0, 0, 0, 255), fontType)
     basemap.save(imgDesDir + "seat_map.png")
 
 

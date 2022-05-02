@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, userSelector, loginUser, clearState } from '../features/counter/userSlice';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 const Login = () => {
 
 

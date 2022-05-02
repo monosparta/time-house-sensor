@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-05-02 16:01:31
+ * @LastEditTime: 2022-05-02 16:16:39
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -30,7 +30,7 @@ import {
   Avatar,
   message,
   Tooltip,
-  InputNumber,
+
 } from "antd";
 import {
   LogoutOutlined,
@@ -162,7 +162,9 @@ const CollectionCreateForm = ({
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (/09\d{8,8}$/.test(value) || !value) {
+                      if ((/09\d{8,8}$/.test(value) && value.length==10)||!value ) {
+                        return Promise.resolve();
+                      }else if(value.length!=10){
                         return Promise.resolve();
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));

@@ -38,5 +38,4 @@ client.on("message", (topic, payload) => {
 
 client.on("error", (error) => {
   console.log("Can't connect " + error);
-  reconnect();
 });

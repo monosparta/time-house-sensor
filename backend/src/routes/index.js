@@ -17,8 +17,4 @@ module.exports = (router) => {
   router.get("/api/auth/admin/memberInfo", adminController.getMemberById);
   router.post("/api/auth/admin/addUser", adminController.addMember);
   router.put("/api/auth/admin/seatState", adminController.updateSeatState)
-
-  // router.use("/api/iot/auth")
-  // router.put("/api/iot/auth/updateSeatState")
-  // router.post('/api/auth/logout',);
 };

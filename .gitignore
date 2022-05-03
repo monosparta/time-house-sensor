@@ -297,5 +297,4 @@ cython_debug/
 
 /**/.bin
 /**/accounts.passwd
-docker-compose.yml
 ngrok.exe

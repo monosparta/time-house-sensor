@@ -28,14 +28,14 @@ const Login = () => {
             console.log("Waiting...");
         }
         if (isSuccess) {
-            console.log("準備跳轉囉")
+            console.log("準備跳轉囉123",isSuccess)
             navigate('/');
             dispatch(clearState());
             
 
         }
 
-    }, [isError, isSuccess]);
+    }, [isSuccess, isError]);
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -81,7 +81,7 @@ const Login = () => {
                                             }
                                             {console.log("後"+isError)}
                                     <Form.Item
-                                        label="帳號 Usernamer or Email"
+                                        label="帳號 Username or Email"
                                         name="usernameOrMail"
                                         value={usernameOrMail}
                                         rules={[

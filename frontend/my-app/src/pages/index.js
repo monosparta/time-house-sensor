@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-05-02 16:16:39
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-03 13:15:48
+ * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
@@ -336,7 +336,7 @@ const Home = () => {
         method: "post",
         url: "/api/auth/admin/addUser",
         headers: {
-          Authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+          authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
         },
         data: data,
       };
@@ -416,7 +416,7 @@ const Home = () => {
             memberId: result[0].memberId,
           },
           headers: {
-            Authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+            authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
           },
         })
         .then(function (res) {
@@ -459,8 +459,8 @@ const Home = () => {
     axios.get(`/api/seatsInfo`).then((res) => {
       console.log(res.data);
       let tempSeat = res.data.seats;
-      tempSeat.splice(4, 0, {});
-      tempSeat.splice(8, 0, {});
+      tempSeat.splice(4, 0, {"state": "null"});
+      tempSeat.splice(8, 0, {"state": "null"});
       console.log(tempSeat);
       setSeats(tempSeat);
     });
@@ -471,7 +471,7 @@ const Home = () => {
       method: "put",
       url: "/api/auth/admin/seatState",
       headers: {
-        Authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
       },
       data: data,
     };
@@ -541,7 +541,17 @@ const Home = () => {
                     color={"#5F5A60"}
                     key={i}
                   >
+                   {(seat.state=== 'null') ?
                     <img
+                      key={seat.id}
+                      className="chair"
+                      src={
+                        "../image/null.png" 
+                      }
+                      alt=" "
+                      onClick={() => Action(seat.state, seat.id)}
+                      // onError={i => i.target.style.display='none'}
+                    />    :  <img
                       key={seat.id}
                       className="chair"
                       src={
@@ -554,6 +564,9 @@ const Home = () => {
                       onClick={() => Action(seat.state, seat.id)}
                       // onError={i => i.target.style.display='none'}
                     />
+                                            }
+                                            {console.log("後"+isError)}
+                   
                  
                     <br />
                   </Tooltip>

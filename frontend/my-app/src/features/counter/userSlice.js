@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-04-20 17:25:00
- * @LastEditTime: 2022-04-28 16:16:33
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-03 14:07:36
+ * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\features\counter\userSlice.js
  */
@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk(
 
       var config = {
         method: "post",
-        url: "http://localhost:3000/api/login",
+        url: "/api/login",
         data: udata,
       };
 

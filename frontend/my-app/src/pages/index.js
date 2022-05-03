@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-05-03 13:15:48
+ * @LastEditTime: 2022-05-03 17:41:36
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -10,8 +10,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  logout,
-  loginUser,
   userSelector,
   clearState,
 } from "../features/counter/userSlice";
@@ -75,7 +73,7 @@ const CollectionCreateForm = ({
   onCreate,
   onCancel,
   whichModal,
-  chair,
+  chairInfo,
   member,
 }) => {
   const [form] = Form.useForm();
@@ -85,6 +83,7 @@ const CollectionCreateForm = ({
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
+    // Chioces(e.target.value);
     Chioces(e.target.value);
   };
 
@@ -99,6 +98,8 @@ const CollectionCreateForm = ({
         console.log("Validate Failed:", info);
       });
   };
+
+  var ChairId =chairInfo.id;
 
   // 依照座位狀態顯示不同類型的選單
   // https://ant.design/components/form/#components-form-demo-form-in-modal
@@ -135,7 +136,7 @@ const CollectionCreateForm = ({
         <Row justify="center" align="middle">
           <Space direction="vertical">
             <div className="center">
-              <h2 style={{ color: "black" }}>座位{chair}-目前為可使用座位</h2>
+              <h2 style={{ color: "black" }}>座位{ChairId}-目前為可使用座位</h2>
             </div>
             <Form
               form={form}
@@ -187,7 +188,7 @@ const CollectionCreateForm = ({
               >
                 <Input placeholder="請輸入聯絡信箱" />
               </Form.Item>
-              <Form.Item name="index" noStyle initialValue={chair}>
+              <Form.Item name="index" noStyle initialValue={ChairId}>
                 <Input type="hidden"></Input>
               </Form.Item>
             </Form>
@@ -197,6 +198,7 @@ const CollectionCreateForm = ({
     );
   } else {
     // 表單二，閒置位置
+   
     var username = "";
     username = member.name;
     var phoneNumber = member.phoneNumber;
@@ -282,8 +284,8 @@ const CollectionCreateForm = ({
             <hr />
           </Col>
           <Col span={12}>
-            <h3>座位{chair}-目前為閒置座位</h3>
-            閒置時間：
+            <h3>座位{ChairId}-目前為閒置座位</h3>
+                      閒置時間：{chairInfo.idleMinutes}
             <Form
               form={form}
               name="form_in_modal"
@@ -303,7 +305,7 @@ const CollectionCreateForm = ({
                   <Radio value={1}>可使用</Radio>
                 </Radio.Group>
               </Form.Item>
-              <Form.Item name="index" noStyle initialValue={chair}>
+              <Form.Item name="index" noStyle initialValue={ChairId}>
                 <Input type="hidden"></Input>
               </Form.Item>
               <Form.Item name="username" noStyle initialValue={username}>
@@ -323,6 +325,7 @@ const Home = () => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
   const [user, setUser] = useState({});
+ 
 
   const onCreate = (values, a) => {
     if (a === 1) {
@@ -380,9 +383,11 @@ const Home = () => {
       setIsModalVisible2(false);
     }
   };
-  const Action = (prop, chair) => {
-    console.log("椅子" + chair);
-    if (prop === 0) {
+  const Action = (chair) => {
+    var state=chair.state;
+    var chairId=chair.id;
+
+    if (state === 0) {
       notification.open({
         message: "座位狀態為使用中",
         className: "custom-class",
@@ -391,7 +396,7 @@ const Home = () => {
           console.log("Notification Clicked!");
         },
       });
-    } else if (prop === -1) {
+    } else if (state === -1) {
       notification.open({
         message: "座位狀態為異常",
         className: "custom-class",
@@ -403,12 +408,12 @@ const Home = () => {
           console.log("Notification Clicked!");
         },
       });
-    } else if (prop === 1) {
+    } else if (state === 1) {
       setIsModalVisible1(true);
       setSelectedChair(chair);
-    } else if (prop === 2) {
+    } else if (state === 2) {
       // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
-      const result = seats.filter((s) => s.id == chair);
+      const result = seats.filter((s) => s.id == chairId);
       console.log("得到結果了嗎", result[0].memberId);
       axios
         .get("/api/auth/admin/memberInfo", {
@@ -535,7 +540,7 @@ const Home = () => {
                   <Tooltip
                     title={
                       seat.state === 2
-                        ? "已閒置 " + seat.idleTime + "分鐘"
+                        ? "已閒置 " + seat.idleMinutes + "分鐘"
                         : undefined
                     }
                     color={"#5F5A60"}
@@ -554,6 +559,7 @@ const Home = () => {
                     />    :  <img
                       key={seat.id}
                       className="chair"
+                      // "http://192.168.168.37:3000/static/img/seats/"
                       src={
                         "http://localhost:3000/static/img/seats/" +
                         seat.id +
@@ -561,7 +567,7 @@ const Home = () => {
                         new Date()
                       }
                       alt=" "
-                      onClick={() => Action(seat.state, seat.id)}
+                      onClick={() => Action(seat)}
                       // onError={i => i.target.style.display='none'}
                     />
                                             }
@@ -598,7 +604,7 @@ const Home = () => {
         onCreate={(e) => onCreate(e, 1)}
         onCancel={() => onCancel(1)}
         whichModal={1}
-        chair={selectedChair}
+        chairInfo={selectedChair}
         member={""}
       />
 
@@ -607,7 +613,7 @@ const Home = () => {
         onCreate={(e) => onCreate(e, 2)}
         onCancel={() => onCancel(2)}
         whichModal={2}
-        chair={selectedChair}
+        chairInfo={selectedChair}
         member={user}
       />
     </div>

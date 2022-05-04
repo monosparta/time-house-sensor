@@ -99,4 +99,4 @@ while True:
 
     drawEachSeatForWeb()
     drawSeatMapForGeneralLineMember()
-    time.sleep(1)
+    time.sleep(1.39)

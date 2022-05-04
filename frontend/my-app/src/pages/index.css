@@ -135,7 +135,7 @@ footer{
   .ant-radio-checked .ant-radio-inner:focus{
     border-color: #363F4E;
   }
-.ant-btn-primary{
+#fromcontact .ant-btn-primary{
   background-color: #fff;
   border-color: #1976D2;
   color: #1976D2;

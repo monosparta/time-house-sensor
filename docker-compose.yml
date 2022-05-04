@@ -41,6 +41,7 @@ services:
       DB_DATABASE: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PUBLIC_URL: ${EXPRESS_PUBLIC_URL}
       PORT: ${EXPRESS_PORT}
       SALT_ROUND: ${SALT_ROUND}
       LINE_CHANNEL_ACCESS_TOKEN: ${LINE_CHANNEL_ACCESS_TOKEN}
@@ -73,8 +74,6 @@ services:
       - ./backend/public:/workspace/public
       - ./backend/private:/workspace/private
     stdin_open: true
-    env_file:
-      - .env
     environment: 
       EXPRESS_SERVER: express
       EXPRESS_PORT: ${EXPRESS_PORT}

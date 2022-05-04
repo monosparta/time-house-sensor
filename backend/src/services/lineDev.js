@@ -25,9 +25,9 @@ const replySeatState = async (event) => {
   const replyMessage = {
     type: "image",
     originalContentUrl:
-      "https://hahow-production.imgix.net/5c8a9c69145e290020a25f22?w=1000&sat=0&auto=format&s=43868cef2b253e06ef0bffd260c51672",
+      process.env.PUBLIC_URL + "/static/img/seats/seat_map.png",
     previewImageUrl:
-      "https://hahow-production.imgix.net/5c8a9c69145e290020a25f22?w=1000&sat=0&auto=format&s=43868cef2b253e06ef0bffd260c51672",
+      process.env.PUBLIC_URL + "/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-05-04 11:07:06
+ * @LastEditTime: 2022-05-04 17:46:08
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -9,10 +9,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  userSelector,
-  clearState,
-} from "../features/counter/userSlice";
+import { userSelector, clearState } from "../features/counter/userSlice";
 import emailjs from "@emailjs/browser";
 import {
   Layout,
@@ -28,14 +25,14 @@ import {
   Avatar,
   message,
   Tooltip,
-
 } from "antd";
 import {
   LogoutOutlined,
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-  MobileOutlined,
-  MailOutlined,
+  UserOutlined,
+  WarningOutlined ,
+  EditOutlined 
 } from "@ant-design/icons";
 import axios from "../Axios.config";
 import { useNavigate } from "react-router-dom";
@@ -99,7 +96,7 @@ const CollectionCreateForm = ({
       });
   };
 
-  var ChairId =chairInfo.id;
+  var ChairId = chairInfo.id;
 
   // 依照座位狀態顯示不同類型的選單
   // https://ant.design/components/form/#components-form-demo-form-in-modal
@@ -163,9 +160,12 @@ const CollectionCreateForm = ({
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if ((/09\d{8,8}$/.test(value) && value.length==10)||!value ) {
+                      if (
+                        (/09\d{8,8}$/.test(value) && value.length == 10) ||
+                        !value
+                      ) {
                         return Promise.resolve();
-                      }else if(value.length!=10){
+                      } else if (value.length != 10) {
                         return Promise.resolve();
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
@@ -189,7 +189,7 @@ const CollectionCreateForm = ({
                 <Input placeholder="請輸入聯絡信箱" />
               </Form.Item>
               <Form.Item name="index" noStyle initialValue={ChairId}>
-              {console.log("座位編號是正確的吧"+ChairId)}
+                {console.log("座位編號是正確的吧" + ChairId)}
                 <Input type="hidden"></Input>
               </Form.Item>
             </Form>
@@ -199,7 +199,7 @@ const CollectionCreateForm = ({
     );
   } else {
     // 表單二，閒置位置
-   
+
     var username = "";
     username = member.name;
     var phoneNumber = member.phoneNumber;
@@ -211,7 +211,7 @@ const CollectionCreateForm = ({
         okText="確認"
         cancelText="取消"
         width={500}
-        className="idle-modal-class"
+        className="my-modal-class"
         cancelButtonProps={true}
         footer={[
           <Space size="middle">
@@ -223,7 +223,6 @@ const CollectionCreateForm = ({
               確定
             </Button>
             <Button onClick={onCancel} size="large">
-              {" "}
               <b>取消</b>
             </Button>
           </Space>,
@@ -231,93 +230,115 @@ const CollectionCreateForm = ({
         onCancel={onCancel}
       >
         <Row>
-          <Col span={11}>
-            <form id="contact" ref={form} onSubmit={sendEmail}>
-              <Space
-                direction="vertical"
-                size="small"
-                style={{ display: "flex" }}
-              >
-                <Row>
-                  <Col span={10}>
-                    <h2>{username}</h2>
-                  </Col>
-                  <Col span={14}>
-                    <input type="hidden" name="username" value={username} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={14}>
-                    <span>
-                      <MobileOutlined />
-                      {phoneNumber}
-                    </span>
-                   
-                  </Col>
-                  <Col span={10}>
-                    <input type="hidden" name="" value={new Date()} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <span>
-                      <MailOutlined /> {mail}
-                    </span>
-                  </Col>
-                  <Col span={14}>
-                  
-                    <input type="hidden" name="mail" value={mail} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col offset={4}>
-                    <br />
-                    <Button type="primary" htmlType="submit">
-                      寄送通知
-                    </Button>
-                  </Col>
-                </Row>
-              </Space>
-            </form>
-          </Col>
-
-          <Col span={1}>
+          <Col span={24}>
+            <h3>更新座位</h3>
+            <h4>使用者資訊</h4>
             <hr />
           </Col>
-          <Col span={12}>
-            <h3>座位{ChairId}-目前為閒置座位</h3>
-                      閒置時間：{chairInfo.idleMinutes}
-            <Form
-              form={form}
-              name="form_in_modal"
-              initialValues={{
-                modifier: "public",
-                username:username
-              }}
-              labelCol={{
-                span: 24,
-              }}
-              wrapperCol={{
-                span: 24,
-              }}
-              
-            >
-              <Form.Item label="狀態更改" name="state">
-                <Radio.Group onChange={onChange} value={chioces}>
-                  <Radio value={0}>使用中</Radio>
-                  <Radio value={1}>可使用</Radio>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item name="index" noStyle initialValue={ChairId}>
-                <Input type="hidden"></Input>
-              </Form.Item>
-              <Form.Item name="username" noStyle >
-                {console.log("取得username" + username)}
-                <Input type="hidden"></Input>
-              </Form.Item>
-            </Form>
+        </Row>
+        <form id="fromcontact" ref={form} onSubmit={sendEmail}>
+          <Space direction="vertical" size="small" style={{ display: "flex" }}>
+            <Row>
+              <Col span={24}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{username}</span>{" "}
+                  <input type="hidden" name="username" value={username} />
+                </Space>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{phoneNumber}</span>
+                </Space>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={17}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{mail}</span>{" "}
+                  <input type="hidden" name="mail" value={mail} />
+                </Space>
+              </Col>
+              <Col span={5} offset={2}>
+                <Button type="primary" htmlType="submit">
+                <EditOutlined style={{color:"#1976D2"}}/>寄送通知
+                </Button>
+              </Col>
+            </Row>
+          </Space>
+        </form>
+      
+        <Row>
+          <Col span={24}>
+            <h4>座位資訊</h4>
+            <hr />
           </Col>
         </Row>
+
+      
+        <Form
+          form={form}
+          name="form_in_modal"
+          initialValues={{
+            modifier: "public",
+            username: username,
+          }}
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 20,
+          }}
+         
+        >
+          <div className="fromcontact">
+            <Space direction="vertical" size="small" style={{ display: "flex" }}>
+      
+        <Row>
+        <Col span={5}>
+          <Space>
+            <Avatar shape="square" icon={<UserOutlined />} />
+            <span>{ChairId}</span>
+          </Space>
+        </Col>
+        <Col span={10}>
+          <Space>
+          <Avatar shape="square" icon={<WarningOutlined style={{color:"#FB8C00"}}/>} style={{background:"white"}}/>
+          
+            <span>目前為閒置座位</span>
+          </Space>
+          
+        </Col>
+        </Row>
+        
+        <Row>
+          <Col span={24}>
+          <Space>
+            <Avatar shape="square" icon={<UserOutlined />} />
+            <span>座位剩餘時間</span> <span style={{color:"rgba(0, 0, 0, 0.6)"}}>{chairInfo.idleMinutes} min</span>
+          </Space>
+          </Col>
+        </Row>
+        </Space>
+        </div>
+          <Form.Item label="狀態更改" name="state">
+          <Radio.Group onChange={onChange} value={chioces}>
+              <Radio value={0}>使用中</Radio>
+              <Radio value={1}>可使用</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="index" noStyle initialValue={ChairId}>
+            <Input type="hidden"></Input>
+          </Form.Item>
+          <Form.Item name="username" noStyle>
+    
+            <Input type="hidden"></Input>
+          </Form.Item>
+        </Form>
       </Modal>
     );
   }
@@ -328,7 +349,6 @@ const Home = () => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
   const [user, setUser] = useState({});
- 
 
   const onFinish = (values, a) => {
     if (a === 1) {
@@ -349,7 +369,7 @@ const Home = () => {
 
       axios(config)
         .then(function (response) {
-          console.log("得到座位編號啦"+values.index);
+          console.log("得到座位編號啦" + values.index);
           var data = JSON.stringify({
             seat: {
               index: values.index,
@@ -357,7 +377,7 @@ const Home = () => {
             },
             username: values.username,
           });
-          console.log(JSON.stringify("準備更改狀態囉2"+data));
+          console.log(JSON.stringify("準備更改狀態囉2" + data));
           callSeatStateApi(data);
         })
         .catch(function (error) {
@@ -388,8 +408,8 @@ const Home = () => {
     }
   };
   const Action = (chair) => {
-    var state=chair.state;
-    var chairId=chair.id;
+    var state = chair.state;
+    var chairId = chair.id;
 
     if (state === 0) {
       notification.open({
@@ -468,8 +488,8 @@ const Home = () => {
     axios.get(`/api/seatsInfo`).then((res) => {
       console.log(res.data);
       let tempSeat = res.data.seats;
-      tempSeat.splice(4, 0, {"state": "null"});
-      tempSeat.splice(8, 0, {"state": "null"});
+      tempSeat.splice(4, 0, { state: "null" });
+      tempSeat.splice(8, 0, { state: "null" });
       console.log(tempSeat);
       setSeats(tempSeat);
     });
@@ -484,11 +504,11 @@ const Home = () => {
       },
       data: data,
     };
-    console.log('????!!!')
+    console.log("????!!!");
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        console.log('有近來更改囉!!!')
+        console.log("有近來更改囉!!!");
         callSeatApi();
       })
       .catch(function (error) {
@@ -541,7 +561,14 @@ const Home = () => {
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                <div style={{ alignItems: "center" ,justify : "center",textAlign: 'center'}}>
+                <div
+                  style={{
+                    alignItems: "center",
+                    justify: "center",
+                    textAlign: "center",
+                  }}
+                  className="chairBig"
+                >
                   <Tooltip
                     title={
                       seat.state === 2
@@ -551,36 +578,43 @@ const Home = () => {
                     color={"#5F5A60"}
                     key={i}
                   >
-                   {(seat.state=== 'null') ?
-                    <img
-                      key={seat.id}
-                      className="chair"
-                      src={
-                        "../image/null.png" 
-                      }
-                      alt=" "
-                      onClick={() => Action(seat.state, seat.id)}
-                      // onError={i => i.target.style.display='none'}
-                    />    :  <img
-                      key={seat.id}
-                      className="chair"
-                      // "http://localhost:3000/static/img/seats/" 
-                      // "https://2b19-211-72-239-241.ngrok.io/static/img/seats/"
-                      src={
-                        "https://2b19-211-72-239-241.ngrok.io/static/img/seats/" +
-                        seat.id +
-                        ".png?date=" +
-                        new Date()
-                      }
-                      alt=" "
-                      onClick={() => Action(seat)}
-                      // onError={i => i.target.style.display='none'}
-                    />
-                                            }
-                                            {console.log("後"+isError)}
-                   
-                 
+                    {seat.state === "null" ? (
+                      <img
+                        key={seat.id}
+                        className="chair"
+                        src={"../image/null.png"}
+                        alt=" "
+                        // onError={i => i.target.style.display='none'}
+                      />
+                    ) : (
+                      <img
+                        key={seat.id}
+                        className="chair"
+                        // "http://localhost:3000/static/img/seats/"
+                        // "https://2b19-211-72-239-241.ngrok.io/static/img/seats/"
+                        src={
+                          "http://localhost:3000/static/img/seats/" +
+                          seat.id +
+                          ".png?date=" +
+                          new Date()
+                        }
+                        alt=" "
+                        onClick={() => Action(seat)}
+                        // onError={i => i.target.style.display='none'}
+                      />
+                    )}
                     <br />
+                    {seat.id === 4 ||
+                    seat.id === 1 ||
+                    seat.id === 2 ||
+                    seat.id === 3 ? (
+                      <div>
+                        <br />
+                        <br />
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </Tooltip>
                 </div>
               </Col>
@@ -589,7 +623,7 @@ const Home = () => {
         </div>
       </Content>
       <Footer style={{ textAlign: "center", background: "white" }}>
-        <Space  className="directions">
+        <Space className="directions">
           <Avatar
             style={{ color: "#eb2f96" }}
             className="yellow"

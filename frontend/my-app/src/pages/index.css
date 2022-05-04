@@ -2,10 +2,10 @@
   /* display: flex; */
   border: solid 10px #E9E9E9;
   position: relative;
-  margin-top:3vw;
+  margin-top:10vh;
   margin-left:17vw ;
   margin-right: 15vw;
-  padding: 1vw 5vw;
+  padding: 1vh 0vw 8vh 0vw;
 }
 
 .dot {
@@ -41,10 +41,9 @@
   color: azure;
 }
 
-
 .chair {
-  width: 7vw;
-  height: 7vw;
+  width: 15vh;
+  height: 15vh;
 }
 
 .ant-notification-notice-close {     display: none; }
@@ -56,22 +55,20 @@
   font-size: 10pt;
 }
 hr {
-  height: 100%;
-  width: 2px;
-  border-width: 0;
-  color: #F5F5F5;
-  position: absolute;
-  background-color: #F5F5F5;
+
+  border: 0.5px solid rgb(0 0 0 / 12%);
+  /* background-color: #F5F5F5; */
 }
 
 
 footer{
   position: absolute;
   display: block;
-  bottom: 0;
+  bottom: 2vh;
   justify-content: center;
   width: 100%; 
 }
+
 
 
 .my-modal-class .ant-modal-footer{
@@ -138,9 +135,17 @@ footer{
   .ant-radio-checked .ant-radio-inner:focus{
     border-color: #363F4E;
   }
+.ant-btn-primary{
+  background-color: #fff;
+  border-color: #1976D2;
+  color: #1976D2;
+}
 
-
-  #contact{
+  #fromcontact{
+    padding: 15px;
+  
+  }
+  .fromcontact{
     padding: 15px;
   
   }

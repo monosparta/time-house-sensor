@@ -1,17 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2022-04-20 17:25:00
- * @LastEditTime: 2022-05-03 14:07:36
+ * @LastEditTime: 2022-05-04 14:46:26
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\features\counter\userSlice.js
  */
+import React, { useState, useEffect } from 'react'
 import axios from "../../Axios.config";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loginUser = createAsyncThunk(
+  
   "users/login",
   async ({ usernameOrMail, password }, thunkAPI) => {
+    
     try {
       var udata = JSON.stringify({
         password: password,
@@ -33,17 +36,18 @@ export const loginUser = createAsyncThunk(
             localStorage.setItem("authorized_keys", response.data.token);
             data = response.data;
             console.log("我成功了" + response.data);
+            
 
             return data;
           } else {
-            console.log(response.data.detail);
+            console.log("錯誤哈"+response.data.detail);
             // throw response.data
             return thunkAPI.rejectWithValue(response.data);
           }
         })
         .catch(function (error) {
-          console.log("錯誤HERE");
-          return thunkAPI.rejectWithValue(error);
+          console.log("取得錯誤啦哈哈"+error.response.data)
+          return thunkAPI.rejectWithValue(error.response.data);
         });
       return response;
     } catch (e) {
@@ -53,7 +57,9 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-export const userSlice = createSlice({
+export const userSlice = createSlice(
+  {
+  
   name: "user",
   initialState: {
     usernameOrMail: "",
@@ -85,10 +91,10 @@ export const userSlice = createSlice({
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log("被拒絕啦");
+      console.log("被拒絕啦"+payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = "帳號或密碼錯誤";
+      state.errorMessage = payload.detail;
       console.log( payload);
       return state;
     },

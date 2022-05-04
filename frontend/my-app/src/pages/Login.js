@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, Checkbox, Row, Col, message,Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, userSelector, loginUser, clearState } from '../features/counter/userSlice';
+import { userSelector, loginUser, clearState } from '../features/counter/userSlice';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 const Login = () => {
@@ -11,7 +11,7 @@ const Login = () => {
     const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+   
     const onFinish = async (data) => {
         dispatch(loginUser(data));
         console.log("AA"+dispatch(loginUser(data)));

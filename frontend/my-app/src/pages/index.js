@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-05-03 17:41:36
+ * @LastEditTime: 2022-05-04 11:07:06
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -70,7 +70,7 @@ const sendEmail = (e) => {
 // Modal From結合的Component
 const CollectionCreateForm = ({
   visible,
-  onCreate,
+  onFinish,
   onCancel,
   whichModal,
   chairInfo,
@@ -92,7 +92,7 @@ const CollectionCreateForm = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
-        onCreate(values);
+        onFinish(values);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -189,6 +189,7 @@ const CollectionCreateForm = ({
                 <Input placeholder="請輸入聯絡信箱" />
               </Form.Item>
               <Form.Item name="index" noStyle initialValue={ChairId}>
+              {console.log("座位編號是正確的吧"+ChairId)}
                 <Input type="hidden"></Input>
               </Form.Item>
             </Form>
@@ -291,6 +292,7 @@ const CollectionCreateForm = ({
               name="form_in_modal"
               initialValues={{
                 modifier: "public",
+                username:username
               }}
               labelCol={{
                 span: 24,
@@ -298,6 +300,7 @@ const CollectionCreateForm = ({
               wrapperCol={{
                 span: 24,
               }}
+              
             >
               <Form.Item label="狀態更改" name="state">
                 <Radio.Group onChange={onChange} value={chioces}>
@@ -308,7 +311,7 @@ const CollectionCreateForm = ({
               <Form.Item name="index" noStyle initialValue={ChairId}>
                 <Input type="hidden"></Input>
               </Form.Item>
-              <Form.Item name="username" noStyle initialValue={username}>
+              <Form.Item name="username" noStyle >
                 {console.log("取得username" + username)}
                 <Input type="hidden"></Input>
               </Form.Item>
@@ -327,7 +330,7 @@ const Home = () => {
   const [user, setUser] = useState({});
  
 
-  const onCreate = (values, a) => {
+  const onFinish = (values, a) => {
     if (a === 1) {
       var data = JSON.stringify({
         username: values.username,
@@ -346,7 +349,7 @@ const Home = () => {
 
       axios(config)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
+          console.log("得到座位編號啦"+values.index);
           var data = JSON.stringify({
             seat: {
               index: values.index,
@@ -354,6 +357,7 @@ const Home = () => {
             },
             username: values.username,
           });
+          console.log(JSON.stringify("準備更改狀態囉2"+data));
           callSeatStateApi(data);
         })
         .catch(function (error) {
@@ -362,7 +366,7 @@ const Home = () => {
       // 更改狀態
       setIsModalVisible1(false);
     } else {
-      console.log("哪裡錯誤阿使用者名稱有得到嗎？？？ ", values.username);
+      console.log("哪裡錯誤阿使用者名稱有得到嗎？？？ ", values);
 
       var data = JSON.stringify({
         seat: {
@@ -480,10 +484,11 @@ const Home = () => {
       },
       data: data,
     };
-
+    console.log('????!!!')
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        console.log('有近來更改囉!!!')
         callSeatApi();
       })
       .catch(function (error) {
@@ -559,9 +564,10 @@ const Home = () => {
                     />    :  <img
                       key={seat.id}
                       className="chair"
-                      // "http://192.168.168.37:3000/static/img/seats/"
+                      // "http://localhost:3000/static/img/seats/" 
+                      // "https://2b19-211-72-239-241.ngrok.io/static/img/seats/"
                       src={
-                        "http://localhost:3000/static/img/seats/" +
+                        "https://2b19-211-72-239-241.ngrok.io/static/img/seats/" +
                         seat.id +
                         ".png?date=" +
                         new Date()
@@ -601,7 +607,7 @@ const Home = () => {
 
       <CollectionCreateForm
         visible={isModalVisible1}
-        onCreate={(e) => onCreate(e, 1)}
+        onFinish={(e) => onFinish(e, 1)}
         onCancel={() => onCancel(1)}
         whichModal={1}
         chairInfo={selectedChair}
@@ -610,7 +616,7 @@ const Home = () => {
 
       <CollectionCreateForm
         visible={isModalVisible2}
-        onCreate={(e) => onCreate(e, 2)}
+        onFinish={(e) => onFinish(e, 2)}
         onCancel={() => onCancel(2)}
         whichModal={2}
         chairInfo={selectedChair}

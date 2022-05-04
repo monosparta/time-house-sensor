@@ -35,7 +35,7 @@ module.exports = {
             "$2b$10$680EkA5SRl4/O.VhGaJf0OlJfGbGvIZDtMy3jOu619pv3.Eihr8re",
           phoneNumber: "9876543210",
           lineId: "Uf555939016b5fea1e0183162c0c13d06",
-          cardId: "9876543210",
+          cardId: "0476395939",
           mail: "general@gmail.com",
           level: 1,
           login: 0,

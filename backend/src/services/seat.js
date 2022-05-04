@@ -26,14 +26,13 @@ const getAllSeatInfo = async () => {
       const updateTime = new Date(seat.updatedAt);
       const current = new Date();
       const minutes = parseInt(
-        (current.getTime() - updateTime.getTime()) / (1000 * 60)
+        (current.getTime() - updateTime.getTime()) / (1000 * 60) + 30
       );
       seat.idleMinutes = minutes;
-    }
-    else {
+    } else {
       seat.idleMinutes = 0;
     }
-  })
+  });
   return seats;
 };
 
@@ -55,4 +54,4 @@ module.exports = {
   getOneSeatInfo,
   checkSeatIndexExist,
 };
-getAllSeatInfo()
+getAllSeatInfo();

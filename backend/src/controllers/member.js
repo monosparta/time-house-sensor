@@ -30,6 +30,11 @@ const login = async (req, res) => {
       });
     }
 
+    if (userInfo.level) {
+      return res.status(401).json({
+        detail: "僅允許管理者登入",
+      });
+    }
     const token = jwt.sign(
       { id: userInfo.id, username: userInfo.username, level: userInfo.level },
       process.env.JWT_SECRET

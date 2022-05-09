@@ -5,7 +5,7 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-export const SeatMap = ({ seat, setVisible, setSelectedChairOfParent, setselectedUser }) => {
+export const SeatMap = ({ seat, setVisible, setselectedUser }) => {
   const Action = (chair) => {
     var state = chair.state;
     if (state === 0) {
@@ -30,8 +30,7 @@ export const SeatMap = ({ seat, setVisible, setSelectedChairOfParent, setselecte
         },
       });
     } else if (state === 1) {
-      setVisible(1);
-      setSelectedChairOfParent(chair);
+      setVisible(1,chair);
     } else if (state === 2) {
       axios
         .get("/api/auth/admin/memberInfo", {
@@ -49,8 +48,8 @@ export const SeatMap = ({ seat, setVisible, setSelectedChairOfParent, setselecte
         .catch(function (error) {
           console.log(error);
         });
-      setVisible(2);
-      setSelectedChairOfParent(chair);
+      setVisible(2,chair);
+  
     }
   };
   return (

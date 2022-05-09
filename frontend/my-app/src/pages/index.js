@@ -32,14 +32,14 @@ const Home = () => {
   const setselectedUser=(user)=>{
     setUser(user);
   }
-  const setSelectedChairOfParent = (chair) => {
-    setSelectedChair(chair);
-  }
-  const setVisible = i => {
-    if(i==1){
+
+  const setVisible = (i,chair) => {
+    if(i===1){
       setIsModalVisible1(true);
+      setSelectedChair(chair);
     }else{
       setIsModalVisible2(true);
+      setSelectedChair(chair);
     }
   };
   const onFinish = (values, a) => {
@@ -94,7 +94,7 @@ const Home = () => {
     }
   };
   const onCancel = (a) => {
-    if (a == 1) {
+    if (a === 1) {
       setIsModalVisible1(false);
     } else {
       setIsModalVisible2(false);
@@ -148,7 +148,7 @@ const Home = () => {
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                  <SeatMap seat={seat} setVisible={setVisible} setSelectedChairOfParent={setSelectedChairOfParent} setselectedUser={setselectedUser}/>
+                  <SeatMap seat={seat} setVisible={setVisible} setselectedUser={setselectedUser}/>
               </Col>
             ))}
           </Row>

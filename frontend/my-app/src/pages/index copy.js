@@ -421,11 +421,7 @@ const Home = () => {
     }
   }, [isError]);
 
-  const handleLogout = (e) => {
-    localStorage.removeItem("authorized_keys");
-    navigate("/login");
-  };
-
+ 
   const [seats, setSeats] = useState([{}]);
 
   const callSeatApi = () => {
@@ -468,37 +464,8 @@ const Home = () => {
 
   return (
     <div>
-      <Header className="black">
-        <Row>
-          <Col
-            style={{
-              verticalAlign: "middle",
-              color: "white",
-            }}
-          >
-            時光屋座位使用管理系統
-          </Col>
-          <Col
-            span={2}
-            push={18}
-            style={{
-              verticalAlign: "middle",
-              color: "white",
-            }}
-          >
-            <Button
-              style={{ background: "#363F4E", color: "white" }}
-              icon={<LogoutOutlined />}
-              onClick={(e) => {
-                handleLogout(e);
-              }}
-            >
-              LOGOUT
-            </Button>
-          </Col>
-        </Row>
-      </Header>
 
+    <HeaderBar/>
       <Content>
         <div className="seatmap">
           <Row justify="center" align="middle">

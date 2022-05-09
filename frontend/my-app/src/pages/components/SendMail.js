@@ -11,10 +11,10 @@ import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { Button, Row, Col, Space, Avatar, message } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
-export const SendMail = (prop) => {
-  var username = prop.sendMail.name;
-  var phoneNumber = prop.sendMail.phoneNumber;
-  var mail = prop.sendMail.mail;
+export const SendMail = ({sendMail}) => {
+  var username = sendMail.name;
+  var phoneNumber = sendMail.phoneNumber;
+  var mail = sendMail.mail;
   const form = useRef();
   const sendEmail = (e) => {
     e.preventDefault();

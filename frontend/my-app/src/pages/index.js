@@ -8,30 +8,20 @@
  */
 
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { userSelector, clearState } from "../features/counter/userSlice";
+
 import {
   Layout,
   Row,
   Col,
   Space,
-  notification,
   Avatar,
-  Tooltip,
 } from "antd";
-import {
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+
 import axios from "../Axios.config";
-import { useNavigate } from "react-router-dom";
 import { HeaderBar} from "./components/HeaderBar";
 import { CollectionCreateForm } from "./components/CollectionCreateForm";
 import { SeatMap } from "./components/SeatMap";
 const { Content, Footer } = Layout;
-
-// Modal From結合的Component
-
 
 const Home = () => {
   const [isModalVisible1, setIsModalVisible1] = useState(false);
@@ -39,13 +29,19 @@ const Home = () => {
   const [selectedChair, setSelectedChair] = useState("");
   const [user, setUser] = useState({});
 
-  const setPUser=(user)=>{
+  const setselectedUser=(user)=>{
     setUser(user);
   }
-  const setStateOfParent = (chair) => {
+  const setSelectedChairOfParent = (chair) => {
     setSelectedChair(chair);
   }
-  
+  const setVisible = i => {
+    if(i==1){
+      setIsModalVisible1(true);
+    }else{
+      setIsModalVisible2(true);
+    }
+  };
   const onFinish = (values, a) => {
     console.log("哪裡錯誤阿", values);
     if (a === 1) {
@@ -104,95 +100,15 @@ const Home = () => {
       setIsModalVisible2(false);
     }
   };
-  const setVisible = i => {
-    if(i==1){
-      console.log("得到了",i)
-      setIsModalVisible1(true);
-    }else{
-      console.log("得到了",i)
-      setIsModalVisible2(true);
-    }
-  };
-  // const Action = (chair) => {
-  //   var state = chair.state;
-  //   var chairId = chair.id;
+  
 
-  //   if (state === 0) {
-  //     notification.open({
-  //       message: "座位狀態為使用中",
-  //       className: "custom-class",
-  //       icon: <CheckCircleOutlined style={{ color: "#C0E54B" }} />,
-  //       onClick: () => {
-  //         console.log("Notification Clicked!");
-  //       },
-  //     });
-  //   } else if (state === -1) {
-  //     notification.open({
-  //       message: "座位狀態為異常",
-  //       className: "custom-class",
-  //       icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }} />,
-  //       style: {
-  //         color: "#FFFFFF",
-  //       },
-  //       onClick: () => {
-  //         console.log("Notification Clicked!");
-  //       },
-  //     });
-  //   } else if (state === 1) {
-  //     setIsModalVisible1(true);
-  //     setSelectedChair(chair);
-  //   } else if (state === 2) {
-  //     // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
-  //     const result = seats.filter((s) => s.id == chairId);
-  //     console.log("得到結果了嗎", result[0].memberId);
-  //     axios
-  //       .get("/api/auth/admin/memberInfo", {
-  //         params: {
-  //           memberId: result[0].memberId,
-  //         },
-  //         headers: {
-  //           authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
-  //         },
-  //       })
-  //       .then(function (res) {
-  //         console.log("我要得到使用者資料" + res.data.member.name);
-  //         setUser(res.data.member);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //     setIsModalVisible2(true);
-  //     setSelectedChair(chair);
-  //   }
-  // };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { isFetching, isError } = useSelector(userSelector);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isError) {
-      dispatch(clearState());
-
-      navigate("/login");
-    }
-  }, [isError]);
-
- 
   const [seats, setSeats] = useState([{}]);
 
   const callSeatApi = () => {
     axios.get(`/api/seatsInfo`).then((res) => {
-      console.log(res.data);
       let tempSeat = res.data.seats;
       tempSeat.splice(4, 0, { state: "null" });
       tempSeat.splice(8, 0, { state: "null" });
-      console.log(tempSeat);
       setSeats(tempSeat);
     });
   };
@@ -208,14 +124,13 @@ const Home = () => {
     };
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        console.log("有近來更改囉!!!");
         callSeatApi();
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
   useEffect(() => {
     callSeatApi();
     let timer = setInterval(() => {
@@ -233,63 +148,7 @@ const Home = () => {
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                  <SeatMap seat={seat} setVisible={setVisible} setStateOfParent={setStateOfParent} setPUser={setPUser}/>
-                {/* <div
-                  style={{
-                    alignItems: "center",
-                    justify: "center",
-                    textAlign: "center",
-                  }}
-                  className="chairBig"
-                >
-                  <Tooltip
-                    title={
-                      seat.state === 2
-                        ? "已閒置 " + seat.idleMinutes + "分鐘"
-                        : undefined
-                    }
-                    color={"#5F5A60"}
-                    key={i}
-                  >
-                    {seat.state === "null" ? (
-                      <img
-                        key={seat.id}
-                        className="chair"
-                        src={"../image/null.png"}
-                        alt=" "
-                        // onError={i => i.target.style.display='none'}
-                      />
-                    ) : (
-                      <img
-                        key={seat.id}
-                        className="chair"
-                        // "http://localhost:3000/static/img/seats/"
-                        // "https://2b19-211-72-239-241.ngrok.io/static/img/seats/"
-                        src={
-                          "http://localhost:3000/static/img/seats/" +
-                          seat.id +
-                          ".png?date=" +
-                          new Date()
-                        }
-                        alt=" "
-                        onClick={() => Action(seat)}
-                        // onError={i => i.target.style.display='none'}
-                      />
-                    )}
-                    <br />
-                    {seat.id === 4 ||
-                    seat.id === 1 ||
-                    seat.id === 2 ||
-                    seat.id === 3 ? (
-                      <div>
-                        <br />
-                        <br />
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </Tooltip>
-                </div> */}
+                  <SeatMap seat={seat} setVisible={setVisible} setSelectedChairOfParent={setSelectedChairOfParent} setselectedUser={setselectedUser}/>
               </Col>
             ))}
           </Row>

@@ -20,7 +20,6 @@ const handleLogout = (e) => {
 };
   return (
     <div>
-      {" "}
       <Header className="black">
         <Row>
           <Col

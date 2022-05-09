@@ -220,7 +220,6 @@ const CollectionCreateForm = ({
           name="form_in_modal"
           initialValues={{
             modifier: "public",
-          
           }}
           labelCol={{
             span: 4,
@@ -228,7 +227,6 @@ const CollectionCreateForm = ({
           wrapperCol={{
             span: 20,
           }}
-          
         >
           <div className="fromcontact">
             <Space
@@ -397,7 +395,6 @@ const Home = () => {
         .then(function (res) {
           console.log("我要得到使用者資料" + res.data.member.name);
           setUser(res.data.member);
-       
         })
         .catch(function (error) {
           console.log(error);
@@ -409,6 +406,25 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isFetching, isError } = useSelector(userSelector);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearState());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(clearState());
+
+      navigate("/login");
+    }
+  }, [isError]);
+
+  const handleLogout = (e) => {
+    localStorage.removeItem("authorized_keys");
+    navigate("/login");
+  };
 
   const [seats, setSeats] = useState([{}]);
 
@@ -452,7 +468,37 @@ const Home = () => {
 
   return (
     <div>
-    <HeaderBar/>
+      <Header className="black">
+        <Row>
+          <Col
+            style={{
+              verticalAlign: "middle",
+              color: "white",
+            }}
+          >
+            時光屋座位使用管理系統
+          </Col>
+          <Col
+            span={2}
+            push={18}
+            style={{
+              verticalAlign: "middle",
+              color: "white",
+            }}
+          >
+            <Button
+              style={{ background: "#363F4E", color: "white" }}
+              icon={<LogoutOutlined />}
+              onClick={(e) => {
+                handleLogout(e);
+              }}
+            >
+              LOGOUT
+            </Button>
+          </Col>
+        </Row>
+      </Header>
+
       <Content>
         <div className="seatmap">
           <Row justify="center" align="middle">

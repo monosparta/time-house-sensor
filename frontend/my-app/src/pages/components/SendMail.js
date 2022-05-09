@@ -13,6 +13,7 @@ import { Button, Row, Col, Space, Avatar, message } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 export const SendMail = ({sendMail}) => {
   var username = sendMail.name;
+  console.log("??/"+Object.values(sendMail))
   var phoneNumber = sendMail.phoneNumber;
   var mail = sendMail.mail;
   const form = useRef();

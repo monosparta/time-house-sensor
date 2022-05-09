@@ -136,7 +136,7 @@ export const CollectionCreateForm = ({
                 <Input placeholder="請輸入聯絡信箱" />
               </Form.Item>
               <Form.Item name="index" noStyle initialValue={ChairId}>
-                {console.log("座位編號是正確的吧" + ChairId)}
+                {/* {console.log("座位編號是正確的吧" + ChairId)} */}
                 <Input type="hidden"></Input>
               </Form.Item>
             </Form>
@@ -182,7 +182,7 @@ export const CollectionCreateForm = ({
           </Col>
         </Row>
         <SendMail sendMail={member} />
-
+        {console.log("EMAIl"+member)}
         <Row>
           <Col span={24}>
             <h4>座位資訊</h4>
@@ -252,7 +252,7 @@ export const CollectionCreateForm = ({
               <Input type="hidden"></Input>
             </Form.Item>
             <Form.Item name="username" noStyle initialValue={username}>
-              {console.log("取道值可以傳送呒" + username)}
+              {/* {console.log("取道值可以傳送呒" + username)} */}
               <Input type="hidden"></Input>
             </Form.Item>
           </div>

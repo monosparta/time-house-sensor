@@ -5,7 +5,83 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-export const SeatMap = ({ seat, setVisible, setselectedUser }) => {
+import { CollectionCreateForm } from "./CollectionCreateForm";
+export const SeatMap = ({ seat }) => {
+  const [isModalVisible1, setIsModalVisible1] = useState(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [selectedChair, setSelectedChair] = useState("");
+  const [user, setUser] = useState({});
+  const setVisible = (i,chair) => {
+    console.log("設定"+chair)
+    if(i===1){
+      setIsModalVisible1(true);
+      setSelectedChair(chair);
+    }else{
+      setIsModalVisible2(true);
+      setSelectedChair(chair);
+    }
+  };
+
+
+  const onFinish = (values, a) => {
+    console.log("哪裡錯誤阿", values);
+    if (a === 1) {
+      var data = JSON.stringify({
+        username: values.username,
+        mail: values.mail,
+        phoneNumber: values.phoneNumber,
+      });
+
+      var config = {
+        method: "post",
+        url: "/api/auth/admin/addUser",
+        headers: {
+          authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then(function (response) {
+          console.log("得到座位編號啦" + values.index);
+          var data = JSON.stringify({
+            seat: {
+              index: values.index,
+              state: "0",
+            },
+            username: values.username,
+          });
+          console.log(JSON.stringify("準備更改狀態囉2" + data));
+          callSeatStateApi(data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // 更改狀態
+      setIsModalVisible1(false);
+    } else {
+      console.log("哪裡錯誤阿使用者名稱有得到嗎？？？ ", values);
+
+      var data = JSON.stringify({
+        seat: {
+          index: values.index,
+          state: values.state.toString(),
+        },
+        username: values.username,
+      });
+      callSeatStateApi(data);
+      console.log("嗨Received values of form2: ", values);
+      setIsModalVisible2(false);
+    }
+  };
+  const onCancel = (a) => {
+    if (a === 1) {
+      setIsModalVisible1(false);
+    } else {
+      setIsModalVisible2(false);
+    }
+  };
+
   const Action = (chair) => {
     var state = chair.state;
     if (state === 0) {
@@ -43,7 +119,7 @@ export const SeatMap = ({ seat, setVisible, setselectedUser }) => {
         })
         .then(function (res) {
           console.log("我要得到使用者資料" + res.data.member.name);
-          setselectedUser(res.data.member);
+          setUser(res.data.member);
         })
         .catch(function (error) {
           console.log(error);
@@ -52,6 +128,25 @@ export const SeatMap = ({ seat, setVisible, setselectedUser }) => {
   
     }
   };
+
+  const callSeatStateApi = (data) => {
+    var config = {
+      method: "put",
+      url: "/api/auth/admin/seatState",
+      headers: {
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <div
       style={{
@@ -98,7 +193,25 @@ export const SeatMap = ({ seat, setVisible, setselectedUser }) => {
           ""
         )}
       </Tooltip>
+      <CollectionCreateForm
+          visible={isModalVisible1}
+          onFinish={(e) => onFinish(e, 1)}
+          onCancel={() => onCancel(1)}
+          whichModal={1}
+          chairInfo={selectedChair}
+          member={""}
+        />
+  
+        <CollectionCreateForm
+          visible={isModalVisible2}
+          onFinish={(e) => onFinish(e, 2)}
+          onCancel={() => onCancel(2)}
+          whichModal={2}
+          chairInfo={selectedChair}
+          member={user}
+        />
     </div>
+     
   );
 };
 

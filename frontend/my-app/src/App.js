@@ -25,6 +25,8 @@ function App() {
         // const user=useSelector(selectUser);
   
         const user=localStorage.getItem("authorized_keys");
+        
+        console.log("user"+user)
         return (
           <Router>
           <Routes>

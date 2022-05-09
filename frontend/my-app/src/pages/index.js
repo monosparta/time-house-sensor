@@ -89,6 +89,7 @@ const CollectionCreateForm = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
+        console.log("是否能傳送值",values);
         onFinish(values);
       })
       .catch((info) => {
@@ -98,8 +99,6 @@ const CollectionCreateForm = ({
 
   var ChairId = chairInfo.id;
 
-  // 依照座位狀態顯示不同類型的選單
-  // https://ant.design/components/form/#components-form-demo-form-in-modal
   if (whichModal === 1) {
     // 表單一，可使用位置
 
@@ -334,8 +333,8 @@ const CollectionCreateForm = ({
           <Form.Item name="index" noStyle initialValue={ChairId}>
             <Input type="hidden"></Input>
           </Form.Item>
-          <Form.Item name="username" noStyle>
-    
+          <Form.Item name="username" noStyle initialValue={username}>
+            {console.log("取道值可以傳送呒"+username)}
             <Input type="hidden"></Input>
           </Form.Item>
           </div>
@@ -352,6 +351,7 @@ const Home = () => {
   const [user, setUser] = useState({});
 
   const onFinish = (values, a) => {
+    console.log("哪裡錯誤阿", values);
     if (a === 1) {
       var data = JSON.stringify({
         username: values.username,

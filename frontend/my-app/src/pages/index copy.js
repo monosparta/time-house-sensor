@@ -10,6 +10,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector, clearState } from "../features/counter/userSlice";
+import emailjs from "@emailjs/browser";
 import {
   Layout,
   Button,
@@ -22,6 +23,7 @@ import {
   Input,
   Radio,
   Avatar,
+  message,
   Tooltip,
 } from "antd";
 import {
@@ -29,12 +31,38 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
   UserOutlined,
-  WarningOutlined,
+  WarningOutlined ,
+  EditOutlined 
 } from "@ant-design/icons";
 import axios from "../Axios.config";
 import { useNavigate } from "react-router-dom";
 import { SendMail } from "./components/SendMail";
 const { Header, Content, Footer } = Layout;
+
+const sendEmail = (e) => {
+  e.preventDefault();
+  console.log("e" + e);
+  console.log("e.mail" + e.mail);
+  emailjs
+    .sendForm(
+      "service_r37qfj4",
+      "template_dgyqrz8",
+      e.target,
+      "tc62l1C-WQwcxdnGn"
+    )
+    .then(
+      (result) => {
+        console.log(result.text);
+        message.success("Send email success！", 5);
+      },
+      (error) => {
+        console.log(error.text);
+        message.error("An error occurred, please try again", 5);
+      }
+    );
+  e.target.reset();
+  e.target.resetFields();
+};
 
 // Modal From結合的Component
 const CollectionCreateForm = ({
@@ -60,9 +88,9 @@ const CollectionCreateForm = ({
     form
       .validateFields()
       .then((values) => {
-        onFinish(values);
         form.resetFields();
-        console.log("是否能傳送值", values);
+        console.log("是否能傳送值",values);
+        onFinish(values);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -173,6 +201,8 @@ const CollectionCreateForm = ({
 
     var username = "";
     username = member.name;
+    var phoneNumber = member.phoneNumber;
+    var mail = member.mail;
     return (
       <Modal
         closable={false}
@@ -205,8 +235,43 @@ const CollectionCreateForm = ({
             <hr />
           </Col>
         </Row>
-        <SendMail sendMail={member} />
-
+        <form id="fromcontact" ref={form} onSubmit={sendEmail}>
+          <Space direction="vertical" size="small" style={{ display: "flex" }}>
+            <Row>
+              <Col span={24}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{username}</span>{" "}
+                  <input type="hidden" name="username" value={username} />
+                </Space>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{phoneNumber}</span>
+                </Space>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={17}>
+                <Space>
+                  <Avatar shape="square" icon={<UserOutlined />} />
+                  <span>{mail}</span>{" "}
+                  <input type="hidden" name="mail" value={mail} />
+                </Space>
+              </Col>
+              <Col span={5} offset={2}>
+                <Button type="primary" htmlType="submit">
+               
+                <EditOutlined style={{color:"#1976D2"}}/>寄送通知
+                </Button>
+              </Col>
+            </Row>
+          </Space>
+        </form>
+      
         <Row>
           <Col span={24}>
             <h4>座位資訊</h4>
@@ -214,11 +279,13 @@ const CollectionCreateForm = ({
           </Col>
         </Row>
 
+      
         <Form
           form={form}
           name="form_in_modal"
           initialValues={{
             modifier: "public",
+            username: username,
           }}
           labelCol={{
             span: 4,
@@ -226,59 +293,51 @@ const CollectionCreateForm = ({
           wrapperCol={{
             span: 20,
           }}
+         
         >
           <div className="fromcontact">
-            <Space
-              direction="vertical"
-              size="small"
-              style={{ display: "flex" }}
-            >
-              <Row>
-                <Col span={5}>
-                  <Space>
-                    <Avatar shape="square" icon={<UserOutlined />} />
-                    <span>{ChairId}</span>
-                  </Space>
-                </Col>
-                <Col span={10}>
-                  <Space>
-                    <Avatar
-                      shape="square"
-                      icon={<WarningOutlined style={{ color: "#FB8C00" }} />}
-                      style={{ background: "white" }}
-                    />
-
-                    <span>目前為閒置座位</span>
-                  </Space>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col span={24}>
-                  <Space>
-                    <Avatar shape="square" icon={<UserOutlined />} />
-                    <span>座位剩餘時間</span>{" "}
-                    <span style={{ color: "rgba(0, 0, 0, 0.6)" }}>
-                      {chairInfo.idleMinutes} min
-                    </span>
-                  </Space>
-                </Col>
-              </Row>
-            </Space>
-
-            <Form.Item label="狀態更改" name="state">
-              <Radio.Group onChange={onChange} value={chioces}>
-                <Radio value={0}>使用中</Radio>
-                <Radio value={1}>可使用</Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item name="index" noStyle initialValue={ChairId}>
-              <Input type="hidden"></Input>
-            </Form.Item>
-            <Form.Item name="username" noStyle initialValue={username}>
-              {console.log("取道值可以傳送呒" + username)}
-              <Input type="hidden"></Input>
-            </Form.Item>
+            <Space direction="vertical" size="small" style={{ display: "flex" }}>
+      
+        <Row>
+        <Col span={5}>
+          <Space>
+            <Avatar shape="square" icon={<UserOutlined />} />
+            <span>{ChairId}</span>
+          </Space>
+        </Col>
+        <Col span={10}>
+          <Space>
+          <Avatar shape="square" icon={<WarningOutlined style={{color:"#FB8C00"}}/>} style={{background:"white"}}/>
+          
+            <span>目前為閒置座位</span>
+          </Space>
+          
+        </Col>
+        </Row>
+        
+        <Row>
+          <Col span={24}>
+          <Space>
+            <Avatar shape="square" icon={<UserOutlined />} />
+            <span>座位剩餘時間</span> <span style={{color:"rgba(0, 0, 0, 0.6)"}}>{chairInfo.idleMinutes} min</span>
+          </Space>
+          </Col>
+        </Row>
+        </Space>
+        
+          <Form.Item label="狀態更改" name="state">
+          <Radio.Group onChange={onChange} value={chioces}>
+              <Radio value={0}>使用中</Radio>
+              <Radio value={1}>可使用</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="index" noStyle initialValue={ChairId}>
+            <Input type="hidden"></Input>
+          </Form.Item>
+          <Form.Item name="username" noStyle initialValue={username}>
+            {console.log("取道值可以傳送呒"+username)}
+            <Input type="hidden"></Input>
+          </Form.Item>
           </div>
         </Form>
       </Modal>
@@ -447,6 +506,7 @@ const Home = () => {
       },
       data: data,
     };
+    console.log("????!!!");
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));

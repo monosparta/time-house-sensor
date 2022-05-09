@@ -6,7 +6,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { CollectionCreateForm } from "./CollectionCreateForm";
-export const SeatMap = ({ seat,callSeatApi }) => {
+export const SeatMap = ({ seat }) => {
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
@@ -21,7 +21,6 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       setSelectedChair(chair);
     }
   };
-
 
   const onFinish = (values, a) => {
     console.log("哪裡錯誤阿", values);
@@ -140,7 +139,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     };
     axios(config)
       .then(function (response) {
-        callSeatApi();
+        window.location.reload();
       })
       .catch(function (error) {
         console.log(error);

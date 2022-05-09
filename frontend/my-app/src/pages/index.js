@@ -52,7 +52,7 @@ const Home = () => {
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                  <SeatMap seat={seat}/>
+                  <SeatMap seat={seat} callSeatApi={callSeatApi}/>
               </Col>
             ))}
           </Row>

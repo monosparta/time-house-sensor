@@ -1,24 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "../../Axios.config";
 import {
-    Layout,
-    Row,
-    Col,
-    Space,
     notification,
-    Avatar,
     Tooltip,
   } from "antd";
   import {
     CheckCircleOutlined,
     ExclamationCircleOutlined,
   } from "@ant-design/icons";
-export const SeatMap =({seat,setVisible})=> {
+export const SeatMap =({seat,setVisible,setStateOfParent,setPUser})=> {
 
-   
-    const [selectedChair, setSelectedChair] = useState("");
-    const [user, setUser] = useState({});
-    const [seats, setSeats] = useState([{}]);
+
     const Action = (chair) => {
         var state = chair.state;
         var chairId = chair.id;
@@ -46,15 +38,15 @@ export const SeatMap =({seat,setVisible})=> {
           });
         } else if (state === 1) {
             setVisible(1);
-          setSelectedChair(chair);
+            setStateOfParent(chair)
         } else if (state === 2) {
-          // 因為位置的緣故有新增空格，因此需要使用filter來比對裡面的東西
-          const result = seats.filter((s) => s.id == chairId);
-          console.log("得到結果了嗎", result[0].memberId);
+        
+          console.log("WHAT?"+chairId)
+
           axios
             .get("/api/auth/admin/memberInfo", {
               params: {
-                memberId: result[0].memberId,
+                memberId: chairId,
               },
               headers: {
                 authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
@@ -62,13 +54,14 @@ export const SeatMap =({seat,setVisible})=> {
             })
             .then(function (res) {
               console.log("我要得到使用者資料" + res.data.member.name);
-              setUser(res.data.member);
+              setPUser(res.data.member);
             })
             .catch(function (error) {
               console.log(error);
             });
             setVisible(2);
-            setSelectedChair(chair);
+            setStateOfParent(chair)
+          
         }
       };
   return (

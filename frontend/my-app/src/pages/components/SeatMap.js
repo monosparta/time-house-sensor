@@ -8,41 +8,24 @@ import {
 } from "@ant-design/icons";
 import { CollectionCreateForm } from "./CollectionCreateForm";
 export const SeatMap = ({ seat,callSeatApi }) => {
-  const [isModalVisible1, setIsModalVisible1] = useState(false);
-  const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [isAddSeatModalVisible, setIisAddSeatModalVisible] = useState(false);
+  const [isChangeModalVisible, setChangeModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
-  const [user, setUser] = useState({});
+  const [selecteduser, setSelecteduser] = useState({});
   const [form] = Form.useForm();
-  // function executeFunctionByName(functionName, context /*, args */) {
-  //   var args = Array.prototype.slice.call(arguments, 2);
-  //   var namespaces = functionName.split(".");
-  //   var func = namespaces.pop();
-  //   for(var i = 0; i < namespaces.length; i++) {
-  //     context = context[namespaces[i]];
-  //   }
-  //   return context[func].apply(context, args);
-  // }
 
   const setVisible = (i,chair) => {
-    console.log(`setIsModalVisible${1}`+"  "+typeof( `setIsModalVisible${1}`))
-    // var fn = window[`setIsModalVisible${1}`](true);
-    // console.log("?"+fn)
-
     if(i===1){
-    // executeFunctionByName(`setIsModalVisible${1}`, window, true);
-    //  window["My"]["Namespace"][`setIsModalVisible${1}`](true);
-   
-      setIsModalVisible1(true);
+      setIisAddSeatModalVisible(true);
       setSelectedChair(chair);
     }else{
-      setIsModalVisible2(true);
+      setChangeModalVisible(true);
       setSelectedChair(chair);
     }
   };
 
 
   const onFinish = (values, a) => {
-    console.log("哪裡錯誤阿", values);
     if (a === 1) {
       var data = JSON.stringify({
         username: values.username,
@@ -61,7 +44,6 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
       axios(config)
         .then(function (response) {
-          console.log("得到座位編號啦" + values.index);
           var data = JSON.stringify({
             seat: {
               index: values.index,
@@ -69,14 +51,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             },
             username: values.username,
           });
-          console.log(JSON.stringify("準備更改狀態囉2" + data));
           callSeatStateApi(data);
         })
         .catch(function (error) {
           console.log(error);
         });
       // 更改狀態
-      setIsModalVisible1(false);
+      setIisAddSeatModalVisible(false);
     } else {
       console.log("哪裡錯誤阿使用者名稱有得到嗎？？？ ", values);
 
@@ -89,14 +70,14 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       });
       callSeatStateApi(data);
       console.log("嗨Received values of form2: ", values);
-      setIsModalVisible2(false);
+      setChangeModalVisible(false);
     }
   };
   const onCancel = (a) => {
     if (a === 1) {
-      setIsModalVisible1(false);
+      setIisAddSeatModalVisible(false);
     } else {
-      setIsModalVisible2(false);
+      setChangeModalVisible(false);
     }
   };
 
@@ -137,7 +118,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         })
         .then(function (res) {
           console.log("我要得到使用者資料" + res.data.member.name);
-          setUser(res.data.member);
+          setSelecteduser(res.data.member);
           form.setFieldsValue({
             username:res.data.member.name
          });
@@ -216,9 +197,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       </Tooltip>
 
 
-      
       <CollectionCreateForm
-          visible={isModalVisible1}
+          visible={isAddSeatModalVisible}
           onFinish={(e) => onFinish(e, 1)}
           onCancel={() => onCancel(1)}
           whichModal={1}
@@ -227,12 +207,12 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         />
   
         <CollectionCreateForm
-          visible={isModalVisible2}
+          visible={isChangeModalVisible}
           onFinish={(e) => onFinish(e, 2)}
           onCancel={() => onCancel(2)}
           whichModal={2}
           chairInfo={selectedChair}
-          member={user}
+          member={selecteduser}
         />
     </div>
      

@@ -6,14 +6,14 @@ import {
   Col,
 } from "antd";
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons";
 const { Header} = Layout;
 
 
 
 export const HeaderBar = () => {
-const navigate = useNavigate();
+// const navigate = useNavigate();
 const handleLogout = (e) => {
   localStorage.removeItem("authorized_keys");
   window.location.reload();

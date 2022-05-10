@@ -9,7 +9,6 @@
 import React from 'react';
 import Home from './pages/index';
 import Login from './pages/Login';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -20,11 +19,9 @@ import {
 
 
 function App() {
-        // const user=useSelector(selectUser);
-  
+
         const user=localStorage.getItem("authorized_keys");
-        
-        console.log("user"+user)
+
         return (
           <Router>
           <Routes>

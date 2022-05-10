@@ -7,7 +7,7 @@
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 
 import {
   Layout,
@@ -52,7 +52,7 @@ const Home = () => {
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                  <SeatMap seat={seat} callSeatApi={callSeatApi}/>
+                  <SeatMap key={i} seat={seat} callSeatApi={callSeatApi}/>
               </Col>
             ))}
           </Row>

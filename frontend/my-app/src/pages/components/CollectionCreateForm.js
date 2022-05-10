@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Row,
@@ -22,15 +22,19 @@ export const CollectionCreateForm = ({
   member,
 }) => {
   const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue({
+      username: member.name,
+      index: chairInfo.id,
+    });
+  }, [form, member.name, chairInfo.id]);
 
   // Radio選單
-  const [chioces, Chioces] = React.useState(1);
-  
+  const [chioces, SetChioces] = useState(1);
   
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
-    // Chioces(e.target.value);
-    Chioces(e.target.value);
+    SetChioces(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -39,7 +43,6 @@ export const CollectionCreateForm = ({
       .then((values) => {
         onFinish(values);
         form.resetFields();
-        console.log("是否能傳送值", values);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -47,12 +50,6 @@ export const CollectionCreateForm = ({
   };
 
   var ChairId = chairInfo.id;
-
-  React.useEffect(() => {
-    form.setFieldsValue({
-      username: member.name,
-    });
-  }, [form, member.name]);
 
   if (whichModal === 1) {
     // 表單一，可使用位置
@@ -115,11 +112,11 @@ export const CollectionCreateForm = ({
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (
-                        (/09\d{8,8}$/.test(value) && value.length == 10) ||
+                        (/09\d{8,8}$/.test(value) && value.length === 10) ||
                         !value
                       ) {
                         return Promise.resolve();
-                      } else if (value.length != 10) {
+                      } else if (value.length !== 10) {
                         return Promise.resolve();
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
@@ -142,8 +139,7 @@ export const CollectionCreateForm = ({
               >
                 <Input placeholder="請輸入聯絡信箱" />
               </Form.Item>
-              <Form.Item name="index" noStyle initialValue={ChairId}>
-                {/* {console.log("座位編號是正確的吧" + ChairId)} */}
+              <Form.Item name="index" noStyle>
                 <Input type="hidden"></Input>
               </Form.Item>
             </Form>
@@ -153,11 +149,6 @@ export const CollectionCreateForm = ({
     );
   } else {
     // 表單二，閒置位置
- 
-    var username = "";
-    username = member.name;
-    
-
     return (
       <Modal
         closable={false}
@@ -191,7 +182,6 @@ export const CollectionCreateForm = ({
           </Col>
         </Row>
         <SendMail sendMail={member} />
-        {console.log("EMAIl"+member)}
         <Row>
           <Col span={24}>
             <h4>座位資訊</h4>
@@ -202,7 +192,6 @@ export const CollectionCreateForm = ({
         <Form
           form={form}
           name="form_in_modal"
-          initialValues={{username:member.name}}
           labelCol={{
             span: 4,
           }}
@@ -255,12 +244,12 @@ export const CollectionCreateForm = ({
                 <Radio value={1}>可使用</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item name="index" noStyle initialValue={ChairId}>
+            <Form.Item name="index" noStyle rules={[{ required: true }]}>
               <Input type="hidden"></Input>
             </Form.Item>
-            <Form.Item name="username" rules={[{ required: true }]}>
-                <Input  type="hidden"/>
-           </Form.Item>
+            <Form.Item name="username" noStyle rules={[{ required: true }]}>
+              <Input type="hidden" />
+            </Form.Item>
           </div>
         </Form>
       </Modal>

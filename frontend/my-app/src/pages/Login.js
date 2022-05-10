@@ -5,7 +5,7 @@ import {
   userSelector,
   loginUser,
   clearState,
-} from "../features/counter/userSlice";
+} from "../features/userSlice";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Login = () => {

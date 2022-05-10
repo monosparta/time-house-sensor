@@ -25,7 +25,8 @@ export const CollectionCreateForm = ({
 
   // Radio選單
   const [chioces, Chioces] = React.useState(1);
-
+  
+  
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     // Chioces(e.target.value);
@@ -46,6 +47,12 @@ export const CollectionCreateForm = ({
   };
 
   var ChairId = chairInfo.id;
+
+  React.useEffect(() => {
+    form.setFieldsValue({
+      username: member.name,
+    });
+  }, [form, member.name]);
 
   if (whichModal === 1) {
     // 表單一，可使用位置
@@ -146,9 +153,11 @@ export const CollectionCreateForm = ({
     );
   } else {
     // 表單二，閒置位置
-
+ 
     var username = "";
     username = member.name;
+    
+
     return (
       <Modal
         closable={false}
@@ -170,7 +179,7 @@ export const CollectionCreateForm = ({
             <Button onClick={onCancel} size="large">
               <b>取消</b>
             </Button>
-          </Space>,
+          </Space>
         ]}
         onCancel={onCancel}
       >
@@ -193,9 +202,7 @@ export const CollectionCreateForm = ({
         <Form
           form={form}
           name="form_in_modal"
-          initialValues={{
-            modifier: "public",
-          }}
+          initialValues={{username:member.name}}
           labelCol={{
             span: 4,
           }}
@@ -251,10 +258,9 @@ export const CollectionCreateForm = ({
             <Form.Item name="index" noStyle initialValue={ChairId}>
               <Input type="hidden"></Input>
             </Form.Item>
-            <Form.Item name="username" noStyle initialValue={username}>
-              {/* {console.log("取道值可以傳送呒" + username)} */}
-              <Input type="hidden"></Input>
-            </Form.Item>
+            <Form.Item name="username" rules={[{ required: true }]}>
+                <Input  type="hidden"/>
+           </Form.Item>
           </div>
         </Form>
       </Modal>

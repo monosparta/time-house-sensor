@@ -42,7 +42,7 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
-
+ 
   return (
     <div>
 

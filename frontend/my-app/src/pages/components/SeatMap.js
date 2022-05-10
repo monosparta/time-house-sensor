@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "../../Axios.config";
 import { notification, Tooltip } from "antd";
+import { Form } from "antd"
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
@@ -11,9 +12,26 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
   const [user, setUser] = useState({});
+  const [form] = Form.useForm();
+  // function executeFunctionByName(functionName, context /*, args */) {
+  //   var args = Array.prototype.slice.call(arguments, 2);
+  //   var namespaces = functionName.split(".");
+  //   var func = namespaces.pop();
+  //   for(var i = 0; i < namespaces.length; i++) {
+  //     context = context[namespaces[i]];
+  //   }
+  //   return context[func].apply(context, args);
+  // }
+
   const setVisible = (i,chair) => {
-    console.log("設定"+chair)
+    console.log(`setIsModalVisible${1}`+"  "+typeof( `setIsModalVisible${1}`))
+    // var fn = window[`setIsModalVisible${1}`](true);
+    // console.log("?"+fn)
+
     if(i===1){
+    // executeFunctionByName(`setIsModalVisible${1}`, window, true);
+    //  window["My"]["Namespace"][`setIsModalVisible${1}`](true);
+   
       setIsModalVisible1(true);
       setSelectedChair(chair);
     }else{
@@ -120,6 +138,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         .then(function (res) {
           console.log("我要得到使用者資料" + res.data.member.name);
           setUser(res.data.member);
+          form.setFieldsValue({
+            username:res.data.member.name
+         });
         })
         .catch(function (error) {
           console.log(error);
@@ -193,6 +214,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           ""
         )}
       </Tooltip>
+
+
+      
       <CollectionCreateForm
           visible={isModalVisible1}
           onFinish={(e) => onFinish(e, 1)}

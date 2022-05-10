@@ -17,8 +17,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import {selectUser} from"./features/counter/userSlice";
-import { useSelector } from 'react-redux';
 
 
 function App() {
@@ -33,6 +31,7 @@ function App() {
             {user ? (
               <Route path="/" element={<Home/>}/>
             ) : (
+              // <Route path="*" element={<Button>sddsd</Button>} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             )}
             <Route path="/login" index element={<Login />} />

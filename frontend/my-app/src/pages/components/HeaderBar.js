@@ -16,7 +16,7 @@ export const HeaderBar = () => {
 const navigate = useNavigate();
 const handleLogout = (e) => {
   localStorage.removeItem("authorized_keys");
-  navigate("/login");
+  window.location.reload();
 };
   return (
     <div>

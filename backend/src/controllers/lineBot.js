@@ -4,7 +4,7 @@ const lineMessageHandler = async (req, res) => {
   try {
     if (!req.body.events.length) return res.status(200).json({});
     let event = req.body.events[0];
-    let adminRichMenu = "richmenu-1a536f898ebd309587fd29907d61e059";
+    let adminRichMenu = "richmenu-7c9d45b1371469ed3cb88a5689ddccd4";
     const messageUserId = event.source.userId;
     let member = await lineDev.findMemberData(messageUserId);
     //使用者加入官方帳號
@@ -29,6 +29,17 @@ const lineMessageHandler = async (req, res) => {
           return err;
         });
       return res.json(postbackSeat);
+    }
+    if ((event.type === "message" && event.message.text === "進入後台")) {
+      const postbackWeb = await lineDev
+        .replyWeb(event)
+        .then((result) => {
+          return result;
+        })
+        .catch((err) => {
+          return err;
+        });
+      return res.json(postbackWeb);
     }
     //使用者點擊菜單[回報]
     if (event.type === "postback" && event.postback.data === "feedback") {
@@ -99,7 +110,7 @@ const lineMessageHandler = async (req, res) => {
     if (member.dataValues.level === 1) {
       lineDev.updateMemberLogin(1, messageUserId);
       const userReplyResult = await lineDev
-        .userMessageReply(event, member.dataValues.username)
+        .userMessageReply(event, member.dataValues.username,member.dataValues.level)
         .then((result) => {
           return result;
         })

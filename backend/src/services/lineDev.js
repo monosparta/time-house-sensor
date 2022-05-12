@@ -8,8 +8,7 @@ const db = require("../models/index");
 const client = new line.Client(config);
 const middleware = line.middleware(config);
 
-const unknownMessageReply = async (event, status,username) => {
-  console.log("unknownMessageReply");
+const unknownMessageReply = async (event, status, username) => {
   if (!status) {
     const replyMessage = {
       type: "text",
@@ -17,17 +16,23 @@ const unknownMessageReply = async (event, status,username) => {
     };
     return await client.replyMessage(event.replyToken, replyMessage);
   } else {
-    console.log("134")
     userMessageReply(event, username);
   }
 };
 const replySeatState = async (event) => {
+  // const replyMessage = {
+  //   type: "image",
+  //   originalContentUrl:
+  //   process.env.PUBLIC_URL+"/static/img/seats/seat_map.png",
+  //   previewImageUrl:
+  //   process.env.PUBLIC_URL+"/static/img/seats/seat_map.png",
+  // };
   const replyMessage = {
     type: "image",
     originalContentUrl:
-      process.env.PUBLIC_URL + "/static/img/seats/seat_map.png",
+      "https://0f87-211-72-239-241.ngrok.io" + "/static/img/seats/seat_map.png",
     previewImageUrl:
-      process.env.PUBLIC_URL + "/static/img/seats/seat_map.png",
+      "https://0f87-211-72-239-241.ngrok.io" + "/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
@@ -72,7 +77,7 @@ const adminMessageReply = async (event, status, username) => {
               action: {
                 type: "uri",
                 label: "進入後台",
-                uri: "http://linecorp.com/",
+                uri: "https://5e44-211-72-239-241.ngrok.io/login",
               },
               height: "sm",
               style: "secondary",
@@ -101,17 +106,26 @@ const adminMessageReply = async (event, status, username) => {
     userMessageReply(event, username);
   }
 };
-const userMessageReply = async (event, username) => {
-  console.log("unknownuserMessageReply");
-
-  const userReplyMessage = {
-    type: "text",
-    text:
-      "哈囉" +
-      username +
-      "，若有任何疑問，請輸入以下關鍵字\n\t查看座位表--請輸入[查看座位]",
-  };
-  return await client.replyMessage(event.replyToken, userReplyMessage);
+const userMessageReply = async (event, username, level) => {
+  if (level) {
+    const userReplyMessage = {
+      type: "text",
+      text:
+        "哈囉" +
+        username +
+        "，若有任何疑問，請輸入以下關鍵字\n\t查看座位表--請輸入[查看座位]",
+    };
+    return await client.replyMessage(event.replyToken, userReplyMessage);
+  } else {
+    const userReplyMessage = {
+      type: "text",
+      text:
+        "哈囉" +
+        username +
+        "，若有任何疑問，請輸入以下關鍵字\n\t查看座位表--請輸入[查看座位]\n\t進入後台--請輸入[進入後台]",
+    };
+    return await client.replyMessage(event.replyToken, userReplyMessage);
+  }
 };
 const replyFeedBackMessage = async (event) => {
   const replyMessageFeedBack = {
@@ -120,8 +134,14 @@ const replyFeedBackMessage = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessageFeedBack);
 };
-
-const updateMemberLogin=async(memberLogin,memberlineId)=>{
+const replyWeb = async (event) => {
+  const replyWebMessage = {
+    type: "text",
+    text: "https://5e44-211-72-239-241.ngrok.io/login",
+  };
+  return await client.replyMessage(event.replyToken, replyWebMessage);
+};
+const updateMemberLogin = async (memberLogin, memberlineId) => {
   await db["Members"].update(
     { login: memberLogin },
     {
@@ -130,9 +150,8 @@ const updateMemberLogin=async(memberLogin,memberlineId)=>{
       },
     }
   );
-}
-const updateMemberUserName=async(memberUserName,memberlineId)=>{
-  console.log("updateMemberUserName")
+};
+const updateMemberUserName = async (memberUserName, memberlineId) => {
   await db["Members"].update(
     { username: memberUserName },
     {
@@ -141,23 +160,22 @@ const updateMemberUserName=async(memberUserName,memberlineId)=>{
       },
     }
   );
-}
-const createMemberData=async(memberlineId)=>{
-  console.log("createMemberData")
+};
+const createMemberData = async (memberlineId) => {
   await db["Members"].create({
     lineId: memberlineId,
     login: 0,
     cardId: "123asd",
     level: 1,
   });
-}
-const findMemberData=async(memberlineId)=>{
-  console.log("findMemberData")
-  let member=await db["Members"].findOne({
+};
+const findMemberData = async (memberlineId) => {
+  let member = await db["Members"].findOne({
     where: { lineId: memberlineId },
   });
-  return member
-}
+  return member;
+};
+
 const pushAdminMessage = async (id) => {
   let admins = await db["Members"].findAll({
     where: { level: 0 },
@@ -168,7 +186,7 @@ const pushAdminMessage = async (id) => {
   };
   admins = admins.map((admin) => {
     client
-      .pushMessage(admin.lineId, pushMessageToAdmin,false)
+      .pushMessage(admin.lineId, pushMessageToAdmin, false)
       .then(() => {})
       .catch((err) => {
         // error handling
@@ -189,5 +207,6 @@ module.exports = {
   updateMemberLogin,
   createMemberData,
   updateMemberUserName,
-  findMemberData
+  findMemberData,
+  replyWeb,
 };

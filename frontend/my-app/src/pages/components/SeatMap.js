@@ -13,7 +13,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const [selectedChair, setSelectedChair] = useState("");
   const [selecteduser, setSelecteduser] = useState({});
   const [form] = Form.useForm();
-
+  console.log(process.env.REACT_APP_MY_ENVIRONMENT_VARIABLE);
+  
   const setVisible = (i,chair) => {
     if(i===1){
       setIisAddSeatModalVisible(true);
@@ -59,8 +60,6 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       // 更改狀態
       setIisAddSeatModalVisible(false);
     } else {
-      console.log("哪裡錯誤阿使用者名稱有得到嗎？？？ ", values);
-
       var data = JSON.stringify({
         seat: {
           index: values.index,
@@ -81,8 +80,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     }
   };
 
-  const Action = (chair) => {
-    var state = chair.state;
+  const Action = (seat) => {
+    var state = seat.state;
     if (state === 0) {
       notification.open({
         message: "座位狀態為使用中",
@@ -105,12 +104,12 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
       });
     } else if (state === 1) {
-      setVisible(1,chair);
+      setVisible(1,seat);
     } else if (state === 2) {
       axios
         .get("/api/auth/admin/memberInfo", {
           params: {
-            memberId: chair.memberId,
+            memberId: seat.memberId,
           },
           headers: {
             authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
@@ -126,7 +125,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         .catch(function (error) {
           console.log(error);
         });
-      setVisible(2,chair);
+      setVisible(2,seat);
   
     }
   };
@@ -150,6 +149,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   };
 
   return (
+    
     <div
       style={{
         alignItems: "center",

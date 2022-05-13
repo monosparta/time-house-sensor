@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Checkbox, Row, Col, message, Alert } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   userSelector,
@@ -31,7 +31,7 @@ const Login = () => {
     }
     if (isSuccess) {
       console.log("準備跳轉囉123", isSuccess);
-      navigate("..",{replace:true});
+      navigate("/",{replace:true});
       window.location.reload();
       dispatch(clearState());
     }
@@ -77,11 +77,10 @@ const Login = () => {
                   onFinishFailed={onFinishFailed}
                   autoComplete="off"
                 >
-                {console.log("前" + isError)}
                 {isError ? (
                     <Alert message={errorMessage} type="error" showIcon />
                 ) : null}
-                {console.log("後" + isError)}
+           
                 <Form.Item
                     label="帳號 Username or Email"
                     name="usernameOrMail"

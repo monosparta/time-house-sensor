@@ -11,6 +11,7 @@ import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { Button, Row, Col, Space, Avatar, message } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
+
 export const SendMail = ({sendMail}) => {
   var username = sendMail.name;
   console.log("??/"+Object.values(sendMail))
@@ -21,10 +22,10 @@ export const SendMail = ({sendMail}) => {
     e.preventDefault();
     emailjs
       .sendForm(
-        "service_r37qfj4",
-        "template_dgyqrz8",
+        process.env.REACT_APP_EMAILJS_SERVISE,
+        process.env.REACT_APP_EMAILJS_TEMPLATE,
         e.target,
-        "tc62l1C-WQwcxdnGn"
+        process.env.REACT_APP_EMAILJS_OWNER
       )
       .then(
         (result) => {

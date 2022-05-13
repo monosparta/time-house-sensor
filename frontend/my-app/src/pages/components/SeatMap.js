@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState} from "react";
 import axios from "../../Axios.config";
 import { notification, Tooltip } from "antd";
 import { Form } from "antd"
@@ -7,16 +7,17 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { CollectionCreateForm } from "./CollectionCreateForm";
+const seatState = require("../utils/seatState");
+const URL='http://localhost:3000';
 export const SeatMap = ({ seat,callSeatApi }) => {
   const [isAddSeatModalVisible, setIisAddSeatModalVisible] = useState(false);
   const [isChangeModalVisible, setChangeModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
   const [selecteduser, setSelecteduser] = useState({});
   const [form] = Form.useForm();
-  console.log(process.env.REACT_APP_MY_ENVIRONMENT_VARIABLE);
-  
-  const setVisible = (i,chair) => {
-    if(i===1){
+
+  const setVisible = (which,chair) => {
+    if(which===seatState.AVAILABLE){
       setIisAddSeatModalVisible(true);
       setSelectedChair(chair);
     }else{
@@ -26,8 +27,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   };
 
 
-  const onFinish = (values, a) => {
-    if (a === 1) {
+  const onFinish = (values, which) => {
+    if (which === seatState.AVAILABLE) {
       var data = JSON.stringify({
         username: values.username,
         mail: values.mail,
@@ -68,12 +69,11 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         username: values.username,
       });
       callSeatStateApi(data);
-      console.log("嗨Received values of form2: ", values);
       setChangeModalVisible(false);
     }
   };
-  const onCancel = (a) => {
-    if (a === 1) {
+  const onCancel = (which) => {
+    if (which === seatState.AVAILABLE) {
       setIisAddSeatModalVisible(false);
     } else {
       setChangeModalVisible(false);
@@ -82,7 +82,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const Action = (seat) => {
     var state = seat.state;
-    if (state === 0) {
+    if (state === seatState.USING) {
       notification.open({
         message: "座位狀態為使用中",
         className: "custom-class",
@@ -91,7 +91,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           console.log("Notification Clicked!");
         },
       });
-    } else if (state === -1) {
+    } else if (state === seatState.ERROR) {
       notification.open({
         message: "座位狀態為異常",
         className: "custom-class",
@@ -103,9 +103,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           console.log("Notification Clicked!");
         },
       });
-    } else if (state === 1) {
+    } else if (state === seatState.AVAILABLE) {
       setVisible(1,seat);
-    } else if (state === 2) {
+    } else if (state === seatState.IDLE_TOO_LONG) {
       axios
         .get("/api/auth/admin/memberInfo", {
           params: {
@@ -160,7 +160,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     >
       <Tooltip
         title={
-          seat.state === 2 ? "已閒置 " + seat.idleMinutes + "分鐘" : undefined
+          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + "分鐘" : undefined
         }
         color={"#5F5A60"}
       >
@@ -176,7 +176,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              "http://localhost:3000/static/img/seats/" +
+              URL+"/static/img/seats/" +
               seat.id +
               ".png?date=" +
               new Date()

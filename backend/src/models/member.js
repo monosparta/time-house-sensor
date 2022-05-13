@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       lineId: {
         type: DataTypes.STRING,
       },
-      // 0: admin, 1: general, 
+      // 0: not logged in, 1: logged in,
       login: {
         type: DataTypes.INTEGER,
       },
-      // 0: not logged in, 1: logged in,
+      // 0: admin, 1: general, 2: others
       level: {
         type: DataTypes.INTEGER,
       },

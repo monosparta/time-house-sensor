@@ -3,7 +3,7 @@ module.exports = {
         min: 1, // included
         max: 10 // included
     },
-    StaticRange: {
+    stateRange: {
         min: -1, // included
         max: 2 // included
     },

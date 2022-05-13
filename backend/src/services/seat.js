@@ -1,4 +1,5 @@
 const db = require("../models/index");
+const seatProperties = require("../utils/seat");
 
 const updateSeatState = async (
   index,
@@ -6,7 +7,7 @@ const updateSeatState = async (
   memberId,
   updateTime = new Date()
 ) => {
-  if (state === 1) {
+  if (state === seatProperties.state.AVAILABLE) {
     memberId = null;
   }
   const seat = await db["Seats"].update(
@@ -22,7 +23,7 @@ const getAllSeatInfo = async () => {
     return seat.dataValues;
   });
   seats.forEach((seat) => {
-    if (seat.state === 2) {
+    if (seat.state === seatProperties.state.IDLE_TOO_LONG) {
       const updateTime = new Date(seat.updatedAt);
       const current = new Date();
       const minutes = parseInt(

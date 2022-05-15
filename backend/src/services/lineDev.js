@@ -20,25 +20,17 @@ const unknownMessageReply = async (event, status, username) => {
   }
 };
 const replySeatState = async (event) => {
-  // const replyMessage = {
-  //   type: "image",
-  //   originalContentUrl:
-  //   process.env.PUBLIC_URL+"/static/img/seats/seat_map.png",
-  //   previewImageUrl:
-  //   process.env.PUBLIC_URL+"/static/img/seats/seat_map.png",
-  // };
   const replyMessage = {
     type: "image",
     originalContentUrl:
-      "https://0f87-211-72-239-241.ngrok.io" + "/static/img/seats/seat_map.png",
+    process.env.EXPRESS_PUBLIC_URL+ "/static/img/seats/seat_map.png",
     previewImageUrl:
-      "https://0f87-211-72-239-241.ngrok.io" + "/static/img/seats/seat_map.png",
+    process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
 
 const adminMessageReply = async (event, status, username) => {
-  console.log("AdminMessageReply");
   if (!status) {
     const adminReplyMessage = {
       type: "flex",
@@ -77,7 +69,7 @@ const adminMessageReply = async (event, status, username) => {
               action: {
                 type: "uri",
                 label: "進入後台",
-                uri: "https://5e44-211-72-239-241.ngrok.io/login",
+                uri: process.env.REACT_PUBLIC_URL,
               },
               height: "sm",
               style: "secondary",
@@ -137,7 +129,7 @@ const replyFeedBackMessage = async (event) => {
 const replyWeb = async (event) => {
   const replyWebMessage = {
     type: "text",
-    text: "https://5e44-211-72-239-241.ngrok.io/login",
+    text: process.env.REACT_PUBLIC_URL,
   };
   return await client.replyMessage(event.replyToken, replyWebMessage);
 };
@@ -193,7 +185,6 @@ const pushAdminMessage = async (id) => {
       });
   });
 };
-// pushAdminMessage("A1")
 module.exports = {
   config,
   client,

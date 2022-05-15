@@ -84,9 +84,6 @@ const lineMessageHandler = async (req, res) => {
     }
 
     member =await  lineDev.findMemberData(messageUserId);
-    console.log("22",member)
-
-    console.log("11",member.dataValues.login)
     //使用者加入官方帳號後，第一次發送訊息後，辨別為管理者
     if (member.dataValues.level === 0) {
       client.linkRichMenuToUser(messageUserId, adminRichMenu);

@@ -10,26 +10,31 @@ const login = async (req, res) => {
       });
     }
     const usernameOrMail = req.body.usernameOrMail;
-    if (!(await memberService.checkMemberExistsByUsernameOrMail(usernameOrMail))) {
+    if (
+      !(await memberService.checkMemberExistsByUsernameOrMail(usernameOrMail))
+    ) {
       return res.status(403).json({
         detail: "帳號或密碼錯誤",
       });
     }
 
     const password = req.body.password;
-    const userInfo = await memberService.getMemberInfoByUsernameOrMail(usernameOrMail);
-    const compareResult = await bcrypt
-      .compare(password, userInfo.password)
-      .then((result) => {
-        return result;
-      });
+    const userInfo = await memberService.getMemberInfoByUsernameOrMail(
+      usernameOrMail
+    );
+    const match = await bcrypt.compareSync(password, userInfo.password);
 
-    if (!compareResult) {
+    if (!match) {
       return res.status(403).json({
         detail: "帳號或密碼錯誤",
       });
     }
 
+    if (userInfo.level) {
+      return res.status(401).json({
+        detail: "僅允許管理者登入",
+      });
+    }
     const token = jwt.sign(
       { id: userInfo.id, username: userInfo.username, level: userInfo.level },
       process.env.JWT_SECRET

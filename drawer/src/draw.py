@@ -40,6 +40,7 @@ fontType = ImageFont.truetype(currentDir + "/Roboto/Roboto-Regular.ttf", 18)
 seats = []
 
 
+# to draw seat-map for response the seat-map-quering requests from line
 def drawSeatMapForGeneralLineMember():
     position = [(252, 77), (440, 77), (629, 77), (818, 77),
                 (440, 274), (629, 274), (818, 274),
@@ -68,6 +69,7 @@ def drawSeatMapForGeneralLineMember():
     basemap.save(imgDesDir + "seat_map.png")
 
 
+# draw each seat and mark no. on seat for front-end
 def drawEachSeatForWeb():
     for seat in seats:
         id, state = seat["id"], seat["state"]
@@ -99,4 +101,4 @@ while True:
 
     drawEachSeatForWeb()
     drawSeatMapForGeneralLineMember()
-    time.sleep(1)
+    time.sleep(1.39)

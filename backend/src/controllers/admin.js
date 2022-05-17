@@ -1,5 +1,7 @@
 const db = require("../models/index");
 const { memberService, seatService } = require("../services/index");
+const seatProperties = require("../utils/seat");
+const memberProperties = require("../utils/member")
 
 // add member for one-day member or want-experience member
 const addMember = async (req, res) => {
@@ -29,8 +31,8 @@ const addMember = async (req, res) => {
       body.username,
       body.mail,
       body.phoneNumber,
-      "0000000000",
-      2
+      "0912121212",
+      memberProperties.level.others
     );
     if (!created) {
       return res.status(400).json({
@@ -90,8 +92,8 @@ const updateSeatState = async (req, res) => {
 
     if (
       !(await seatService.checkSeatIndexExist(seat.index)) ||
-      seat.state < -1 ||
-      2 < seat.state
+      seat.state < seatProperties.stateRange.min ||
+      2 < seatProperties.stateRange.max
     ) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",

@@ -41,6 +41,7 @@ services:
       DB_DATABASE: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PUBLIC_URL: ${EXPRESS_PUBLIC_URL}
       PORT: ${EXPRESS_PORT}
       SALT_ROUND: ${SALT_ROUND}
       LINE_CHANNEL_ACCESS_TOKEN: ${LINE_CHANNEL_ACCESS_TOKEN}
@@ -73,8 +74,6 @@ services:
       - ./backend/public:/workspace/public
       - ./backend/private:/workspace/private
     stdin_open: true
-    env_file:
-      - .env
     environment: 
       EXPRESS_SERVER: express
       EXPRESS_PORT: ${EXPRESS_PORT}
@@ -99,18 +98,21 @@ services:
       timeout: 10s
       retries: 6
 
-  # react:
-  #   image: node:16.13.2-slim
-  #   container_name: react
-  #   restart: always
-  #   tty: true
-  #   volumes:
-  #     - .frontend/:/workspace
-  #   working_dir: /workspace
-  #   stdin_open: true
-  #   ports:
-  #     - "3001:3001"
-  #   environment:
-  #     BACKEND_HOST: express
-  #     BACKEND_PORT: ${EXPRESS_PORT}
-  #   command: sh -c "npm install && tail -f"
+  react:
+    image: node:16.13.2-slim
+    container_name: react
+    restart: always
+    tty: true
+    volumes:
+      - .frontend/:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    ports:
+      - "3001:3001"
+    environment:
+      BACKEND_HOST: express
+      BACKEND_PORT: ${EXPRESS_PORT}
+      REACT_APP_EMAILJS_SERVISE: ${REACT_APP_EMAILJS_SERVISE}
+      REACT_APP_EMAILJS_TEMPLATE: ${REACT_APP_EMAILJS_TEMPLATE}
+      REACT_APP_EMAILJS_OWNER: ${REACT_APP_EMAILJS_OWNER}
+    command: sh -c "npm install && tail -f"

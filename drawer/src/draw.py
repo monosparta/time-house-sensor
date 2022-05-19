@@ -5,8 +5,11 @@ from PIL import ImageFont, ImageDraw, Image
 from datetime import datetime, timezone, timedelta
 import time
 
-currentDir = os.path.dirname(__file__)
+load_dotenv()
 
+currentDir = os.path.dirname(__file__)
+print("current dir: ", currentDir)
+print("express server ip", os.getenv("EXPRESS_SERVER"))
 rawImgSourceDir = os.path.join(currentDir + "/../../backend/private/seats/")
 basemapPath = rawImgSourceDir + "basemap-1200x728.png"
 warningIconPath = rawImgSourceDir + "warningIcon.png"
@@ -103,3 +106,4 @@ while True:
     drawEachSeatForWeb()
     drawSeatMapForGeneralLineMember()
     time.sleep(1.39)
+

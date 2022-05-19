@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { CollectionCreateForm } from "./CollectionCreateForm";
 const seatState = require("../utils/seatState");
-const URL='http://localhost:3000';
+const URL=process.env.REACT_APP_BASEURL;
 export const SeatMap = ({ seat,callSeatApi }) => {
   const [isAddSeatModalVisible, setIisAddSeatModalVisible] = useState(false);
   const [isChangeModalVisible, setChangeModalVisible] = useState(false);

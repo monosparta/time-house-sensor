@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { memberService } = require("../services/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");

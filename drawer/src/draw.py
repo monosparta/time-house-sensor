@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import requests
 from PIL import ImageFont, ImageDraw, Image
 from datetime import datetime, timezone, timedelta

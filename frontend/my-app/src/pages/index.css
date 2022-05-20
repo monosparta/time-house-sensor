@@ -69,13 +69,14 @@ footer{
   width: 100%; 
 }
 
-
+      
 
 .my-modal-class .ant-modal-footer{
   justify-content: center; 
   display: flex;
   border-top: 1px solid #ffffff;
   font-weight:bold;
+  padding: 8px;
 }
 
 .idle-modal-class .ant-modal-footer{

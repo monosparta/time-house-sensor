@@ -107,7 +107,7 @@ export const CollectionCreateForm = ({
                 rules={[
                   {
                     required: true,
-                    message: "請輸入聯絡電話",
+                    message: "格式錯誤，請重新輸入!",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -133,7 +133,7 @@ export const CollectionCreateForm = ({
                   { type: "email", message: "請輸入有效的郵件地址" },
                   {
                     required: true,
-                    message: "請輸入聯絡用信箱!",
+                    message: "格式錯誤，請重新輸入!",
                   },
                 ]}
               >

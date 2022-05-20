@@ -105,9 +105,9 @@ export const CollectionCreateForm = ({
                 label="連絡電話"
                 name="phoneNumber"
                 rules={[
-                  {
+                  {    
                     required: true,
-                    message: "格式錯誤，請重新輸入!!",
+                    message: "格式錯誤，請重新輸入!! ", 
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {

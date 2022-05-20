@@ -107,7 +107,7 @@ export const CollectionCreateForm = ({
                 rules={[
                   {
                     required: true,
-                    message: "格式錯誤，請重新輸入!",
+                    message: "格式錯誤，請重新輸入!!",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {

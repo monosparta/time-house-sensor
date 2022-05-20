@@ -6,8 +6,7 @@
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\features\counter\userSlice.js
  */
-import React, { useState, useEffect } from 'react'
-import axios from "../../Axios.config";
+import axios from "../Axios.config";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loginUser = createAsyncThunk(
@@ -35,24 +34,19 @@ export const loginUser = createAsyncThunk(
           if (response.status === 200) {
             localStorage.setItem("authorized_keys", response.data.token);
             data = response.data;
-            console.log("我成功了" + response.data);
             
 
             return data;
           } else {
-            console.log("錯誤哈"+response.data.detail);
             // throw response.data
             return thunkAPI.rejectWithValue(response.data);
           }
         })
         .catch(function (error) {
-          console.log("取得錯誤啦哈哈"+error.response.data)
           return thunkAPI.rejectWithValue(error.response.data);
         });
       return response;
     } catch (e) {
-      console.log("問號Error", e.response.data);
-
       thunkAPI.rejectWithValue(e.response.data);
     }
   }
@@ -80,18 +74,15 @@ export const userSlice = createSlice(
   },
   extraReducers: {
     [loginUser.fulfilled]: (state) => {
-      console.log("OKK");
       state.isFetching = false;
       state.isSuccess = true;
       return state;
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
-      console.log("loading");
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log("被拒絕啦"+payload);
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.detail;

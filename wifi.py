@@ -1,3 +1,3 @@
-ssid="jane"
-password="jo901025"
+ssid="TrunkStudio-2.4G"
+password="22019020"
 

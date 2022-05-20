@@ -15,22 +15,22 @@ if not sta.isconnected():
   sta.connect(wifi.ssid, wifi.password)
   while not sta.isconnected():
     pass
-print('network config:', sta.ifconfig())
+print('network config:', sta.     ifconfig())
 
 def RFID_MQTT(cardId):
-    payload={'cardId':cardId,'index':1}
+    payload={'cardId':cardId,'index':5}
     return payload
 
 def IR_MQTT(seatState):
-    payload={'seatUseState':seatState,'index':1}
+    payload={'seatUseState':seatState,'index':4}
     return payload
 
 def Exception_MQTT():
-    payload={'seatUseState':1,'index':1}
+    payload={'seatUseState':1,'index':5}
     return payload
 
 def Error(sensorName):
-    payload={'errorMessage':"sensor error",'sensorName':sensorName,'index':1}
+    payload={'errorMessage':"sensor error",'sensorName':sensorName,'index':5}
     return payload
 # **************************************#
 # Global variables and constants:
@@ -58,14 +58,14 @@ while True:
         if(UseStat==2):
             client.publish("Error", json.dumps(Error("RFID")))
             print("Error Topic")
-        elif(UseStat==1):
-            if(len(nowState)>=3):
-                compute=nowState[-3:]
-                computeUse=compute.count(1)
-                if(computeUse==3):
-                    nowState=[]
-                    client.publish("Exception", json.dumps(Exception_MQTT()))
-                    print("Exception Topic")
+        #elif(UseStat==1):
+            #if(len(nowState)>=3):
+                #cntUseTimes=0
+                #compute=nowState[-3:]
+                #computeUse=compute.count(1)
+                #if(computeUse==3):
+                    #client.publish("Exception", json.dumps(Exception_MQTT()))
+                    #print("Exception Topic")
         else:
             if(oldCard!=userCardId):
                 nowState=[]
@@ -73,7 +73,7 @@ while True:
                 print("RFID Topic")
                 oldCard=userCardId
         if((cntUseTime+cntIdleTime)==6):
-            if(len(nowState)>=30):
+            if(len(nowState)==2):
                 del nowState[0]
             if(cntUseTime>4):
                 nowState.append(1)
@@ -81,21 +81,22 @@ while True:
                 nowState.append(0)                
             cntIdleTime=0
             cntUseTime=0
-        if(len(nowState)>=3):
-            compute=nowState[-3:]
+        if(len(nowState)==2):
+            cntUseTimes=0
+            compute=nowState[-2:]
             computeUse=compute.count(1)
-            if(notificationState==1 and computeUse==3):
+            if(notificationState==1 and computeUse==2):
                 notificationState=0
                 nowState=[]
                 client.publish("IR", json.dumps(IR_MQTT(1)))
                 print("IR Topic 1")
-        if(len(nowState)>=10):
-            computeTen=nowState[-10:]
+        if(len(nowState)>=2):
+            computeTen=nowState[-2:]
             computeTenUse=computeTen.count(0)
-            if(computeTenUse>=8):
-                computeThirty=nowState
-                computeThirtyUse=computeThirty.count(0)
-                if(notificationState==0 and computeThirtyUse>=27 and len(computeThirty)==30):
+            if(computeTenUse>=1):
+                #computeThirty=nowState
+                #computeThirtyUse=computeThirty.count(0)
+                if(notificationState==0 ):
                     notificationState=1
                     client.publish("IR", json.dumps(IR_MQTT(0)))
                     print("IR Topic 0")
@@ -106,4 +107,5 @@ while True:
         print(nowState)
         client.disconnect()
         last_update = time.ticks_ms()
+
 

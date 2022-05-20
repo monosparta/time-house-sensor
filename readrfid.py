@@ -13,6 +13,7 @@ def rfid_id():
             for_len=10-len(uid)
             for i in range(for_len):
                 uid="0"+uid
+    print(uid,stat)
     return uid,stat
 
 

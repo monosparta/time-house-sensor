@@ -117,7 +117,7 @@ export const CollectionCreateForm = ({
                       ) {
                         return Promise.resolve();
                       } else if (value.length !== 10) {
-                        return Promise.resolve();
+                        return Promise.resolve(); 
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
                     },

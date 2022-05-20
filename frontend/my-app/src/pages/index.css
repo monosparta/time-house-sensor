@@ -79,6 +79,7 @@ footer{
 }
 
 .idle-modal-class .ant-modal-footer{
+  
   margin-right: 10px;
   justify-content: right; 
   display: flex;

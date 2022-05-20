@@ -5,7 +5,6 @@
   position: absolute;
   padding: 15vh 5vw;
 
- 
 }
 
 .logo {
@@ -61,7 +60,21 @@
   
 
 }
+@media screen and (max-width:768px) { 
 
+  .content {
+    margin: 0 auto;
+    position: relative;
+    align-items: flex-start;
+    justify-content: center;
+    width: 70vw;
+    /* backdrop-filter: blur(5px); */
+    box-shadow: 1px 1px 5px 5px rgb(200, 200, 200,0.5);
+    border-radius:5px;
+    
+  
+  }
+}
 /* h2 {
   color: white !important;
 } */

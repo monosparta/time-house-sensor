@@ -23,7 +23,6 @@ module.exports = {
           lineId: "U028abf3896a5342e28e44a6957e44622",
           cardId: "0123456789",
           mail: "admin@gmail.com",
-          login: 0,
           level: 0,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -38,7 +37,6 @@ module.exports = {
           cardId: "0476395939",
           mail: "general@gmail.com",
           level: 1,
-          login: 0,
           createdAt: new Date(),
           updatedAt: new Date(),
         }

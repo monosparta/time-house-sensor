@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      no: {
+        type: DataTypes.STRING,
+      },
       // -1: abnormal, 0: someone using, 1: can be used, 2: idle for too long
       state: {
         allowNull: false,

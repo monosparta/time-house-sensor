@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      no: {
+        type: Sequelize.STRING,
+      },
       // -1: abnormal, 0: someone using, 1: can be used, 2: idle for too long
       state: {
         allowNull: false,

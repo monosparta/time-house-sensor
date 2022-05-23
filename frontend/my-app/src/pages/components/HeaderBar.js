@@ -27,8 +27,8 @@ const handleLogout = (e) => {
               verticalAlign: "middle",
               color: "white",
             }}
-          >
-            時光屋座位使用管理系統
+          >    
+            高階智能座位管理系統
           </Col>
           <Col
             span={2}

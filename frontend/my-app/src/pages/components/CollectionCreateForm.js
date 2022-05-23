@@ -105,9 +105,9 @@ export const CollectionCreateForm = ({
                 label="連絡電話"
                 name="phoneNumber"
                 rules={[
-                  {
+                  {    
                     required: true,
-                    message: "請輸入聯絡電話",
+                    message: "格式錯誤，請重新輸入!! ", 
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -117,7 +117,7 @@ export const CollectionCreateForm = ({
                       ) {
                         return Promise.resolve();
                       } else if (value.length !== 10) {
-                        return Promise.resolve();
+                        return Promise.resolve(); 
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
                     },
@@ -133,7 +133,7 @@ export const CollectionCreateForm = ({
                   { type: "email", message: "請輸入有效的郵件地址" },
                   {
                     required: true,
-                    message: "請輸入聯絡用信箱!",
+                    message: "格式錯誤，請重新輸入!!",
                   },
                 ]}
               >

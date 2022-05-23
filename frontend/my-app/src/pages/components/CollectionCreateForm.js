@@ -133,7 +133,7 @@ export const CollectionCreateForm = ({
                   { type: "email", message: "請輸入有效的郵件地址" },
                   {
                     required: true,
-                    message: "格式錯誤，請重新輸入!",
+                    message: "格式錯誤，請重新輸入!!",
                   },
                 ]}
               >

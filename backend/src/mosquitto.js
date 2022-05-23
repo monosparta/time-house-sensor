@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mqtt = require("mqtt");
 const mqttController = require("./controllers/mosquitto");
 let topics = ["IR", "RFID", "Error"];

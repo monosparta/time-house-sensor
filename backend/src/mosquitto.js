@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mqtt = require("mqtt");
 const mqttController = require("./controllers/mosquitto");
-let topics = ["IR", "RFID", "Error"];
+let topics = { IR: { qos: 2 }, RFID: { qos: 2 }, Error: { qos: 2 } };
 let client = mqtt.connect(
   "mqtt://" + process.env.MQTT_HOST + ":" + process.env.MQTT_PORT,
   {
@@ -17,10 +17,19 @@ let client = mqtt.connect(
 
 client.on("connect", () => {
   console.log("connected  " + client.connected);
-  client.subscribe(topics, {qos: 2}, () => {
-    console.log(`Subscribe to topic '${topics}'`);
+  client.subscribe(topics, (err, granted) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(granted);
   });
 });
+
+// (err, granted) => {
+//   console.log(`Subscribe to topic '${topics}'`);
+//   console.log(err);
+//   console.log(granted);
+// }
 
 client.on("message", (topic, payload) => {
   payload = JSON.parse(payload);

@@ -8,18 +8,18 @@ const seatProperty = require("../utils/seat");
 const IRHandler = async ({ index, seatUseState }) => {
   const seat = await seatService.getOneSeatInfo(index);
   if (seatUseState === 0) {
-    if (seat.state === seatProperty.AVAILABLE) {
+    if (seat.state === seatProperty.state.AVAILABLE) {
       return;
     }
     seatService.updateSeatState(
       index,
-      seatProperty.IDLE_TOO_LONG,
+      seatProperty.state.IDLE_TOO_LONG,
       seat.memberId
     );
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
-    seatService.updateSeatState(index, seatProperty.USING, seat.memberId);
+    seatService.updateSeatState(index, seatProperty.state.USING, seat.memberId);
   }
 };
 
@@ -28,11 +28,11 @@ const RFIDHandler = async ({ index, cardId }) => {
   if (!memberInfo) {
     return;
   }
-  seatService.updateSeatState(index, seatProperty.USING, memberInfo.id);
+  seatService.updateSeatState(index, seatProperty.state.USING, memberInfo.id);
 };
 
 const errorHandler = async ({ index, errorMessage, sensorName }) => {
-  seatService.updateSeatState(index, seatProperty.ERROR, null);
+  seatService.updateSeatState(index, seatProperty.state.ERROR, null);
 };
 
 module.exports = {

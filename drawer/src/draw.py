@@ -1,17 +1,21 @@
 import os
+from dotenv import load_dotenv
 import requests
 from PIL import ImageFont, ImageDraw, Image
 from datetime import datetime, timezone, timedelta
 import time
 
-currentDir = os.path.dirname(__file__)
+load_dotenv()
 
-rawImgSourceDir = os.path.join(currentDir + "/../private/seats/")
+currentDir = os.path.dirname(__file__)
+print("current dir: ", currentDir)
+print("express server ip", os.getenv("EXPRESS_SERVER"))
+rawImgSourceDir = os.path.join(currentDir + "/../../backend/private/seats/")
 basemapPath = rawImgSourceDir + "basemap-1200x728.png"
 warningIconPath = rawImgSourceDir + "warningIcon.png"
 warningIcon = Image.open(warningIconPath)
 
-imgDesDir = currentDir + "/../public/img/seats/"
+imgDesDir = currentDir + "/../../backend/public/img/seats/"
 seatsSelfProcessInfo = [
     {"no": None, "rotation": 0},
     {"no": "A1", "rotation": 180},
@@ -102,3 +106,4 @@ while True:
     drawEachSeatForWeb()
     drawSeatMapForGeneralLineMember()
     time.sleep(1.39)
+

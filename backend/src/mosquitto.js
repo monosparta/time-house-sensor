@@ -17,7 +17,7 @@ let client = mqtt.connect(
 
 client.on("connect", () => {
   console.log("connected  " + client.connected);
-  client.subscribe(topics, () => {
+  client.subscribe(topics, {qos: 2}, () => {
     console.log(`Subscribe to topic '${topics}'`);
   });
 });

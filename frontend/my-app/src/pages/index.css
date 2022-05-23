@@ -40,7 +40,10 @@
 .ant-notification-notice-message{
   color: azure;
 }
-
+.ant-form-item-explain-error {
+  color: #ff4d4f;
+  padding: 4px;
+}
 .chair {
   width: 15vh;
   height: 15vh;
@@ -69,16 +72,18 @@ footer{
   width: 100%; 
 }
 
-
+      
 
 .my-modal-class .ant-modal-footer{
   justify-content: center; 
   display: flex;
   border-top: 1px solid #ffffff;
   font-weight:bold;
+  margin: 8px;
 }
 
 .idle-modal-class .ant-modal-footer{
+  
   margin-right: 10px;
   justify-content: right; 
   display: flex;

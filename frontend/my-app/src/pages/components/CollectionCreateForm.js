@@ -49,7 +49,7 @@ export const CollectionCreateForm = ({
       });
   };
 
-  var ChairId = chairInfo.id;
+  var ChairId = chairInfo.no;
 
   if (whichModal === 1) {
     // 表單一，可使用位置

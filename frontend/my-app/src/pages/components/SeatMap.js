@@ -82,6 +82,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const Action = (seat) => {
     var state = seat.state;
+    console.log(seat.no)
     if (state === seatState.USING) {
       notification.open({
         message: "座位狀態為使用中",
@@ -189,6 +190,14 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         {seat.id === 4 || seat.id === 1 || seat.id === 2 || seat.id === 3 ? (
           <div>
             <br />
+            <br />
+            <br />
+          </div>
+        ) : (
+          ""
+        )}
+         {seat.id === 5 || seat.id === 6 || seat.id === 7 ? (
+          <div>
             <br />
           </div>
         ) : (

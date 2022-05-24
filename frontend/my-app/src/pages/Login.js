@@ -116,7 +116,7 @@ const Login = () => {
                       htmlType="submit"
                       block
                       size="large"
-                      style={{ background: "#363F4E", borderColor: "#363F4E" }}
+                      style={{ background: "#363F4E", borderColor: "#363F4E",color:"white" }}
                     >
                       立即登入
                     </Button>

@@ -75,6 +75,7 @@ img {
   border-color: #5CB4FD;
   border-radius: 3px;
   font-size: 2vw;
+
 }
 .ant-btn {
   line-height: 1.5715;
@@ -97,9 +98,16 @@ img {
   padding: 1vh;
   font-size: 1vw;
   border-radius: 2px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(35, 35, 35, 0.85);
   border-color: #d9d9d9;
 
+}
+.ant-modal-body {
+  padding: 28px 20px 0px 20px;
+  font-size: 14px;
+  line-height: 1.5715;
+  word-wrap: break-word;
+  margin-top: 10vh;
 }
 
 hr {
@@ -194,6 +202,7 @@ body{
   background-color: #fff;
   border-color: #1976D2;
   color: #1976D2;
+  padding: 10px;
 }
 
 #fromcontact {

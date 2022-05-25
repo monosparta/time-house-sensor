@@ -10,7 +10,7 @@ router.use("/api/line", lineDev.middleware);
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use("/static", express.static("public"));
+app.use("/api/static", express.static("public"));
 
 require("./routes")(router);
 app.use(router);

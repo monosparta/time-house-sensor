@@ -74,6 +74,7 @@ const getMemberById = async (req, res) => {
       },
     });
   } catch (err) {
+    // console.log(err);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });
@@ -110,6 +111,7 @@ const updateSeatState = async (req, res) => {
     const result = await seatService.updateSeatState(
       parseInt(seat.index),
       parseInt(seat.state),
+      new Date(),
       parseInt(memberInfo.id)
     );
     if (result !== "success") {

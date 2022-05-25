@@ -4,14 +4,14 @@ const seatProperties = require("../utils/seat");
 const updateSeatState = async (
   index,
   state,
-  memberId,
-  updateTime = new Date()
+  stateChangedAt,
+  memberId=null,
 ) => {
   if (state === seatProperties.state.AVAILABLE) {
     memberId = null;
   }
   const seat = await db["Seats"].update(
-    { state: state, memberId: memberId, updatedAt: updateTime },
+    { state: state, stateChangedAt: stateChangedAt, memberId: memberId},
     { where: { id: index } }
   );
   return "success";
@@ -24,10 +24,10 @@ const getAllSeatInfo = async () => {
   });
   seats.forEach((seat) => {
     if (seat.state === seatProperties.state.IDLE_TOO_LONG) {
-      const updateTime = new Date(seat.updatedAt);
+      const stateChangedAt = new Date(seat.stateChangedAt);
       const current = new Date();
       const minutes = parseInt(
-        (current.getTime() - updateTime.getTime()) / (1000 * 60) + 30
+        (current.getTime() - stateChangedAt.getTime()) / (1000 * 60) + 30
       );
       seat.idleMinutes = minutes;
     } else {
@@ -55,4 +55,3 @@ module.exports = {
   getOneSeatInfo,
   checkSeatIndexExist,
 };
-getAllSeatInfo();

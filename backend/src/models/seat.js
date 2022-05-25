@@ -28,9 +28,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      stateChangedAt: {
+        type: DataTypes.DATE,
+      },
       memberId: {
         type: DataTypes.INTEGER,
         references: { model: "Members", key: "id" },
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,

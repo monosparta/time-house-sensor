@@ -123,30 +123,30 @@ while True:
     except requests.exceptions.ConnectionError:
         continue
 
-    curSeatsState = response.json()["seats"]
+    try: 
+        curSeatsState = response.json()["seats"]
 
-    for i in range(len(curSeatsState)):
-        if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
-            seat = curSeatsState[i]
-            lineSeat, webSeat = drawSeat(seat)
+        for i in range(len(curSeatsState)):
+            if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
+                seat = curSeatsState[i]
+                lineSeat, webSeat = drawSeat(seat)
 
-            lineSeat.save("./line_seat" + str(i) + ".png")
-            webSeat.save("./web_seat" + str(i) + ".png")
+                # just save web seat in backend/public/img/seats
+                webSeat.save(imgDesDir + str(seat["id"]) + ".png")
 
-            # just save web seat in backend/public/img/seats
-            webSeat.save(imgDesDir + str(seat["id"]) + ".png")
+                basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
 
-            basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
+        basemapCanvas = ImageDraw.Draw(basemap)
+        utcTime = datetime.utcnow()
+        localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
+        localTimeString = localTIme.strftime(
+            "%Y/%m/%d %H:%M:%S").replace("-", "/")
+        basemapCanvas.text((996, 682), localTimeString,
+                        (0, 0, 0, 255), font18Roboto)
+        basemap.save(imgDesDir + "seat_map.png")
 
-    basemapCanvas = ImageDraw.Draw(basemap)
-    utcTime = datetime.utcnow()
-    localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
-    localTimeString = localTIme.strftime(
-        "%Y/%m/%d %H:%M:%S").replace("-", "/")
-    basemapCanvas.text((996, 682), localTimeString,
-                       (0, 0, 0, 255), font18Roboto)
-    basemap.save(imgDesDir + "seat_map.png")
-
-    preSeatsState = curSeatsState
-    preSeatsState = []
-    time.sleep(1.39)
+        preSeatsState = curSeatsState
+        preSeatsState = []
+        time.sleep(1.39)
+    except Exception as e:
+        continue

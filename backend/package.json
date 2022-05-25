@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
+    "build": "npm build [backend]",
     "unit": "node src/controllers/mosquitto.js",
     "test": "jest --detectOpenHandles",
     "db:pre-migrate": "node src/config/createDB.js",
@@ -12,7 +13,7 @@
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",
     "db:deploy:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/deploy",
-    "db:seed:undo": "npx sequelize-cli db:seed:undo --config ./src/config/config.js --seeders-path ./src/seeders",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo --config ./src/config/config.js --seeders-path ./src/seeders/dev",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate"
   },
   "repository": {

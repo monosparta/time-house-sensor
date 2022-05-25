@@ -46,7 +46,7 @@ const Login = () => {
       <Row>
         <Col xs={{span: 0}} sm={{span: 0}} md={{span:8}} lg={{span:8}} className="Color box">
           <div className="logo">
-            <h2 style={{ color: "white" }}>時光屋座位管理系統</h2>
+            <h2 style={{ color: "white" }}>高階智能座位管理系統</h2>
             <div className="image">
               <img src={"../image/logo.png"} alt="logo"></img>
             </div>
@@ -116,7 +116,7 @@ const Login = () => {
                       htmlType="submit"
                       block
                       size="large"
-                      style={{ background: "#363F4E", borderColor: "#363F4E" }}
+                      style={{ background: "#363F4E", borderColor: "#363F4E",color:"white" }}
                     >
                       立即登入
                     </Button>

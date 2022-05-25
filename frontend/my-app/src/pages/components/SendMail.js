@@ -70,7 +70,7 @@ export const SendMail = ({sendMail}) => {
                 <input type="hidden" name="mail" value={mail} />
               </Space>
             </Col>
-            <Col span={5} offset={2}>
+            <Col span={5} offset={1}>
               <Button type="primary" htmlType="submit">
                 <EditOutlined style={{ color: "#1976D2" }} />
                 寄送通知

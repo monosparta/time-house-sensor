@@ -82,6 +82,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const Action = (seat) => {
     var state = seat.state;
+    console.log(seat.no)
     if (state === seatState.USING) {
       notification.open({
         message: "座位狀態為使用中",
@@ -106,6 +107,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     } else if (state === seatState.AVAILABLE) {
       setVisible(1,seat);
     } else if (state === seatState.IDLE_TOO_LONG) {
+      console.log("我要得到使用者資料" + seat.memberId);
       axios
         .get("/api/auth/admin/memberInfo", {
           params: {
@@ -123,6 +125,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
          });
         })
         .catch(function (error) {
+          console.log("我要得到使用者資料" + seat.memberId);
           console.log(error);
         });
       setVisible(2,seat);
@@ -176,7 +179,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              URL+"/static/img/seats/" +
+              URL+"/api/static/img/seats/" +
               seat.id +
               ".png?date=" +
               new Date()
@@ -189,6 +192,14 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         {seat.id === 4 || seat.id === 1 || seat.id === 2 || seat.id === 3 ? (
           <div>
             <br />
+            <br />
+            <br />
+          </div>
+        ) : (
+          ""
+        )}
+         {seat.id === 5 || seat.id === 6 || seat.id === 7 ? (
+          <div>
             <br />
           </div>
         ) : (

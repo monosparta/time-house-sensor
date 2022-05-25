@@ -32,6 +32,7 @@ export const loginUser = createAsyncThunk(
           let data = "";
 
           if (response.status === 200) {
+            console.log("得到要使啦"+response.data.token)
             localStorage.setItem("authorized_keys", response.data.token);
             data = response.data;
             

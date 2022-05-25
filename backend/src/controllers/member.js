@@ -45,6 +45,7 @@ const login = async (req, res) => {
       token: token,
     });
   } catch (err) {
+    // console.log(err);
     return res.json({
       detail: "伺服器內部錯誤",
     });

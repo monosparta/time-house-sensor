@@ -20,14 +20,24 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      no: {
+        type: DataTypes.STRING,
+      },
       // -1: abnormal, 0: someone using, 1: can be used, 2: idle for too long
       state: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      stateChangedAt: {
+        type: DataTypes.DATE,
+      },
       memberId: {
         type: DataTypes.INTEGER,
         references: { model: "Members", key: "id" },
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,

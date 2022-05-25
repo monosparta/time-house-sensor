@@ -23,6 +23,7 @@ const handleLogout = (e) => {
       <Header className="black">
         <Row>
           <Col
+           sm={{span:4,push:1}} md={{span:5,push:2}} lg={{span:5,push:1}} xl={{span:5,push:1}} xxl={{span:6,push:1}}
             style={{
               verticalAlign: "middle",
               color: "white",
@@ -31,8 +32,8 @@ const handleLogout = (e) => {
             高階智能座位管理系統
           </Col>
           <Col
-            span={2}
-            push={18}
+           sm={{span:2,offset:15}} md={{span:2,offset:16}} lg={{span:2,offset:15}} xl={{span:2,offset:15}} xxl={{span:2,offset:15}}
+          
             style={{
               verticalAlign: "middle",
               color: "white",

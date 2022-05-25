@@ -5,7 +5,7 @@ const seatProperty = require("../utils/seat");
  *
  * @param {seatUseState} 0: nobody, 1: someone
  */
-const IRHandler = async ({ index, seatUseState }) => {
+const IRHandler = async ({ index, seatUseState, time }) => {
   const seat = await seatService.getOneSeatInfo(index);
   if (seatUseState === 0) {
     if (seat.state === seatProperty.state.AVAILABLE) {
@@ -14,12 +14,20 @@ const IRHandler = async ({ index, seatUseState }) => {
     seatService.updateSeatState(
       index,
       seatProperty.state.IDLE_TOO_LONG,
+<<<<<<< HEAD
+=======
+      new Date(time),
+>>>>>>> develop
       seat.memberId
     );
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
+<<<<<<< HEAD
     seatService.updateSeatState(index, seatProperty.state.USING, seat.memberId);
+=======
+    seatService.updateSeatState(index, seatProperty.USING, new Date(time), seat.memberId);
+>>>>>>> develop
   }
 };
 
@@ -28,11 +36,19 @@ const RFIDHandler = async ({ index, cardId }) => {
   if (!memberInfo) {
     return;
   }
+<<<<<<< HEAD
   seatService.updateSeatState(index, seatProperty.state.USING, memberInfo.id);
 };
 
 const errorHandler = async ({ index, errorMessage, sensorName }) => {
   seatService.updateSeatState(index, seatProperty.state.ERROR, null);
+=======
+  seatService.updateSeatState(index, seatProperty.USING, new Date(time), memberInfo.id);
+};
+
+const errorHandler = async ({ index, errorMessage, sensorName }) => {
+  seatService.updateSeatState(index, seatProperty.ERROR, new Date(time), null);
+>>>>>>> develop
 };
 
 module.exports = {

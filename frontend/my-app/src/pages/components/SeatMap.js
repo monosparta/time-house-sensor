@@ -179,7 +179,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              URL+"/static/img/seats/" +
+              URL+"/api/static/img/seats/" +
               seat.id +
               ".png?date=" +
               new Date()

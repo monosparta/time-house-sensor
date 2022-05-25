@@ -49,7 +49,7 @@
   /* height: 17vh;
   width: 15vw; */
   height: 18vh;
-  width:90%;
+  width: 90%;
   position: relative;
 }
 
@@ -77,6 +77,7 @@ img {
   font-size: 2vw;
 
 }
+
 .ant-btn {
   line-height: 1.5715;
   position: relative;
@@ -94,14 +95,15 @@ img {
   -ms-user-select: none;
   user-select: none;
   touch-action: manipulation;
-  height: 5vh;
+  height: 4vh;
   padding: 1vh;
-  font-size: 1vw;
+  font-size: 1vh;
   border-radius: 2px;
   color: rgba(35, 35, 35, 0.85);
   border-color: #d9d9d9;
 
 }
+
 .ant-modal-body {
   padding: 28px 20px 0px 20px;
   font-size: 14px;
@@ -117,7 +119,7 @@ hr {
 }
 
 
-.ant-layout-footer{
+.ant-layout-footer {
   position: absolute;
   display: block;
   bottom: 2vh;
@@ -126,7 +128,7 @@ hr {
   font-size: 1vw;
 }
 
-body{
+body {
   font-size: 1vw;
 }
 
@@ -198,6 +200,11 @@ body{
   border-color: #363F4E;
 }
 
+.ant-form-item-explain-error {
+  padding: 5px;
+  color: #ff4d4f;
+}
+
 #fromcontact .ant-btn-primary {
   background-color: #fff;
   border-color: #1976D2;
@@ -216,7 +223,7 @@ body{
 }
 
 .center {
-  padding-left: 8%;
+  text-align: center;
 }
 
 .directions {

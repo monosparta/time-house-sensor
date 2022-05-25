@@ -107,6 +107,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     } else if (state === seatState.AVAILABLE) {
       setVisible(1,seat);
     } else if (state === seatState.IDLE_TOO_LONG) {
+      console.log("我要得到使用者資料" + seat.memberId);
       axios
         .get("/api/auth/admin/memberInfo", {
           params: {
@@ -124,6 +125,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
          });
         })
         .catch(function (error) {
+          console.log("我要得到使用者資料" + seat.memberId);
           console.log(error);
         });
       setVisible(2,seat);

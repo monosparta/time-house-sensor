@@ -72,13 +72,37 @@
     box-shadow: 1px 1px 5px 5px rgb(200, 200, 200,0.5);
     border-radius:5px;
     
+  }
+}
+@media (max-width:1800px) and (min-width:900px)  { 
+  .logo .image{
+
+    position: absolute;
+    left: 2vw;
+  }
+  .image img{
+    max-height: 80%;  
+    max-width: 80%; 
+    width: auto;
+    height: auto;
   
   }
 }
-/* h2 {
-  color: white !important;
-} */
 
+@media (max-width:900px) and (min-width:768px)  { 
+  .logo .image{
+
+    position: absolute;
+   
+  }
+  .image img{
+    max-height: 50%;  
+    max-width: 50%; 
+    width: auto;
+    height: auto;
+  
+  }
+}
 .form {
   padding: 25px;
   flex-direction: column;

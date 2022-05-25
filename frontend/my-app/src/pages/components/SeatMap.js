@@ -53,7 +53,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             },
             username: values.username,
           });
-          callSeatStateApi(data);
+          putSeatState(data);
         })
         .catch(function (error) {
           console.log(error);
@@ -68,7 +68,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
         username: values.username,
       });
-      callSeatStateApi(data);
+      putSeatState(data);
       setChangeModalVisible(false);
     }
   };
@@ -118,14 +118,14 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           },
         })
         .then(function (res) {
-          console.log("我要得到使用者資料" + res.data.member.name);
+          // console.log("我要得到使用者資料" + res.data.member.name);
           setSelecteduser(res.data.member);
           form.setFieldsValue({
             username:res.data.member.name
          });
         })
         .catch(function (error) {
-          console.log("我要得到使用者資料" + seat.memberId);
+          // console.log("我要得到使用者資料" + seat.memberId);
           console.log(error);
         });
       setVisible(2,seat);
@@ -133,7 +133,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     }
   };
 
-  const callSeatStateApi = (data) => {
+  const putSeatState = (data) => {
     var config = {
       method: "put",
       url: "/api/auth/admin/seatState",

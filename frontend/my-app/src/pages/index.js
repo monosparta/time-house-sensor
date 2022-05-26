@@ -41,7 +41,7 @@ const Home = () => {
     <div>
       <HeaderBar />
       <Content>
-        <div className="seatmap">
+        <div className="seatmap"><div className="a"/>
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "build": "npm build [backend]",
+    "build": "npm build",
     "unit": "node src/controllers/mosquitto.js",
     "test": "jest --detectOpenHandles",
     "db:pre-migrate": "node src/config/createDB.js",

@@ -15,4 +15,4 @@ jobs:
       - run: npm --prefix ./frontend/my-app ci
       - run: npm --prefix ./frontend/my-app test
       - run: npm --prefix ./frontend/my-app run build --if-present
-      - run: rsync -avz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+      - run: sudo rsync -avz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}

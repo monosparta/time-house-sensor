@@ -42,8 +42,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^14.2.0"
+    "@testing-library/user-event": "^14.2.0",
+    "babel-jest": "^28.1.0",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "react-test-renderer": "^18.1.0"
   }
 }

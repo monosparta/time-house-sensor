@@ -1,11 +1,11 @@
 .seatmap {
   /* display: flex; */
-  border: solid 10px #E9E9E9;
+  border: solid 20px #E9E9E9;
   position: relative;
-  margin-top: 5vh;
+  margin-top: 6vh;
   margin-left: 17vw;
   margin-right: 15vw;
-  padding: 1vh 0vw 8vh 0vw;
+  padding: 2.2% 1% 3% 1%;
 }
 
 .dot {
@@ -48,11 +48,14 @@
 .chair {
   /* height: 17vh;
   width: 15vw; */
-  height: 18vh;
-  width: 90%;
+  height: 80%;
+  width: 80%;
   position: relative;
 }
-
+.nullchair{
+  height: 40%;
+  width: 40%;
+}
 img {
   /* max-height: 100%;
   max-width: 100%;
@@ -74,35 +77,10 @@ img {
   background-color: #5CB4FD;
   border-color: #5CB4FD;
   border-radius: 3px;
-  font-size: 2vw;
+  font-size: 10px;
 
 }
 
-.ant-btn {
-  line-height: 1.5715;
-  position: relative;
-  display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  height: 4vh;
-  padding: 1vh;
-  font-size: 1vh;
-  border-radius: 2px;
-  color: rgba(35, 35, 35, 0.85);
-  border-color: #d9d9d9;
-
-}
 
 .ant-modal-body {
   padding: 28px 20px 0px 20px;
@@ -129,7 +107,7 @@ hr {
 }
 
 body {
-  font-size: 1vw;
+  font-size: 24px;
 }
 
 
@@ -233,112 +211,45 @@ body {
   padding: auto;
 }
 
+.logut {
+  width: 116px;
+  height: 40px;
+  background: #363F4E;
+  color: white; 
+  position: absolute;
+  top: 1.2vh;
 
-@media (max-width:1200px) and (min-width:900px)  { 
-
-  .chair {
-    /* height: 17vh;
-    width: 15vw; */
-    height: 14vh;
-    width: 12vw;
-    position: relative;
-  }
-
-  
-.ant-btn {
-  line-height: 1.5715;
-  position: relative;
-  display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  height: 3vw;
-  padding: 0.5vw;
-  font-size: 1vh;
-  border-radius: 2px;
-  color: rgba(35, 35, 35, 0.85);
-  border-color: #d9d9d9;
 
 }
+
+/* @media (max-width:1200px) and (min-width:900px)  { 
+
+  .chair {
+   
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  
 }
 @media (max-width:1400px) and (min-width:1200px)  { 
  
-.chair {
-  /* height: 17vh;
-  width: 15vw; */
-  height: 15vh;
-  width: 12vw;
-  position: relative;
-}
+  .chair {
+    
+    height: 75%;
+    width: 75%;
+    position: relative;
+  }
 
-.ant-btn {
-  line-height: 1.5715;
-  position: relative;
-  display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  height: 3vw;
-  padding: 0.5vw;
-  font-size: 1vh;
-  border-radius: 2px;
-  color: rgba(35, 35, 35, 0.85);
-  border-color: #d9d9d9;
 
-}
 }
 @media (max-width:1800px) and (min-width:1400px)  { 
   
-.ant-btn {
-  line-height: 1.5715;
-  position: relative;
-  display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  height: 3vw;
-  padding: 0.5vw;
-  font-size: 1vh;
-  border-radius: 2px;
-  color: rgba(35, 35, 35, 0.85);
-  border-color: #d9d9d9;
-
-}
-.chair {
-  /* height: 17vh;
-  width: 15vw; */
-  height: 15vh;
-  width: 12vw;
-  position: relative;
-}
-}
+  
+  .chair {
+    
+    height: 80%;
+    width: 80%;
+    position: relative;
+  }
+} */

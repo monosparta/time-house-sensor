@@ -2,7 +2,7 @@ name: Frontend Node.js CI
 
 on:
   push:
-    branches: [ main, staging, develop ]
+    branches: [ staging, develop ]
 
 jobs:
   build:
@@ -10,11 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      - run: npm --prefix ./frontend/my-app install
       - run: npm --prefix ./frontend/my-app ci
-      # - run: npm --prefix ./frontend/my-app test
+      - run: npm --prefix ./frontend/my-app test
       - run: npm --prefix ./frontend/my-app run build --if-present
-      # - run: rsync -avz -e 'ssh' build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+      - run: rsync -avz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}

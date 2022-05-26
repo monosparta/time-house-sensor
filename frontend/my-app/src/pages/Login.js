@@ -35,7 +35,7 @@ const Login = () => {
       window.location.reload();
       dispatch(clearState());
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError,isFetching]);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

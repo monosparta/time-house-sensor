@@ -29,7 +29,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const onFinish = (values, which) => {
     if (which === seatState.AVAILABLE) {
-      var data = JSON.stringify({
+     let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
         phoneNumber: values.phoneNumber,

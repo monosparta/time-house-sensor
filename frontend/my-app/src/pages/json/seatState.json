@@ -1,7 +1,8 @@
 [
   {
-    "color": "yellow",
-    "state": "閒置中"
+    "color": "white",
+    "state": "可使用"
+    
   },
 
   {
@@ -9,8 +10,8 @@
     "state": "使用中"
   },
   {
-    "color": "white",
-    "state": "可使用"
+    "color": "yellow",
+    "state": "閒置中"
   },
   {
     "color": "red",

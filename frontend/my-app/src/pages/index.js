@@ -53,9 +53,11 @@ const Home = () => {
       </Content>
       <Footer style={{ textAlign: "center", background: "white" }}>
         {seatState.map((seat) => (
+          
           <Space>
-            <Avatar className={seat.color} size="small" />
-            {seat.state} &emsp;
+            &emsp; 
+            <Avatar className={seat.color} /> &nbsp;
+         <b style={{ fontSize:"24px"}}>{seat.state}</b>   &emsp;  
           </Space>
         ))}
       </Footer>

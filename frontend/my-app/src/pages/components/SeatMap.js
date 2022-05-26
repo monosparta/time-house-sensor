@@ -170,7 +170,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         {seat.state === "null" ? (
           <img
             key={seat.id}
-            className="chair"
+            className="nullchair"
             src={"../image/null.png"}
             alt=" "
           />
@@ -188,10 +188,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             onClick={() => Action(seat)}
           />
         )}
-        <br />
+      
         {seat.id === 4 || seat.id === 1 || seat.id === 2 || seat.id === 3 ? (
           <div>
-            <br />
             <br />
             <br />
           </div>

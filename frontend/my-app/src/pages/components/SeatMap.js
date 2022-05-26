@@ -85,7 +85,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     console.log(seat.no)
     if (state === seatState.USING) {
       notification.open({
-        message: "座位狀態為使用中",
+        message: seat.no+"座位狀態為使用中",
         className: "custom-class",
         icon: <CheckCircleOutlined style={{ color: "#C0E54B" }} />,
         onClick: () => {
@@ -94,7 +94,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       });
     } else if (state === seatState.ERROR) {
       notification.open({
-        message: "座位狀態為異常",
+        message: seat.no+" 座位狀態為異常",
         className: "custom-class",
         icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }} />,
         style: {

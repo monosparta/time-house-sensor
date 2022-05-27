@@ -7,11 +7,20 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    environment: staging
 
     steps:
       - uses: actions/checkout@v3
       - run: node -v
       - run: npm -v
+      - name: 'Create env file'
+        run: |
+          touch ./frontend/my-app/.env
+          echo REACT_APP_BASEURL=${{secrets.REACT_APP_BASEURL}} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_OWNER=${{ secrets.REACT_APP_EMAILJS_OWNER }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_SERVISE=${{ secrets.REACT_APP_EMAILJS_SERVISE }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_TEMPLATE=${{ secrets.REACT_APP_EMAILJS_TEMPLATE }} >> ./frontend/my-app/.env
+          cat .env
       - run: npm --prefix ./frontend/my-app ci
       - run: npm --prefix ./frontend/my-app test
       - run: npm --prefix ./frontend/my-app run build --if-present

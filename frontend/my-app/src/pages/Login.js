@@ -118,7 +118,7 @@ const Login = () => {
                       size="large"
                       style={{ background: "#363F4E", borderColor: "#363F4E",color:"white" }}
                     >
-                      立即登入
+                     <span style={{fontSize:"1.7vh"}}>立即登入 </span> 
                     </Button>
                   </Form.Item>
                 </Form>

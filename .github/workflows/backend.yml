@@ -14,4 +14,4 @@ jobs:
       - run: npm -v
       - run: npm --prefix ./backend ci
       - run: npm --prefix ./backend test
-      - run: rsync -avz -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+      - run: rsync -avzu -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}

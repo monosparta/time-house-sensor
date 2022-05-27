@@ -179,7 +179,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              "1"
+              "12"
             }
             alt=" "
             onClick={() => Action(seat)}

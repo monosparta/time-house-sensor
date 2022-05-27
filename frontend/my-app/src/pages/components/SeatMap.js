@@ -179,7 +179,10 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              "12"
+              URL + "/api/static/img/seats/" +
+              seat.id +
+              ".png?date=" +
+              new Date()
             }
             alt=" "
             onClick={() => Action(seat)}

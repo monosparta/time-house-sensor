@@ -1,0 +1,17 @@
+name: Backend Node.js CI
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: node -v
+      - run: npm -v
+      - run: npm --prefix ./backend ci
+      - run: npm --prefix ./backend test
+      - run: rsync -avz -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}

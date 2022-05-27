@@ -29,7 +29,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const onFinish = (values, which) => {
     if (which === seatState.AVAILABLE) {
-      var data = JSON.stringify({
+     let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
         phoneNumber: values.phoneNumber,
@@ -53,7 +53,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             },
             username: values.username,
           });
-          callSeatStateApi(data);
+          putSeatState(data);
         })
         .catch(function (error) {
           console.log(error);
@@ -68,7 +68,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
         username: values.username,
       });
-      callSeatStateApi(data);
+      putSeatState(data);
       setChangeModalVisible(false);
     }
   };
@@ -85,7 +85,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     console.log(seat.no)
     if (state === seatState.USING) {
       notification.open({
-        message: "座位狀態為使用中",
+        message: seat.no+"座位狀態為使用中",
         className: "custom-class",
         icon: <CheckCircleOutlined style={{ color: "#C0E54B" }} />,
         onClick: () => {
@@ -94,7 +94,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       });
     } else if (state === seatState.ERROR) {
       notification.open({
-        message: "座位狀態為異常",
+        message: seat.no+" 座位狀態為異常",
         className: "custom-class",
         icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }} />,
         style: {
@@ -118,7 +118,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           },
         })
         .then(function (res) {
-          console.log("我要得到使用者資料" + res.data.member.name);
+          // console.log("我要得到使用者資料" + res.data.member.name);
           setSelecteduser(res.data.member);
           form.setFieldsValue({
             username:res.data.member.name
@@ -133,7 +133,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     }
   };
 
-  const callSeatStateApi = (data) => {
+  const putSeatState = (data) => {
     var config = {
       method: "put",
       url: "/api/auth/admin/seatState",
@@ -170,7 +170,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         {seat.state === "null" ? (
           <img
             key={seat.id}
-            className="chair"
+            className="nullchair"
             src={"../image/null.png"}
             alt=" "
           />
@@ -188,11 +188,18 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             onClick={() => Action(seat)}
           />
         )}
-        <br />
+      
         {seat.id === 4 || seat.id === 1 || seat.id === 2 || seat.id === 3 ? (
           <div>
             <br />
             <br />
+            <br />
+          </div>
+        ) : (
+          ""
+        )}
+         {seat.id === 5 || seat.id === 6 || seat.id === 7 ? (
+          <div>
             <br />
           </div>
         ) : (

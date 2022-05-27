@@ -7,26 +7,20 @@
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {
-  Layout,
-  Row,
-  Col,
-  Space,
-  Avatar,
-} from "antd";
+import { Layout, Row, Col, Space, Avatar } from "antd";
 
 import axios from "../Axios.config";
-import { HeaderBar} from "./components/HeaderBar";
+import { HeaderBar } from "./components/HeaderBar";
 import { SeatMap } from "./components/SeatMap";
+const seatState = require("./json/seatState.json");
 const { Content, Footer } = Layout;
 
 const Home = () => {
+  const [seats, setSeats] = useState([]);
 
-  const [seats, setSeats] = useState([{}]);
-
-  const callSeatApi = () => {
+  const getSeatsInfo = () => {
     axios.get(`/api/seatsInfo`).then((res) => {
       let tempSeat = res.data.seats;
       tempSeat.splice(4, 0, { state: "null" });
@@ -36,46 +30,37 @@ const Home = () => {
   };
 
   useEffect(() => {
-    callSeatApi();
+    getSeatsInfo();
     let timer = setInterval(() => {
-      callSeatApi();
+      getSeatsInfo();
     }, 5000);
     return () => clearInterval(timer);
   }, []);
- 
+
   return (
     <div>
-
-    <HeaderBar/>
+      <HeaderBar />
       <Content>
-        <div className="seatmap">
+        <div className="seatmap"><div className="a"/>
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>
-                  <SeatMap key={i} seat={seat} callSeatApi={callSeatApi}/>
+                <SeatMap key={i} seat={seat} callSeatApi={getSeatsInfo} />
               </Col>
             ))}
           </Row>
         </div>
       </Content>
       <Footer style={{ textAlign: "center", background: "white" }}>
-        <Space className="directions">
-          <Avatar
-            style={{ color: "#eb2f96" }}
-            className="yellow"
-            size="small"
-          />
-          閒置中 &emsp;
-          <Avatar className="black" size="small" />
-          使用中 &emsp;
-          <Avatar className="white" size="small" />
-          可使用 &emsp;
-          <Avatar className="red" size="small" />
-          異常
-        </Space>
+        {seatState.map((seat) => (
+          
+          <Space>
+            &emsp; 
+            <Avatar className={seat.color} /> &nbsp;
+         <b style={{ fontSize:"24px"}}>{seat.state}</b>   &emsp;  
+          </Space>
+        ))}
       </Footer>
-
-
     </div>
   );
 };

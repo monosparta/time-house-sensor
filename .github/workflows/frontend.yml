@@ -16,6 +16,7 @@ jobs:
       - run: npm -v
       - name: 'Create env file'
         run: |
+          pwd
           touch ./time-house-sensor/frontend/my-app/.env
           echo REACT_APP_BASEURL=${{secrets.REACT_APP_BASEURL}} >> ./time-house-sensor/frontend/my-app/.env
           echo REACT_APP_EMAILJS_OWNER=${{ secrets.REACT_APP_EMAILJS_OWNER }} >> ./time-house-sensor/frontend/my-app/.env

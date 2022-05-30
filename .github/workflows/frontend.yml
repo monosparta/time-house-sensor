@@ -28,7 +28,7 @@ jobs:
       - run: rsync -avz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.FRONTEND_DEPLOY_PATH }}
 
   Backend_CI_CD:
-    needs: Frontend_CI/CD
+    needs: Frontend_CI_CD
     name: Backend CI/CD
     runs-on: self-hosted
     environment: staging
@@ -41,7 +41,7 @@ jobs:
       - run: rsync -avzu --filter -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
 
   Python_CI_CD:
-    needs: Backend_CI/CD
+    needs: Backend_CI_CD
     name: Python CI/CD
     runs-on: self-hosted
     environment: staging

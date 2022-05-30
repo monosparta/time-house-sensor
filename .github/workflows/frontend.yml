@@ -38,7 +38,8 @@ jobs:
       - run: npm -v
       - run: npm --prefix ./backend ci
       - run: npm --prefix ./backend test
-      - run: rsync -avzu -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+      - run: rsync -avzu --exclude=node_modules -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci ${{ secrets.BACKEND_DEPLOY_PATH }}"
 
   Python_CI_CD:
     needs: Backend_CI_CD

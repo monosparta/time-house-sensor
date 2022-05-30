@@ -49,4 +49,4 @@ jobs:
     steps:
       - run: echo ${{ secrets.DEPLOY_USER }} ${{ secrets.DEPLOY_HOST }} ${{ secrets.PYTHON_DEPLOY_PATH }}
       - run: rsync -vz -e 'ssh' ./drawer ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.PYTHON_DEPLOY_PATH }}
-      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pip install -r ${{ secrets.PYTHON_DEPLOY_PATH }} requirements.txt"
+      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pip install -r ${{ secrets.PYTHON_DEPLOY_PATH }}/requirements.txt"

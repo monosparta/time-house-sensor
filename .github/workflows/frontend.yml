@@ -1,12 +1,12 @@
-name: Frontend Node.js CI
+name: Staging Node.js CI
 
 on:
   push:
     branches: [ staging ]
 
-
 jobs:
-  build:
+  Frontend_CI/CD:
+    name: Frontend CI/CD
     runs-on: self-hosted
     environment: staging
 
@@ -26,3 +26,24 @@ jobs:
       - run: npm --prefix ./frontend/my-app test
       - run: npm --prefix ./frontend/my-app run build
       - run: rsync -avz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.FRONTEND_DEPLOY_PATH }}
+
+  Backend_CI/CD:
+    needs: Frontend_CI/CD
+    name: Backend CI/CD
+    runs-on: self-hosted
+    environment: staging
+
+    steps:
+      - run: node -v
+      - run: npm -v
+      - run: npm --prefix ./backend ci
+      - run: npm --prefix ./backend test
+      - run: rsync -avzu --filter -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+
+  Python_CI/CD:
+    needs: Backend_CI/CD
+    name: Python CI/CD
+    runs-on: self-hosted
+    environment: staging
+    steps:
+      - run: rsync -avz --filter -e 'ssh' ./drawer ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}

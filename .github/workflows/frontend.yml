@@ -24,11 +24,11 @@ jobs:
           echo REACT_APP_EMAILJS_TEMPLATE=${{ secrets.REACT_APP_EMAILJS_TEMPLATE }} >> ./frontend/my-app/.env
       - run: npm --prefix ./frontend/my-app ci
       - run: npm --prefix ./frontend/my-app test
-      #- run: npm --prefix ./frontend/my-app run build
+      - run: npm --prefix ./frontend/my-app run build
       - run: rsync -vz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.FRONTEND_DEPLOY_PATH }}
 
   Backend_CI_CD:
-    # needs: Frontend_CI_CD
+    needs: Frontend_CI_CD
     name: Backend CI/CD
     runs-on: self-hosted
     environment: staging
@@ -38,11 +38,11 @@ jobs:
       - run: npm -v
       - run: npm --prefix ./backend ci
       - run: npm --prefix ./backend test
-      #- run: rsync -vzu --exclude=node_modules -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
-      #- run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
+      - run: rsync -vzu --exclude=node_modules -e 'ssh' ./backend ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
 
   Python_CI_CD:
-    # needs: Backend_CI_CD
+    needs: Backend_CI_CD
     name: Python CI/CD
     runs-on: self-hosted
     environment: staging

@@ -13,6 +13,8 @@ basemapPath = rawImgSourceDir + "basemap-1200x728.png"
 warningIconPath = rawImgSourceDir + "line-warning-35x31.png"
 warningIcon = Image.open(warningIconPath)
 
+print(currentDir)
+
 imgDesDir = currentDir + "/../../backend/public/img/seats/"
 seatsSelfProcessInfo = [
     {"rotation": 0},

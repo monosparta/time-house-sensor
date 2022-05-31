@@ -1,4 +1,4 @@
-name: Staging Node.js CI
+name: Production CI/CD
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
 
 jobs:
   Clone:
-    name: Clone git repository
+    name: Clone Git Repository
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 

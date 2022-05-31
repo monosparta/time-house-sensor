@@ -1,0 +1,20 @@
+[
+  {
+    "color": "white",
+    "state": "可使用"
+    
+  },
+
+  {
+    "color": "black",
+    "state": "使用中"
+  },
+  {
+    "color": "yellow",
+    "state": "閒置中"
+  },
+  {
+    "color": "red",
+    "state": "異常"
+  }
+]

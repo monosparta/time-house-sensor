@@ -1,0 +1,5 @@
+requests==2.27.1
+pillow==9.1.0
+numpy==1.22.3
+python-dotenv
+# grpcio==1.44.0

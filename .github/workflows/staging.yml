@@ -1,0 +1,51 @@
+name: Staging Node.js CI
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  Frontend_CI_CD:
+    name: Frontend CI/CD
+    runs-on: self-hosted
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: node -v
+      - run: npm -v
+      - run: echo ${{secrets.DEPLOY_PATH}}
+      - name: 'Create env file'
+        run: |
+          touch ./frontend/my-app/.env
+          echo REACT_APP_BASEURL=${{secrets.REACT_APP_BASEURL}} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_OWNER=${{ secrets.REACT_APP_EMAILJS_OWNER }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_SERVISE=${{ secrets.REACT_APP_EMAILJS_SERVISE }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_TEMPLATE=${{ secrets.REACT_APP_EMAILJS_TEMPLATE }} >> ./frontend/my-app/.env
+      - run: npm --prefix ./frontend/my-app ci
+      - run: npm --prefix ./frontend/my-app test
+      - run: npm --prefix ./frontend/my-app run build
+      - run: rsync -rvz -e 'ssh' ./frontend/my-app/build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.FRONTEND_DEPLOY_PATH }}
+
+  Backend_CI_CD:
+    name: Backend CI/CD
+    runs-on: self-hosted
+    environment: staging
+
+    steps:
+      - run: node -v
+      - run: npm -v
+      - run: npm --prefix ./backend ci
+      - run: npm --prefix ./backend test
+      - run: rsync -rvz --exclude=node_modules -e 'ssh' ./backend/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
+      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
+
+  Python_CI_CD:
+    needs: Backend_CI_CD
+    name: Python CI/CD
+    runs-on: self-hosted
+    environment: staging
+    steps:
+      - run: echo ${{ secrets.DEPLOY_USER }} ${{ secrets.DEPLOY_HOST }} ${{ secrets.PYTHON_DEPLOY_PATH }}
+      - run: rsync -rvz -e 'ssh' ./drawer ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.PYTHON_DEPLOY_PATH }}
+      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pip install -r ${{ secrets.PYTHON_DEPLOY_PATH }}/requirements.txt"

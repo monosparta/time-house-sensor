@@ -77,5 +77,5 @@ jobs:
           touch ./drawer/.env
           echo EXPRESS_SERVER=${{ secrets.EXPRESS_SERVER }} >> ./drawer/.env
           echo EXPRESS_PORT=${{ secrets.EXPRESS_PORT }} >> ./drawer/.env
-      - run: rsync -rvz -e 'ssh' ./drawer ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.PYTHON_DEPLOY_PATH }}
+      - run: rsync -rvz -e 'ssh' ./drawer/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.PYTHON_DEPLOY_PATH }}
       - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pip install -r ${{ secrets.PYTHON_DEPLOY_PATH }}/requirements.txt"

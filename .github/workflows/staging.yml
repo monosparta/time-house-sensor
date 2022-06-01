@@ -47,21 +47,21 @@ jobs:
       - name: 'Create env file'
         run: |
           touch ./backend/.env
-          echo DB_HOST=${{ DB_HOST }} >> ./backend/.env
-          echo DB_DATABASE=${{ DB_DATABASE }} >> ./backend/.env
-          echo DB_USER=${{ DB_USER }} >> ./backend/.env
-          echo DB_PASSWORD=${{ DB_PASSWORD }} >> ./backend/.env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> ./backend/.env
+          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> ./backend/.env
+          echo DB_USER=${{ secrets.DB_USER }} >> ./backend/.env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> ./backend/.env
 
-          echo PORT=${{ PORT }} >> ./backend/.env
-          echo SALT_ROUND=${{ SALT_ROUND }} >> ./backend/.env
-          echo LINE_CHANNEL_ACCESS_TOKEN=${{ LINE_CHANNEL_ACCESS_TOKEN }} >> ./backend/.env
-          echo LINE_CHANNEL_SECRET=${{ LINE_CHANNEL_SECRET }} >> ./backend/.env
-          echo JWT_SECRET=${{ JWT_SECRET }} >> ./backend/.env
+          echo PORT=${{ secrets.PORT }} >> ./backend/.env
+          echo SALT_ROUND=${{ secrets.SALT_ROUND }} >> ./backend/.env
+          echo LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }} >> ./backend/.env
+          echo LINE_CHANNEL_SECRET=${{ secrets.LINE_CHANNEL_SECRET }} >> ./backend/.env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> ./backend/.env
 
-          echo MQTT_HOST=${{ MQTT_HOST }} >> ./backend/.env
-          echo MQTT_PORT=${{ MQTT_PORT }} >> ./backend/.env
-          echo MQTT_USERNAME=${{ MQTT_USERNAME }} >> ./backend/.env
-          echo MQTT_PASSWORD=${{ MQTT_PASSWORD }} >> ./backend/.env
+          echo MQTT_HOST=${{ secrets.MQTT_HOST }} >> ./backend/.env
+          echo MQTT_PORT=${{ secrets.MQTT_PORT }} >> ./backend/.env
+          echo MQTT_USERNAME=${{ secrets.MQTT_USERNAME }} >> ./backend/.env
+          echo MQTT_PASSWORD=${{ secrets.MQTT_PASSWORD }} >> ./backend/.env
       - run: npm --prefix ./backend test
       - run: rsync -rvz --exclude=node_modules -e 'ssh' ./backend/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
       - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
@@ -75,7 +75,7 @@ jobs:
       - name: 'Create env file'
         run: |
           touch ./drawer/.env
-          echo EXPRESS_SERVER=${{ EXPRESS_SERVER }} >> ./drawer/.env
-          echo EXPRESS_PORT=${{ EXPRESS_PORT }} >> ./drawer/.env
+          echo EXPRESS_SERVER=${{ secrets.EXPRESS_SERVER }} >> ./drawer/.env
+          echo EXPRESS_PORT=${{ secrets.EXPRESS_PORT }} >> ./drawer/.env
       - run: rsync -rvz -e 'ssh' ./drawer ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.PYTHON_DEPLOY_PATH }}
       - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pip install -r ${{ secrets.PYTHON_DEPLOY_PATH }}/requirements.txt"

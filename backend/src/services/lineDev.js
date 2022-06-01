@@ -135,7 +135,7 @@ const replyWeb = async (event) => {
   return await client.replyMessage(event.replyToken, replyWebMessage);
 };
 const updateMemberLogin = async (memberLogin, memberlineId) => {
-  await db["Members"].update(
+  await db["LineUsers"].update(
     { login: memberLogin },
     {
       where: {
@@ -145,8 +145,8 @@ const updateMemberLogin = async (memberLogin, memberlineId) => {
   );
 };
 const updateMemberUserName = async (memberUserName, memberlineId) => {
-  await db["Members"].update(
-    { username: memberUserName },
+  await db["LineUsers"].update(
+    { nickname: memberUserName },
     {
       where: {
         lineId: memberlineId,
@@ -155,22 +155,20 @@ const updateMemberUserName = async (memberUserName, memberlineId) => {
   );
 };
 const createMemberData = async (memberlineId) => {
-  await db["Members"].create({
+  await db["LineUsers"].create({
     lineId: memberlineId,
     login: 0,
-    cardId: "123asd",
-    level: 1,
   });
 };
 const findMemberData = async (memberlineId) => {
-  let member = await db["Members"].findOne({
+  let member = await db["LineUsers"].findOne({
     where: { lineId: memberlineId },
   });
   return member;
 };
 
 const pushAdminMessage = async (id) => {
-  let admins = await db["Members"].findAll({
+  let admins = await db["LineUsers"].findAll({
     where: { level: 0 },
   });
   const pushMessageToAdmin = {

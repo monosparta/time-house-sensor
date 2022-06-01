@@ -64,7 +64,7 @@ const lineMessageHandler = async (req, res) => {
         .unknownMessageReply(
           event,
           member.dataValues.login,
-          member.dataValues.username
+          member.dataValues.nickname
         )
         .then((result) => {
           return result;
@@ -92,7 +92,7 @@ const lineMessageHandler = async (req, res) => {
         .adminMessageReply(
           event,
           member.dataValues.login,
-          member.dataValues.username
+          member.dataValues.nickname
         )
         .then((result) => {
           return result;
@@ -107,7 +107,7 @@ const lineMessageHandler = async (req, res) => {
     if (member.dataValues.level === 1) {
       lineDev.updateMemberLogin(1, messageUserId);
       const userReplyResult = await lineDev
-        .userMessageReply(event, member.dataValues.username,member.dataValues.level)
+        .userMessageReply(event, member.dataValues.nickname,member.dataValues.level)
         .then((result) => {
           return result;
         })

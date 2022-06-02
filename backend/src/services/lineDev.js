@@ -20,13 +20,14 @@ const unknownMessageReply = async (event, status, username) => {
     userMessageReply(event, username);
   }
 };
+
 const replySeatState = async (event) => {
   const replyMessage = {
     type: "image",
     originalContentUrl:
-    process.env.EXPRESS_PUBLIC_URL+ "/static/img/seats/seat_map.png",
+      process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
     previewImageUrl:
-    process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
+      process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
@@ -166,7 +167,11 @@ const findMemberData = async (memberlineId) => {
   });
   return member;
 };
-
+const searchMemberLevel = async (lineId) => {
+  admins = await db["Members"].findOne({
+    where: { lineId: lineId },
+  });
+};
 const pushAdminMessage = async (id) => {
   let admins = await db["LineUsers"].findAll({
     where: { level: 0 },
@@ -199,4 +204,5 @@ module.exports = {
   updateMemberUserName,
   findMemberData,
   replyWeb,
+  searchMemberLevel,
 };

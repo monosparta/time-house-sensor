@@ -7,6 +7,8 @@ const lineMessageHandler = async (req, res) => {
     let adminRichMenu = "richmenu-7c9d45b1371469ed3cb88a5689ddccd4";
     const messageUserId = event.source.userId;
     let member = await lineDev.findMemberData(messageUserId);
+    let memberLevel = await lineDev.searchMemberLevel(messageUserId);
+
     //使用者加入官方帳號
     if (event.type === "follow") {
       if (member === null) {
@@ -85,7 +87,7 @@ const lineMessageHandler = async (req, res) => {
 
     member =await  lineDev.findMemberData(messageUserId);
     //使用者加入官方帳號後，第一次發送訊息後，辨別為管理者
-    if (member.dataValues.level === 0) {
+    if (memberLevel.dataValues.level === 0) {
       client.linkRichMenuToUser(messageUserId, adminRichMenu);
       await lineDev.updateMemberLogin(1, messageUserId);
       const adminReplyResult = await lineDev
@@ -104,10 +106,10 @@ const lineMessageHandler = async (req, res) => {
     }
     //使用者加入官方帳號後，第一次發送訊息後，辨別為一般使用者
 
-    if (member.dataValues.level === 1) {
+    if (memberLevel=== null) {
       lineDev.updateMemberLogin(1, messageUserId);
       const userReplyResult = await lineDev
-        .userMessageReply(event, member.dataValues.nickname,member.dataValues.level)
+        .userMessageReply(event, member.dataValues.nickname,memberLevel.dataValues.level)
         .then((result) => {
           return result;
         })

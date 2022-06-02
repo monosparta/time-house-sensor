@@ -25,9 +25,9 @@ const replySeatState = async (event) => {
   const replyMessage = {
     type: "image",
     originalContentUrl:
-      process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
+      process.env.PUBLIC_URL + "/api/static/img/seats/seat_map.png",
     previewImageUrl:
-      process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
+      process.env.PUBLIC_URL + "/api/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
@@ -71,7 +71,7 @@ const adminMessageReply = async (event, status, username) => {
               action: {
                 type: "uri",
                 label: "進入後台",
-                uri: process.env.REACT_PUBLIC_URL,
+                uri: process.env.PUBLIC_URL,
               },
               height: "sm",
               style: "secondary",
@@ -131,7 +131,7 @@ const replyFeedBackMessage = async (event) => {
 const replyWeb = async (event) => {
   const replyWebMessage = {
     type: "text",
-    text: process.env.REACT_PUBLIC_URL,
+    text: process.env.PUBLIC_URL,
   };
   return await client.replyMessage(event.replyToken, replyWebMessage);
 };
@@ -171,6 +171,7 @@ const searchMemberLevel = async (lineId) => {
   admins = await db["Members"].findOne({
     where: { lineId: lineId },
   });
+  return admins===null?1:0
 };
 const pushAdminMessage = async (id) => {
   let admins = await db["LineUsers"].findAll({

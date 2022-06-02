@@ -13,7 +13,6 @@ basemapPath = rawImgSourceDir + "basemap-1200x728.png"
 warningIconPath = rawImgSourceDir + "line-warning-35x31.png"
 warningIcon = Image.open(warningIconPath)
 
-print(currentDir)
 
 imgDesDir = currentDir + "/../../backend/public/img/seats/"
 seatsSelfProcessInfo = [
@@ -111,10 +110,9 @@ def drawSeat(seat):
     return lineSeat, webSeat
 
 
-basemap = Image.open(basemapPath)
-position = [(257, 92),  (443, 92),  (609, 92),  (785, 92),
-            (443, 266), (609, 266), (785, 266),
-            (443, 381), (609, 381), (785, 381)]
+position = [(257, 92),  (433, 92),  (609, 92),  (785, 92),
+            (433, 266), (609, 266), (785, 266),
+            (433, 381), (609, 381), (785, 381)]
 preSeatsState = []
 curSeatsState = []
 
@@ -127,7 +125,7 @@ while True:
 
     try: 
         curSeatsState = response.json()["seats"]
-
+        basemap = Image.open(basemapPath)
         for i in range(len(curSeatsState)):
             if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
                 seat = curSeatsState[i]

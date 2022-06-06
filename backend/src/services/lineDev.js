@@ -20,13 +20,14 @@ const unknownMessageReply = async (event, status, username) => {
     userMessageReply(event, username);
   }
 };
+
 const replySeatState = async (event) => {
   const replyMessage = {
     type: "image",
     originalContentUrl:
-    process.env.EXPRESS_PUBLIC_URL+ "/static/img/seats/seat_map.png",
+      process.env.PUBLIC_URL + "/api/static/img/seats/seat_map.png",
     previewImageUrl:
-    process.env.EXPRESS_PUBLIC_URL + "/static/img/seats/seat_map.png",
+      process.env.PUBLIC_URL + "/api/static/img/seats/seat_map.png",
   };
   return await client.replyMessage(event.replyToken, replyMessage);
 };
@@ -70,7 +71,7 @@ const adminMessageReply = async (event, status, username) => {
               action: {
                 type: "uri",
                 label: "進入後台",
-                uri: process.env.REACT_PUBLIC_URL,
+                uri: process.env.PUBLIC_URL,
               },
               height: "sm",
               style: "secondary",
@@ -130,12 +131,12 @@ const replyFeedBackMessage = async (event) => {
 const replyWeb = async (event) => {
   const replyWebMessage = {
     type: "text",
-    text: process.env.REACT_PUBLIC_URL,
+    text: process.env.PUBLIC_URL,
   };
   return await client.replyMessage(event.replyToken, replyWebMessage);
 };
 const updateMemberLogin = async (memberLogin, memberlineId) => {
-  await db["Members"].update(
+  await db["LineUsers"].update(
     { login: memberLogin },
     {
       where: {
@@ -145,8 +146,8 @@ const updateMemberLogin = async (memberLogin, memberlineId) => {
   );
 };
 const updateMemberUserName = async (memberUserName, memberlineId) => {
-  await db["Members"].update(
-    { username: memberUserName },
+  await db["LineUsers"].update(
+    { nickname: memberUserName },
     {
       where: {
         lineId: memberlineId,
@@ -155,22 +156,25 @@ const updateMemberUserName = async (memberUserName, memberlineId) => {
   );
 };
 const createMemberData = async (memberlineId) => {
-  await db["Members"].create({
+  await db["LineUsers"].create({
     lineId: memberlineId,
     login: 0,
-    cardId: "123asd",
-    level: 1,
   });
 };
 const findMemberData = async (memberlineId) => {
-  let member = await db["Members"].findOne({
+  let member = await db["LineUsers"].findOne({
     where: { lineId: memberlineId },
   });
   return member;
 };
-
+const searchMemberLevel = async (lineId) => {
+  admins = await db["Members"].findOne({
+    where: { lineId: lineId },
+  });
+  return admins===null?1:0
+};
 const pushAdminMessage = async (id) => {
-  let admins = await db["Members"].findAll({
+  let admins = await db["LineUsers"].findAll({
     where: { level: 0 },
   });
   const pushMessageToAdmin = {
@@ -201,4 +205,5 @@ module.exports = {
   updateMemberUserName,
   findMemberData,
   replyWeb,
+  searchMemberLevel,
 };

@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - run: node -v
-      - run: npm -
+      - run: npm -v
       - name: 'Create env file'
         run: |
           touch ./frontend/my-app/.env

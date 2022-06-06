@@ -50,8 +50,7 @@ jobs:
           echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> ./backend/.env
           echo DB_USER=${{ secrets.DB_USER }} >> ./backend/.env
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> ./backend/.env
-          echo REACT_PUBLIC_URL=${{ secrets.REACT_PUBLIC_URL }} >> ./backend/.env
-          echo EXPRESS_PUBLIC_URL=${{ secrets.EXPRESS_PUBLIC_URL }} >> ./backend/.env
+          echo PUBLIC_URL=${{ secrets.PUBLIC_URL }} >> ./backend/.env
           echo PORT=${{ secrets.PORT }} >> ./backend/.env
           echo SALT_ROUND=${{ secrets.SALT_ROUND }} >> ./backend/.env
           echo LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }} >> ./backend/.env

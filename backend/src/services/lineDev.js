@@ -174,7 +174,7 @@ const searchMemberLevel = async (lineId) => {
   return admins===null?1:0
 };
 const pushAdminMessage = async (id) => {
-  let admins = await db["LineUsers"].findAll({
+  let admins = await db["Members"].findAll({
     where: { level: 0 },
   });
   const pushMessageToAdmin = {

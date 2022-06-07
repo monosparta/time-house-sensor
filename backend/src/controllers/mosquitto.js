@@ -29,11 +29,11 @@ const RFIDHandler = async ({ index, cardId, time }) => {
   if (!memberInfo) {
     return;
   }
-  seatService.updateSeatState(index, seatProperty.USING, new Date(time), memberInfo.id);
+  seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), memberInfo.id);
 };
 
 const errorHandler = async ({ index, errorMessage, sensorName, time }) => {
-  seatService.updateSeatState(index, seatProperty.ERROR, new Date(time), null);
+  seatService.updateSeatState(index, seatProperty.state.ERROR, new Date(time), null);
 };
 
 module.exports = {

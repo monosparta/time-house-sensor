@@ -20,7 +20,7 @@ const IRHandler = async ({ index, seatUseState, time }) => {
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
-    seatService.updateSeatState(index, seatProperty.USING, new Date(time), seat.memberId);
+    seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), seat.memberId);
   }
 };
 

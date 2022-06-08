@@ -76,7 +76,7 @@ export const CollectionCreateForm = ({
             >
               <b>取消</b>
             </Button>
-          </Space>,
+          </Space>
         ]}
         onCancel={onCancel}
         closable={false}

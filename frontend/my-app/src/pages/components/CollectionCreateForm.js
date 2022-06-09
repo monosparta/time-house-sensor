@@ -13,6 +13,8 @@ import {
 import { UserOutlined, WarningOutlined } from "@ant-design/icons";
 
 import { SendMail } from "./SendMail";
+import { NumericInput } from "./NumericInput";
+
 export const CollectionCreateForm = ({
   visible,
   onFinish,
@@ -31,7 +33,8 @@ export const CollectionCreateForm = ({
 
   // Radio選單
   const [chioces, SetChioces] = useState(1);
-  
+  const [value, setValue] = useState(null);
+
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     SetChioces(e.target.value);
@@ -49,7 +52,7 @@ export const CollectionCreateForm = ({
       });
   };
 
-  var ChairId = chairInfo.no;
+  let ChairId = chairInfo.no;
 
   if (whichModal === 1) {
     // 表單一，可使用位置
@@ -84,7 +87,7 @@ export const CollectionCreateForm = ({
         <Row justify="center" align="middle">
           <Space direction="vertical">
             <div className="center">
-              <h2 style={{ color: "black"}}>座位{ChairId}-目前為可使用座位</h2>
+              <h2 style={{ color: "black" }}>座位{ChairId}-目前為可使用座位</h2>
             </div>
             <Form
               form={form}
@@ -105,9 +108,9 @@ export const CollectionCreateForm = ({
                 label="連絡電話"
                 name="phoneNumber"
                 rules={[
-                  {    
+                  {
                     required: true,
-                    message: "格式錯誤，請重新輸入!! ", 
+                    message: "格式錯誤，請重新輸入!! ",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -117,14 +120,16 @@ export const CollectionCreateForm = ({
                       ) {
                         return Promise.resolve();
                       } else if (value.length !== 10) {
-                        return Promise.resolve(); 
+                        return Promise.resolve();
                       }
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
                     },
                   }),
                 ]}
               >
-                <Input maxLength={10} placeholder="請輸入連絡電話" />
+                {/* <Input maxLength={10} placeholder="請輸入連絡電話" /> */}
+                <NumericInput maxLength={15} value={value} onChange={setValue} />
+               
               </Form.Item>
               <Form.Item
                 label="聯絡信箱"
@@ -170,7 +175,7 @@ export const CollectionCreateForm = ({
             <Button onClick={onCancel} size="large">
               <b>取消</b>
             </Button>
-          </Space>
+          </Space>,
         ]}
         onCancel={onCancel}
       >

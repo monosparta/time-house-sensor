@@ -16,10 +16,10 @@ module.exports = {
       [
         {
           id: 1,
-          username: "admin",
+          name: "admin",
           password:
             "$2b$10$bpecd65htSqZDkZObfRyqOouEdoseZapo8TLEoPEOZEwFBT4ftDky",
-          phoneNumber: "0123456789",
+          phone: "0123456789",
           lineId: "U028abf3896a5342e28e44a6957e44622",
           cardId: "0123456789",
           mail: "admin@gmail.com",
@@ -29,10 +29,10 @@ module.exports = {
         },
         {
           id: 2,
-          username: "general",
+          name: "general",
           password:
             "$2b$10$680EkA5SRl4/O.VhGaJf0OlJfGbGvIZDtMy3jOu619pv3.Eihr8re",
-          phoneNumber: "9876543210",
+          phone: "9876543210",
           lineId: "Uf555939016b5fea1e0183162c0c13d06",
           cardId: "0476395939",
           mail: "general@gmail.com",

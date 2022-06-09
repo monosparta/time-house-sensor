@@ -21,9 +21,11 @@ const handleLogout = (e) => {
   return (
     <div>
       <Header className="black">
-        <Row>
+        <Row  justify="space-between">
           <Col
-            style={{
+          //  sm={{span:4,push:1}} md={{span:5,push:2}} lg={{span:5,push:1}} xl={{span:5,push:1}} xxl={{span:6,push:1}}
+             sm={{span:10}} md={{span:10}} lg={{span:6}} xl={{span:6}} xxl={{span:6}} 
+          style={{
               verticalAlign: "middle",
               color: "white",
             }}
@@ -31,21 +33,21 @@ const handleLogout = (e) => {
             高階智能座位管理系統
           </Col>
           <Col
-            span={2}
-            push={18}
+          //  sm={{span:2,offset:15}} md={{span:2,offset:16}} lg={{span:2,offset:15}} xl={{span:2,offset:15}} xxl={{span:2,offset:15}}
+          sm={{span:4}} md={{span:4}} lg={{span:2,}} xl={{span:2,}} xxl={{span:2,}}
             style={{
               verticalAlign: "middle",
               color: "white",
             }}
           >
             <Button
-              style={{ background: "#363F4E", color: "white" }}
+               className="logut"
               icon={<LogoutOutlined />}
               onClick={(e) => {
                 handleLogout(e);
               }}
             >
-              LOGOUT
+              <span  style={{ fontSize:"14px"}}>LOGOUT</span>
             </Button>
           </Col>
         </Row>

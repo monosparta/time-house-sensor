@@ -10,7 +10,7 @@ import Axios from "axios";
 const axios = (baseURL) => {
   const instance = Axios.create({
     baseURL:process.env.REACT_APP_BASEURL, 
-    // baseURL: "http://localhost:3000", //back-end
+    // baseURL: "http://192.168.168.113", //back-end
 
     headers: {
       "Content-Type": "application/json",

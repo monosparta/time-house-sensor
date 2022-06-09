@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "Members", key: "id" },
       },
+      stateChangedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

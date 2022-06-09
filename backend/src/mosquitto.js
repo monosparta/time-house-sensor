@@ -16,12 +16,9 @@ let client = mqtt.connect(
 );
 
 client.on("connect", () => {
-  console.log("connected  " + client.connected);
-  client.subscribe(topics, (err, granted) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(granted);
+  console.log("Broker connected!!");
+  client.subscribe(topics, {qos: 2}, () => {
+    console.log(`Subscribe to topic '${topics}'`);
   });
 });
 

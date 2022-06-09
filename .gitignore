@@ -298,4 +298,3 @@ cython_debug/
 /**/.bin
 /**/accounts.passwd
 ngrok.exe
-/**/**.png

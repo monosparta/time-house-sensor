@@ -8,9 +8,9 @@
  */
 import React from "react";
 
-import Home from './pages/index';
-import Login from './pages/Login';
-import './App.css';
+import Home from "./pages/index";
+import Login from "./pages/Login";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,24 +20,21 @@ import {
 
 
 function App() {
+  const user = localStorage.getItem("authorized_keys");
 
-        const user=localStorage.getItem("authorized_keys");
-
-        return (
-          <Router>
-          <Routes>
-            {
- 
-            user ? (
-              <Route path="/" element={<Home/>}/>
-            ) : (
-              // <Route path="*" element={<Button>sddsd</Button>} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
-            )}
-            <Route path="/login" index element={<Login />} />
-          </Routes>
-        </Router>
-        );
+  return (
+    <Router>
+      <Routes>
+        {user ? (
+          <Route path="/" element={<Home />} />
+        ) : (
+          // <Route path="*" element={<Button>sddsd</Button>} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        )}
+        <Route path="/login" index element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

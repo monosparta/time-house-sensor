@@ -13,6 +13,7 @@ basemapPath = rawImgSourceDir + "basemap-1200x728.png"
 warningIconPath = rawImgSourceDir + "line-warning-35x31.png"
 warningIcon = Image.open(warningIconPath)
 
+
 imgDesDir = currentDir + "/../../backend/public/img/seats/"
 seatsSelfProcessInfo = [
     {"rotation": 0},
@@ -109,10 +110,9 @@ def drawSeat(seat):
     return lineSeat, webSeat
 
 
-basemap = Image.open(basemapPath)
-position = [(257, 92),  (443, 92),  (609, 92),  (785, 92),
-            (443, 266), (609, 266), (785, 266),
-            (443, 381), (609, 381), (785, 381)]
+position = [(257, 92),  (433, 92),  (609, 92),  (785, 92),
+            (433, 266), (609, 266), (785, 266),
+            (433, 381), (609, 381), (785, 381)]
 preSeatsState = []
 curSeatsState = []
 
@@ -123,30 +123,30 @@ while True:
     except requests.exceptions.ConnectionError:
         continue
 
-    curSeatsState = response.json()["seats"]
+    try: 
+        curSeatsState = response.json()["seats"]
+        basemap = Image.open(basemapPath)
+        for i in range(len(curSeatsState)):
+            if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
+                seat = curSeatsState[i]
+                lineSeat, webSeat = drawSeat(seat)
 
-    for i in range(len(curSeatsState)):
-        if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
-            seat = curSeatsState[i]
-            lineSeat, webSeat = drawSeat(seat)
+                # just save web seat in backend/public/img/seats
+                webSeat.save(imgDesDir + str(seat["id"]) + ".png")
 
-            lineSeat.save("./line_seat" + str(i) + ".png")
-            webSeat.save("./web_seat" + str(i) + ".png")
+                basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
 
-            # just save web seat in backend/public/img/seats
-            webSeat.save(imgDesDir + str(seat["id"]) + ".png")
+        basemapCanvas = ImageDraw.Draw(basemap)
+        utcTime = datetime.utcnow()
+        localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
+        localTimeString = localTIme.strftime(
+            "%Y/%m/%d %H:%M:%S").replace("-", "/")
+        basemapCanvas.text((996, 682), localTimeString,
+                        (0, 0, 0, 255), font18Roboto)
+        basemap.save(imgDesDir + "seat_map.png")
 
-            basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
-
-    basemapCanvas = ImageDraw.Draw(basemap)
-    utcTime = datetime.utcnow()
-    localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
-    localTimeString = localTIme.strftime(
-        "%Y/%m/%d %H:%M:%S").replace("-", "/")
-    basemapCanvas.text((996, 682), localTimeString,
-                       (0, 0, 0, 255), font18Roboto)
-    basemap.save(imgDesDir + "seat_map.png")
-
-    preSeatsState = curSeatsState
-    preSeatsState = []
-    time.sleep(1.39)
+        preSeatsState = curSeatsState
+        preSeatsState = []
+        time.sleep(1.39)
+    except Exception as e:
+        continue

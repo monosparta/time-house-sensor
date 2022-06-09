@@ -78,8 +78,8 @@
     200:    
         detail: "成功取得該使用者之相關資訊",
         member: {
-            name: userInfo.username,
-            phoneNumber: userInfo.phoneNumber,
+            name: userInfo.name,
+            phoneNumber: userInfo.phone,
             mail: userInfo.mail,
         }
     500:

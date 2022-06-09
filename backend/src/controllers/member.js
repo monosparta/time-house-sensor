@@ -37,7 +37,7 @@ const login = async (req, res) => {
       });
     }
     const token = jwt.sign(
-      { id: userInfo.id, username: userInfo.username, level: userInfo.level },
+      { id: userInfo.id, username: userInfo.name, level: userInfo.level },
       process.env.JWT_SECRET
     );
     return res.status(200).json({
@@ -45,7 +45,7 @@ const login = async (req, res) => {
       token: token,
     });
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     return res.json({
       detail: "伺服器內部錯誤",
     });

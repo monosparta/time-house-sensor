@@ -32,7 +32,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
      let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
-        phoneNumber: values.phoneNumber,
+        phoneNumber: values.front+values.phoneNumber,
       });
 
       var config = {
@@ -43,9 +43,10 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
         data: data,
       };
-
+      console.log(data);
       axios(config)
         .then(function (response) {
+          console.log("成功新增使用者資料")
           var data = JSON.stringify({
             seat: {
               index: values.index,
@@ -56,6 +57,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           putSeatState(data);
         })
         .catch(function (error) {
+          console.log("失敗新增使用者資料")
           console.log(error);
         });
       // 更改狀態

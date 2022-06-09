@@ -5,7 +5,7 @@ import { userSelector, loginUser, clearState } from "../features/userSlice";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const { usernameOrMail, password } = useSelector(userSelector);
+  const {  mail, password } = useSelector(userSelector);
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
   const dispatch = useDispatch();
@@ -98,8 +98,8 @@ const Login = () => {
 
                   <Form.Item
                     label="帳號 Username "
-                    name="usernameOrMail"
-                    value={usernameOrMail}
+                    name="mail"
+                    value={mail}
                     rules={[
                       { type: "email", message: "請輸入有效的郵件地址" },
                       {

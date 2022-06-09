@@ -1,7 +1,7 @@
 import mfrc522
 from machine import Pin
 def rfid_id():
-    rfid =mfrc522.RC522(0,2,4,5,14)
+    rfid =mfrc522.RC522(0,2,4,5,14)#sck, mosi, miso, rst, cs
     (stat,tag_type)=rfid.request(rfid.PICC_REQIDL, 1)
     uid=""
     if(stat==rfid.OK):
@@ -15,5 +15,6 @@ def rfid_id():
                 uid="0"+uid
     print(uid,stat)
     return uid,stat
+
 
 

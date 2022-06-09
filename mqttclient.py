@@ -10,7 +10,7 @@ import network
 import time
 import wifi
 SERVER = '10.2.10.131'
-client = MQTTClient('umqtt_client',SERVER,1883,'admin','admin')
+client = MQTTClient('umqtt_client',SERVER,1883,'seat1','seat1')
 oldCard="" 
 cntIdleTime=0
 cntUseTime=0
@@ -126,3 +126,8 @@ def wificonnect(client):
         time.sleep(10)
 
 wificonnect(client)
+
+
+    
+
+

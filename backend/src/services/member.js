@@ -20,6 +20,15 @@ const getMemberInfoById = async (id) => {
   return (await db["Members"].findOne({ where: { id: id } })).dataValues;
 };
 
+const getMemberInfoByMail = async (mail) => {
+  const result = await db["Members"].findOne({
+    where: {
+      mail: mail,
+    },
+  });
+  return result;
+};
+
 const getMemberInfoByUsernameOrMail = async (usernameOrMail) => {
   if (typeof usernameOrMail !== "string") {
     throw new TypeError("UsernameOrMail must be a string");
@@ -61,6 +70,12 @@ const checkMemberExistsByUsername = async (username) => {
   }
   return (
     (await db["Members"].findOne({ where: { name: username } })) !== null
+  );
+};
+
+const checkMemberExistsByMail = async (mail) => {
+  return (
+    (await db["Members"].findOne({ where: { mail: mail } })) !== null
   );
 };
 
@@ -128,8 +143,10 @@ module.exports = {
   getMemberInfoById,
   getMemberInfoByLineId,
   getMemberInfoByCardId,
+  getMemberInfoByMail,
   checkMemberExistsByUsername,
   checkMemberExistsById,
+  checkMemberExistsByMail,
   checkMemberExistsByCardId,
   getMemberHash,
   addMember,

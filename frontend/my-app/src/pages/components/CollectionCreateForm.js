@@ -10,6 +10,7 @@ import {
   Radio,
   Avatar,
   Select,
+  Alert,
 } from "antd";
 import { UserOutlined, WarningOutlined } from "@ant-design/icons";
 
@@ -23,6 +24,8 @@ export const CollectionCreateForm = ({
   whichModal,
   chairInfo,
   member,
+  isError,
+  inputStatus,
 }) => {
   const [form] = Form.useForm();
   useEffect(() => {
@@ -36,6 +39,11 @@ export const CollectionCreateForm = ({
   const [chioces, SetChioces] = useState(1);
   const [value, setValue] = useState(null);
   const [front, setFront] = useState("09");
+   
+  // const [isError, setError] = useState(null);
+  // const [front, setFront] = useState("09");
+
+
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     SetChioces(e.target.value);
@@ -52,27 +60,9 @@ export const CollectionCreateForm = ({
         console.log(values);
         console.log("AA" + front);
 
-        values.front = front;
-        // if (values.front === "undefined") {
-        //   values.front = "09";
-        //   setFront("09");
-        // }
-        if(!values.front){
-
-        }
-        if ("09" === values.front) {
-          if (values.phoneNumber.length < 8 || values.phoneNumber.length > 9) {
-            console.log("A");
-            return Promise.reject(new Error("請輸入有效的電話號碼"));
-          }
-        } else if ("+886" === values.front) {
-          if (values.phoneNumber.length < 9) {
-            console.log("A");
-            return Promise.reject(new Error("請輸入有效的電話號碼"));
-          }
-        }
+        // values.front = front;
         console.log(values);
-        // onFinish(values);
+        onFinish(values);
         form.resetFields();
       })
       .catch((info) => {
@@ -125,6 +115,9 @@ export const CollectionCreateForm = ({
                 modifier: "public",
               }}
             >
+              {isError ? (
+                   <><Alert message={isError} type="error" showIcon /><br/></> 
+                  ) : null}
               <Form.Item
                 label="名　　稱"
                 name="username"
@@ -190,6 +183,7 @@ export const CollectionCreateForm = ({
                       front={front}
                       value={value}
                       onChange={setValue}
+                      inputStatus={inputStatus}
                     />
                   </Form.Item>
                  
@@ -219,6 +213,7 @@ export const CollectionCreateForm = ({
     );
   } else {
     // 表單二，閒置位置
+   
     return (
       <Modal
         closable={false}

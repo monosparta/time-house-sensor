@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 import axios from "../../Axios.config";
-import { notification, Tooltip } from "antd";
+import { notification, Tooltip,message } from "antd";
 import { Form } from "antd"
 import {
   CheckCircleOutlined,
@@ -14,6 +14,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const [isChangeModalVisible, setChangeModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
   const [selecteduser, setSelecteduser] = useState({});
+  const [isError, setError] = useState(null);
+  const [inputStatus, setInputStatus] = useState("");
   const [form] = Form.useForm();
 
   const setVisible = (which,chair) => {
@@ -28,7 +30,31 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
 
   const onFinish = (values, which) => {
+    console.log("??"+which)
+    
+
+
     if (which === seatState.AVAILABLE) {
+
+      if(!values.front){
+        values.front="09"
+      }
+      if ("09" === values.front) {
+        if (values.phoneNumber.length < 8 || values.phoneNumber.length > 9) {
+          console.log("A");
+          setError("請輸入有效的電話號碼");
+          setInputStatus("error")
+          return 0;
+        }
+      } else if ("+886" === values.front) {
+        if (values.phoneNumber.length < 9) {
+          console.log("A");
+          setError("請輸入有效的電話號碼");
+          setInputStatus("error");
+          return 0;
+        }
+      }
+
      let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
@@ -43,9 +69,10 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
         data: data,
       };
-      console.log(data);
+      console.log("資料確認"+data);
       axios(config)
         .then(function (response) {
+          setError(null);
           console.log("成功新增使用者資料")
           var data = JSON.stringify({
             seat: {
@@ -54,14 +81,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             },
             username: values.username,
           });
+          setIisAddSeatModalVisible(false);
           putSeatState(data);
         })
-        .catch(function (error) {
-          console.log("失敗新增使用者資料")
-          console.log(error);
+        .catch(function (err) {
+            setError("新增使用者失敗")
         });
-      // 更改狀態
-      setIisAddSeatModalVisible(false);
+  
     } else {
       var data = JSON.stringify({
         seat: {
@@ -120,7 +146,6 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           },
         })
         .then(function (res) {
-          // console.log("我要得到使用者資料" + res.data.member.name);
           setSelecteduser(res.data.member);
           form.setFieldsValue({
             username:res.data.member.name
@@ -128,7 +153,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         })
         .catch(function (error) {
           // console.log("我要得到使用者資料" + seat.memberId);
-          console.log(error);
+          console.log(error.data.detail);
         });
       setVisible(2,seat);
   
@@ -146,10 +171,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     };
     axios(config)
       .then(function (response) {
+       
         callSeatApi();
       })
       .catch(function (error) {
+        message.error('更改座位狀態失敗');
         console.log(error);
+  
       });
   };
 
@@ -216,6 +244,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           whichModal={1}
           chairInfo={selectedChair}
           member={""}
+          isError={isError}
+          inputStatus={inputStatus}
+        
         />
   
         <CollectionCreateForm
@@ -225,6 +256,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           whichModal={2}
           chairInfo={selectedChair}
           member={selecteduser}
+          isError={isError}
+          inputStatus={inputStatus}
         />
     </div>
      

@@ -37,7 +37,7 @@ const addMember = async (req, res) => {
     );
     if (!created) {
       return res.status(400).json({
-        detail: "該名用戶已存在"
+        detail: "信箱或手機號碼重複"
       });
     }
     return res.status(201).json({
@@ -87,7 +87,7 @@ const updateSeatState = async (req, res) => {
   try {
     const seat = req.body.seat;
     const username = req.body.username;
-    if (!seat || !seat.index || !seat.state || !username) {
+    if (!seat || isNaN(seat.index) || isNaN(seat.state) || !username) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -96,7 +96,7 @@ const updateSeatState = async (req, res) => {
     if (
       !(await seatService.checkSeatIndexExist(seat.index)) ||
       seat.state < seatProperties.stateRange.min ||
-      2 < seatProperties.stateRange.max
+      seatProperties.stateRange.max < seat.state
     ) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",

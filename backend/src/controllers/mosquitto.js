@@ -1,6 +1,8 @@
 const { memberService, seatService } = require("../services/index");
 const lineDev = require("../services/lineDev");
 const seatProperty = require("../utils/seat");
+const logger = require("../utils/logger");
+
 /**
  *
  * @param {seatUseState} 0: nobody, 1: someone

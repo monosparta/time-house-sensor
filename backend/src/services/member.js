@@ -68,15 +68,11 @@ const checkMemberExistsByUsername = async (username) => {
   if (username.trim() === "") {
     throw new RangeError("Username must not be empty or space-filled");
   }
-  return (
-    (await db["Members"].findOne({ where: { name: username } })) !== null
-  );
+  return (await db["Members"].findOne({ where: { name: username } })) !== null;
 };
 
 const checkMemberExistsByMail = async (mail) => {
-  return (
-    (await db["Members"].findOne({ where: { mail: mail } })) !== null
-  );
+  return (await db["Members"].findOne({ where: { mail: mail } })) !== null;
 };
 
 const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
@@ -127,10 +123,11 @@ const getMemberHash = async (username) => {
 
 const addMember = async (username, mail, phoneNumber, cardId, level) => {
   const [member, created] = await db["Members"].findOrCreate({
-    where: { name: username },
+    where: { [Op.or]: [{ mail: mail }, { phone: phoneNumber }] },
     defaults: {
+      name: username,
       mail: mail,
-      phoneNumber: phoneNumber,
+      phone: phoneNumber,
       cardId: cardId,
       level: level,
     },

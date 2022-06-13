@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelector, loginUser, clearState } from "../features/userSlice";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const [inputStatus, setInputStatus] = useState("");
+
   const {  mail, password } = useSelector(userSelector);
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
@@ -19,6 +21,7 @@ const Login = () => {
   useEffect(() => {
     if (isError) {
       // dispatch(clearState());
+      setInputStatus("error")
       console.log("Error...");
     }
     if (isFetching) {
@@ -108,7 +111,7 @@ const Login = () => {
                       },
                     ]}
                   >
-                    <Input size="large" placeholder="請輸入帳號" />
+                    <Input size="large" status={inputStatus} placeholder="請輸入帳號" />
                   </Form.Item>
                   <Form.Item
                     label="密碼 Password"
@@ -121,7 +124,7 @@ const Login = () => {
                       },
                     ]}
                   >
-                    <Input.Password size="large" placeholder="請輸入密碼" />
+                    <Input.Password size="large"  status={inputStatus} placeholder="請輸入密碼" />
                   </Form.Item>
                   <Form.Item valuePropName="checked" offset="1">
                     <Checkbox className="checkbox-red">保持登入</Checkbox>

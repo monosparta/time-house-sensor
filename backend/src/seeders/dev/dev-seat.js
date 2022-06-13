@@ -17,7 +17,7 @@ module.exports = {
         {
           id: 1,
           no: "A1",
-          state: 0,
+          state: 1,
           stateChangedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -41,7 +41,7 @@ module.exports = {
         {
           id: 4,
           no: "A4",
-          state: 0,
+          state: 1,
           stateChangedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -74,6 +74,7 @@ module.exports = {
           id: 8,
           no: "C1",
           state: 0,
+          memberId: 1,
           stateChangedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -82,7 +83,6 @@ module.exports = {
           id: 9,
           no: "C2",
           state: 1,
-          memberId: 1,
           stateChangedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -90,7 +90,8 @@ module.exports = {
         {
           id: 10,
           no: "C3",
-          state: -1,
+          state: 2,
+          memberId: 2,
           stateChangedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),

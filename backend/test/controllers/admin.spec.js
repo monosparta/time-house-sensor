@@ -370,7 +370,6 @@ describe("PUT /api/auth/admin/seatState", () => {
         username: "kfyjfghrtygs",
       });
 
-    console.log(res)
     expect(res.statusCode).toEqual(404);
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });

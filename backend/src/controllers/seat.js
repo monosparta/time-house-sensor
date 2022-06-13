@@ -10,7 +10,7 @@ const getAllSeatInfo = async (req, res) => {
       seats: [...seats.values()],
     });
   } catch (error) {
-    logger.error(err);
+    logger.error(error);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });

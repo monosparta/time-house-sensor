@@ -2,12 +2,13 @@ require("dotenv").config();
 const { memberService } = require("../services/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger");
 
 const login = async (req, res) => {
   try {
     const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     if (!req.body?.mail || req.body.mail.search(emailRule) === -1 || !req.body?.password) {
-      return res.status(400).json({
+      return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
     }
@@ -46,7 +47,7 @@ const login = async (req, res) => {
       token: token,
     });
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return res.json({
       detail: "伺服器內部錯誤",
     });

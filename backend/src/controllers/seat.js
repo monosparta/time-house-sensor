@@ -1,4 +1,6 @@
 const { seatService } = require("../services/");
+const logger = require("../utils/logger");
+
 
 const getAllSeatInfo = async (req, res) => {
   try {
@@ -8,7 +10,7 @@ const getAllSeatInfo = async (req, res) => {
       seats: [...seats.values()],
     });
   } catch (error) {
-    console.log(error);
+    logger.error(err);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });

@@ -95,6 +95,7 @@ const updateSeatState = async (req, res) => {
 
     if (
       !(await seatService.checkSeatIndexExist(seat.index)) ||
+      !Number.isInteger(Number(seat.state))||
       seat.state < seatProperties.stateRange.min ||
       seatProperties.stateRange.max < seat.state
     ) {
@@ -116,7 +117,9 @@ const updateSeatState = async (req, res) => {
       new Date(),
       parseInt(memberInfo.id)
     );
+
     if (result !== "success") {
+      logger.error(result);
       return res.status(500).json({
         detail: "伺服器內部錯誤",
       });
@@ -127,6 +130,7 @@ const updateSeatState = async (req, res) => {
     });
   } catch (err) {
     logger.error(err);
+    console.log(err)
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });

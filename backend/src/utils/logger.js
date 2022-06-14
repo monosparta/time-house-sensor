@@ -2,15 +2,19 @@ const path = require("path");
 const moment = require("moment-timezone");
 const winston = require("winston");
 const { createLogger, format, transports } = require("winston");
-const { combine, label, printf } = format;
+const { combine, timestamp, prettyPrint, colorize, errors, label, printf } =
+  format;
 
 const apLogFileName = moment(new Date()).format("YYYY-MM-DD") + "-" + "ap.log";
 const errorLogFileName =
   moment(new Date()).format("YYYY-MM-DD") + "-" + "error.log";
 
-const myFormat = printf(
-  (info) => `${info.timestamp} [${info.level}]: ${info.label} - ${info.message}`
-);
+const errorStackFormat = printf((info) => {
+  if (info.level === "error") {
+    return `${info.timestamp} [${info.level}]: ${info.label} - ${info.stack}`;
+  }
+  return `${info.timestamp} [${info.level}]: ${info.label} - ${info.message}`;
+});
 
 const appendTimestamp = format((info, opts) => {
   if (opts.tz) info.timestamp = moment().tz(opts.tz).format();
@@ -19,9 +23,12 @@ const appendTimestamp = format((info, opts) => {
 
 const logger = createLogger({
   format: combine(
-    // label({ label: \ }),
+    // format.splat(),
+    errors({ stack: true }),
+    errorStackFormat,
+    // colorize(),
     appendTimestamp({ tz: "Asia/Taipei" }),
-    myFormat
+    prettyPrint()
   ),
   transports: [
     // new transports.Console(),
@@ -31,8 +38,6 @@ const logger = createLogger({
       level: "info",
       format: combine(
         label({ label: ":info:" }),
-        appendTimestamp({ tz: "Asia/Taipei" }),
-        myFormat
       ),
     }),
     new transports.File({
@@ -41,8 +46,7 @@ const logger = createLogger({
       level: "error",
       format: combine(
         label({ label: ":error:" }),
-        appendTimestamp({ tz: "Asia/Taipei" }),
-        myFormat
+        
       ),
     }),
   ],

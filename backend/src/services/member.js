@@ -62,12 +62,6 @@ const getMemberInfoByLineId = async (lineId) => {
 };
 
 const checkMemberExistsByUsername = async (username) => {
-  if (typeof username !== "string") {
-    throw new TypeError("Username must be a string");
-  }
-  if (username.trim() === "") {
-    throw new RangeError("Username must not be empty or space-filled");
-  }
   return (await db["Members"].findOne({ where: { name: username } })) !== null;
 };
 

@@ -230,7 +230,6 @@ describe("POST /api/auth/admin/addUser", () => {
 });
 
 describe("PUT /api/auth/admin/seatState", () => {
-  // todo: params type error hasn't been tested
 
   it("no body params", async () => {
     const res = await request(app)
@@ -374,6 +373,89 @@ describe("PUT /api/auth/admin/seatState", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
+  // todo: params type error hasn't been tested
+  it("test type error", async() => {
+    const res = await request(app)
+    .put("/api/auth/admin/seatState")
+    .set({ authorization: "Bearer " + token })
+    .send({
+      seat: {
+        index: "1",
+        state: 0,
+      },
+      username: "kfyjfghrtygs",
+    });
+
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
+  })
+
+  // todo: params type error hasn't been tested
+  it("test type error", async() => {
+    const res = await request(app)
+    .put("/api/auth/admin/seatState")
+    .set({ authorization: "Bearer " + token })
+    .send({
+      seat: {
+        index: 1,
+        state: "2",
+      },
+      username: "kfyjfghrtygs",
+    });
+
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
+  })
+
+  // todo: params type error hasn't been tested
+  it("test type error", async() => {
+    const res = await request(app)
+    .put("/api/auth/admin/seatState")
+    .set({ authorization: "Bearer " + token })
+    .send({
+      seat: {
+        index: 1,
+        state: 0,
+      },
+      username: 12312123,
+    });
+
+    expect(res.statusCode).toEqual(404);
+    expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
+  })
+
+  // todo: params type error hasn't been tested
+  it("test type error", async() => {
+    const res = await request(app)
+    .put("/api/auth/admin/seatState")
+    .set({ authorization: "Bearer " + token })
+    .send({
+      seat: {
+        index: 1.7,
+        state: 0,
+      },
+      username: "kfyjfghrtygs",
+    });
+
+    expect(res.statusCode).toEqual(422);
+  })
+
+  // todo: params type error hasn't been tested
+  it("test type error", async() => {
+    const res = await request(app)
+    .put("/api/auth/admin/seatState")
+    .set({ authorization: "Bearer " + token })
+    .send({
+      seat: {
+        index: 1,
+        state: 0.6,
+      },
+      username: "kfyjfghrtygs",
+    });
+
+    expect(res.statusCode).toEqual(422);
+  })
+
   it("correct", async () => {
     const res = await request(app)
       .put("/api/auth/admin/seatState")
@@ -404,7 +486,7 @@ describe("PUT /api/auth/admin/seatState", () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.detail).toEqual("成功修改座位資訊");
-
+    
     const seatsInfoRes = await request(app).get("/api/seatsInfo");
     const seats = seatsInfoRes.body.seats;
     expect(seats[0].state).toEqual(1);

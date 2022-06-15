@@ -2,17 +2,19 @@ require("dotenv").config();
 const { memberService } = require("../services/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger");
 
 const login = async (req, res) => {
   try {
-    if (!req.body?.usernameOrMail || !req.body?.password) {
-      return res.status(400).json({
+    const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    if (!req.body?.mail || req.body.mail.search(emailRule) === -1 || !req.body?.password) {
+      return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
     }
-    const usernameOrMail = req.body.usernameOrMail;
+    const mail = req.body.mail;
     if (
-      !(await memberService.checkMemberExistsByUsernameOrMail(usernameOrMail))
+      !(await memberService.checkMemberExistsByMail(mail))
     ) {
       return res.status(403).json({
         detail: "帳號或密碼錯誤",
@@ -20,8 +22,8 @@ const login = async (req, res) => {
     }
 
     const password = req.body.password;
-    const userInfo = await memberService.getMemberInfoByUsernameOrMail(
-      usernameOrMail
+    const userInfo = await memberService.getMemberInfoByMail(
+      mail
     );
     const match = await bcrypt.compareSync(password, userInfo.password);
 
@@ -37,7 +39,7 @@ const login = async (req, res) => {
       });
     }
     const token = jwt.sign(
-      { id: userInfo.id, username: userInfo.username, level: userInfo.level },
+      { id: userInfo.id, username: userInfo.name, level: userInfo.level },
       process.env.JWT_SECRET
     );
     return res.status(200).json({
@@ -45,7 +47,7 @@ const login = async (req, res) => {
       token: token,
     });
   } catch (err) {
-    // console.log(err);
+    logger.error(err);
     return res.json({
       detail: "伺服器內部錯誤",
     });

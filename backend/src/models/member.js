@@ -19,9 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      username: {
+      name: {
         type: DataTypes.STRING,
-        unique: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -29,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       cardId: {
         type: DataTypes.STRING,
       },
-      phoneNumber: {
+      phone: {
         type: DataTypes.STRING,
       },
       mail: {

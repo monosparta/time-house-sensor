@@ -1,6 +1,8 @@
 const { memberService, seatService } = require("../services/index");
 const lineDev = require("../services/lineDev");
 const seatProperty = require("../utils/seat");
+const logger = require("../utils/logger");
+
 /**
  *
  * @param {seatUseState} 0: nobody, 1: someone
@@ -20,7 +22,7 @@ const IRHandler = async ({ index, seatUseState, time }) => {
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
-    seatService.updateSeatState(index, seatProperty.USING, new Date(time), seat.memberId);
+    seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), seat.memberId);
   }
 };
 
@@ -29,11 +31,11 @@ const RFIDHandler = async ({ index, cardId, time }) => {
   if (!memberInfo) {
     return;
   }
-  seatService.updateSeatState(index, seatProperty.USING, new Date(time), memberInfo.id);
+  seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), memberInfo.id);
 };
 
 const errorHandler = async ({ index, errorMessage, sensorName, time }) => {
-  seatService.updateSeatState(index, seatProperty.ERROR, new Date(time), null);
+  seatService.updateSeatState(index, seatProperty.state.ERROR, new Date(time), null);
 };
 
 module.exports = {

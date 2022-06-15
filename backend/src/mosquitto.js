@@ -1,7 +1,9 @@
 require("dotenv").config();
 const mqtt = require("mqtt");
 const mqttController = require("./controllers/mosquitto");
-let topics = ["IR", "RFID", "Error"];
+const logger = require("./utils/logger");
+
+let topics = { IR: { qos: 2 }, RFID: { qos: 2 }, Error: { qos: 2 } };
 let client = mqtt.connect(
   "mqtt://" + process.env.MQTT_HOST + ":" + process.env.MQTT_PORT,
   {
@@ -16,9 +18,9 @@ let client = mqtt.connect(
 );
 
 client.on("connect", () => {
-  console.log("Broker connected!!");
-  client.subscribe(topics, {qos: 2}, () => {
-    console.log(`Subscribe to topic '${topics}'`);
+  logger.info("Broker connected!!");
+  client.subscribe(topics, { qos: 2 }, () => {
+    logger.info(`Subscribe to topic '${topics}'`);
   });
 });
 
@@ -33,10 +35,11 @@ client.on("message", (topic, payload) => {
       mqttController.errorHandler(payload);
     }
   } catch (error) {
+    logger.error(error);
     return;
   }
 });
 
 client.on("error", (error) => {
-  console.log("Can't connect " + error);
+  logger.error("Can't connect " + error);
 });

@@ -9,7 +9,7 @@ const getMemberInfoByUsername = async (username) => {
   if (username.trim() === "") {
     throw new RangeError("Username must not be empty or space-filled");
   }
-  return (await db["Members"].findOne({ where: { username: username } }))
+  return (await db["Members"].findOne({ where: { name: username } }))
     .dataValues;
 };
 
@@ -20,13 +20,22 @@ const getMemberInfoById = async (id) => {
   return (await db["Members"].findOne({ where: { id: id } })).dataValues;
 };
 
+const getMemberInfoByMail = async (mail) => {
+  const result = await db["Members"].findOne({
+    where: {
+      mail: mail,
+    },
+  });
+  return result;
+};
+
 const getMemberInfoByUsernameOrMail = async (usernameOrMail) => {
   if (typeof usernameOrMail !== "string") {
     throw new TypeError("UsernameOrMail must be a string");
   }
   const result = await db["Members"].findOne({
     where: {
-      [Op.or]: [{ username: usernameOrMail }, { mail: usernameOrMail }],
+      [Op.or]: [{ name: usernameOrMail }, { mail: usernameOrMail }],
     },
   });
   return result;
@@ -53,15 +62,11 @@ const getMemberInfoByLineId = async (lineId) => {
 };
 
 const checkMemberExistsByUsername = async (username) => {
-  if (typeof username !== "string") {
-    throw new TypeError("Username must be a string");
-  }
-  if (username.trim() === "") {
-    throw new RangeError("Username must not be empty or space-filled");
-  }
-  return (
-    (await db["Members"].findOne({ where: { username: username } })) !== null
-  );
+  return (await db["Members"].findOne({ where: { name: username } })) !== null;
+};
+
+const checkMemberExistsByMail = async (mail) => {
+  return (await db["Members"].findOne({ where: { mail: mail } })) !== null;
 };
 
 const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
@@ -70,7 +75,7 @@ const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
   }
   const result = await db["Members"].findOne({
     where: {
-      [Op.or]: [{ username: usernameOrMail }, { mail: usernameOrMail }],
+      [Op.or]: [{ name: usernameOrMail }, { mail: usernameOrMail }],
     },
   });
   return result;
@@ -104,7 +109,7 @@ const getMemberHash = async (username) => {
     throw new RangeError("Username must not be empty or space-filled");
   }
   const member = await db["Members"].findOne({
-    where: { username: username },
+    where: { name: username },
   });
   if (!member?.dataValues) return "";
   return member.dataValues.password || "";
@@ -112,10 +117,11 @@ const getMemberHash = async (username) => {
 
 const addMember = async (username, mail, phoneNumber, cardId, level) => {
   const [member, created] = await db["Members"].findOrCreate({
-    where: { username: username },
+    where: { [Op.or]: [{ mail: mail }, { phone: phoneNumber }] },
     defaults: {
+      name: username,
       mail: mail,
-      phoneNumber: phoneNumber,
+      phone: phoneNumber,
       cardId: cardId,
       level: level,
     },
@@ -128,8 +134,10 @@ module.exports = {
   getMemberInfoById,
   getMemberInfoByLineId,
   getMemberInfoByCardId,
+  getMemberInfoByMail,
   checkMemberExistsByUsername,
   checkMemberExistsById,
+  checkMemberExistsByMail,
   checkMemberExistsByCardId,
   getMemberHash,
   addMember,

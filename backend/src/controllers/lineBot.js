@@ -1,5 +1,7 @@
 const lineDev = require("../services/lineDev");
 const client = lineDev.client;
+const logger = require("../utils/logger");
+
 const lineMessageHandler = async (req, res) => {
   try {
     if (!req.body.events.length) return res.status(200).json({});
@@ -118,7 +120,7 @@ const lineMessageHandler = async (req, res) => {
       return res.json(userReplyResult);
     }
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return res.status(500).end();
   }
 };

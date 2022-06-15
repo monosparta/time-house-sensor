@@ -10,7 +10,8 @@ let client = mqtt.connect(
     clientId: "express",
     clean: true,
     connectTimeout: 4000,
-
+    username: process.env.MQTT_USERNAME,
+    password: process.env.MQTT_PASSWORD,
     reconnectPeriod: 1000,
     resubscribe: true,
   }

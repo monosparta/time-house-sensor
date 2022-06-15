@@ -23,7 +23,6 @@ const appendTimestamp = format((info, opts) => {
 
 const logger = createLogger({
   format: combine(
-    // format.splat(),
     errors({ stack: true }),
     errorStackFormat,
     // colorize(),
@@ -46,7 +45,6 @@ const logger = createLogger({
       level: "error",
       format: combine(
         label({ label: ":error:" }),
-        
       ),
     }),
   ],

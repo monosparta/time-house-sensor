@@ -9,6 +9,8 @@ import os
 import network
 import time
 import wifi
+import ntptime
+
 SERVER = '10.2.10.131'
 client = MQTTClient('umqtt_client',SERVER,1883,'seat1','seat1')
 oldCard="" 
@@ -99,7 +101,8 @@ def wificonnect(client):
     sta.connect(wifi.ssid, wifi.password)
     print('network config:', sta.ifconfig())
     client.connect(False)
-    while True:
+    while True:a
+        ntptime.settime()
         if(sta.isconnected()):
             print("has wifi")
             try:
@@ -126,8 +129,3 @@ def wificonnect(client):
         time.sleep(10)
 
 wificonnect(client)
-
-
-    
-
-

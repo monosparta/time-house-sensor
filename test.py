@@ -9,45 +9,48 @@ import os
 import network
 import time
 import wifi
+import ntptime
 SERVER = '10.2.10.131'
 client = MQTTClient('umqtt_client',SERVER,1883,'seat1','seat1')
-oldCard="" 
+oldCard=""
+cntSecondIdleTime=0
+cntSecondUseTime=0
 cntIdleTime=0
 cntUseTime=0
 notificationState=0
 nowState=[]
 def RFID_MQTT(cardId):
-    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3]-8,time.localtime()[4],time.localtime()[5])
+    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'cardId':cardId,'index':1}
     return payload
 
 def IR_MQTT(seatState):
-    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3]-8,time.localtime()[4],time.localtime()[5])
+    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'seatUseState':seatState,'index':1}
     return payload
 
 def Error(sensorName):
-    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3]-8,time.localtime()[4],time.localtime()[5])
+    now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'errorMessage':"sensor error",'sensorName':sensorName,'index':1}
     return payload
 
 def detectsensor(client):
-    global cntUseTime,cntIdleTime,notificationState,nowState,oldCard
+    global cntUseTime,cntIdleTime,notificationState,nowState,oldCard,cntSecondIdleTime,cntSecondUseTime
     client.connect(False)
-    (userCardId,UseStat)=readrfid.rfid_id()
+    (userCardId,useStat)=readrfid.rfid_id()
     seatState=infrared.infrared_state()
     if(seatState):
-        cntUseTime=cntUseTime+1
+        cntSecondUseTime=cntSecondUseTime+1
     else:
-        cntIdleTime=cntIdleTime+1
-    if(UseStat==2):
+        cntSecondIdleTime=cntSecondIdleTime+1
+    if(useStat==2):
         if(client.connect()=="error"):
             savedata.deleteRepeat("Error,")
             savedata.write("Error",json.dumps(Error("RFID")))
         else:
             client.publish("Error", json.dumps(Error("RFID")))
         print("Error Topic")
-    if(UseStat==0):
+    if(useStat==0):
         if(oldCard!=userCardId):
             nowState=[]
             if(client.connect()=="error"):
@@ -57,6 +60,13 @@ def detectsensor(client):
                 client.publish("RFID", json.dumps(RFID_MQTT(userCardId)))
             print("RFID Topic")
             oldCard=userCardId
+    if((cntSecondUseTime+cntSecondIdleTime)==10):
+        if(cntSecondUseTime>4):
+            cntUseTime=cntUseTime+1
+        else:
+            cntIdleTime=cntIdleTime+1
+        cntSecondUseTime=0
+        cntSecondIdleTime=0
     if((cntUseTime+cntIdleTime)==6):
         if(len(nowState)==2):
             del nowState[0]
@@ -100,6 +110,7 @@ def wificonnect(client):
     print('network config:', sta.ifconfig())
     client.connect(False)
     while True:
+        ntptime.settime()
         if(sta.isconnected()):
             print("has wifi")
             try:
@@ -123,6 +134,6 @@ def wificonnect(client):
                 print("reconncting")
                 client.connect(False)
                 print("reconected")
-        time.sleep(10)
+        time.sleep(1)
 
 wificonnect(client)

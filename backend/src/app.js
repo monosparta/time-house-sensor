@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const helmet = require('helmet');
 const lineDev = require("./services/lineDev");
 const app = express();
 const logger = require("./utils/logger");
@@ -8,6 +9,8 @@ const logger = require("./utils/logger");
 const router = express.Router();
 // use line.middleware before express.json, ref https://github.com/line/line-bot-sdk-nodejs/blob/next/docs/api-reference/middleware.md
 router.use("/api/line", lineDev.middleware);
+
+router.use(helmet());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 app.use(cors());

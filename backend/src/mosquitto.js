@@ -23,7 +23,7 @@ client.on("connect", () => {
     if (err) {
       logger.error(err);
     } else {
-      logger.info(`Subscribe to topic '${topics}'`);
+      logger.info(`Subscribe to topics}`);
     }
   });
 });

@@ -13,16 +13,23 @@ const IRHandler = async ({ index, seatUseState, time }) => {
     if (seat.state === seatProperty.state.AVAILABLE) {
       return;
     }
+    const utcFormatTime =
+      time.split(" ")[0] + "T" + time.split(" ")[1] + ".000Z";
     seatService.updateSeatState(
       index,
       seatProperty.state.IDLE_TOO_LONG,
-      new Date(time),
+      new Date(utcFormatTime),
       seat.memberId
     );
     lineDev.pushAdminMessage(index);
     return;
   } else if (seatUseState === 1) {
-    seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), seat.memberId);
+    seatService.updateSeatState(
+      index,
+      seatProperty.state.USING,
+      new Date(time),
+      seat.memberId
+    );
   }
 };
 
@@ -31,11 +38,23 @@ const RFIDHandler = async ({ index, cardId, time }) => {
   if (!memberInfo) {
     return;
   }
-  seatService.updateSeatState(index, seatProperty.state.USING, new Date(time), memberInfo.id);
+  const utcFormatTime = time.split(" ")[0] + "T" + time.split(" ")[1] + ".000Z";
+  seatService.updateSeatState(
+    index,
+    seatProperty.state.USING,
+    new Date(utcFormatTime),
+    memberInfo.id
+  );
 };
 
 const errorHandler = async ({ index, errorMessage, sensorName, time }) => {
-  seatService.updateSeatState(index, seatProperty.state.ERROR, new Date(time), null);
+  const utcFormatTime = time.split(" ")[0] + "T" + time.split(" ")[1] + ".000Z";
+  seatService.updateSeatState(
+    index,
+    seatProperty.state.ERROR,
+    new Date(utcFormatTime),
+    null
+  );
 };
 
 module.exports = {

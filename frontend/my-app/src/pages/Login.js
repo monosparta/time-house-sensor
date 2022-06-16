@@ -100,7 +100,7 @@ const Login = () => {
                   ) : null}
 
                   <Form.Item
-                    label="帳號 Username "
+                    label="信箱 Mail"
                     name="mail"
                     value={mail}
                     rules={[

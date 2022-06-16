@@ -30,23 +30,16 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
 
   const onFinish = (values, which) => {
-    console.log("??"+which)
+    console.log("??"+values.front)
     
 
 
     if (which === seatState.AVAILABLE) {
 
       if(!values.front){
-        values.front="09"
+        values.front="+886"
       }
-      if ("09" === values.front) {
-        if (values.phoneNumber.length < 8 || values.phoneNumber.length > 9) {
-          console.log("A");
-          setError("請輸入有效的電話號碼");
-          setInputStatus("error")
-          return 0;
-        }
-      } else if ("+886" === values.front) {
+      if ("+886" === values.front) {
         if (values.phoneNumber.length < 9) {
           console.log("A");
           setError("請輸入有效的電話號碼");
@@ -155,7 +148,6 @@ export const SeatMap = ({ seat,callSeatApi }) => {
          });
         })
         .catch(function (error) {
-          // console.log("我要得到使用者資料" + seat.memberId);
           console.log(error.data.detail);
         });
       setVisible(2,seat);

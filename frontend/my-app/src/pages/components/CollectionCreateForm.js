@@ -38,11 +38,8 @@ export const CollectionCreateForm = ({
   // Radio選單
   const [chioces, SetChioces] = useState(1);
   const [value, setValue] = useState(null);
-  const [front, setFront] = useState("09");
+  const [front, setFront] = useState("+886");
    
-  // const [isError, setError] = useState(null);
-  // const [front, setFront] = useState("09");
-
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -59,8 +56,10 @@ export const CollectionCreateForm = ({
       .then((values) => {
         console.log(values);
         console.log("AA" + front);
-
-        // values.front = front;
+        if(whichModal==1){
+          values.front=front;
+        }
+       
         console.log(values);
         onFinish(values);
         form.resetFields();
@@ -73,8 +72,6 @@ export const CollectionCreateForm = ({
   let ChairId = chairInfo.no;
 
   if (whichModal === 1) {
-    // 表單一，可使用位置
-
     return (
       <Modal
         className="my-modal-class"
@@ -136,13 +133,12 @@ export const CollectionCreateForm = ({
                     
                   <Form.Item name="front">
                     <Select
-                       defaultValue="09"
+                       defaultValue="+886"
                       style={{
                         width: "6vw",
                       }}
                       onChange={handleChange}
                     >
-                      <Option value="09">09</Option>
                       <Option value="+886">+886</Option>
                     </Select>
                   </Form.Item>
@@ -155,15 +151,7 @@ export const CollectionCreateForm = ({
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (front === "09") {
-                      if (
-                        (/d{8,8}$/.test(value) && value.length === 8) ||
-                        !value
-                      ) {
-                        return Promise.resolve();
-                      } else if (value.length <= 8) {
-                        return Promise.resolve(); 
-                      }}else if(front === "+886"){
+                     if(front === "+886"){
                         if (
                         (/d{9,9}$/.test(value) && value.length === 9) ||
                         !value

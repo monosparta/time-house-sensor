@@ -10,6 +10,8 @@ import React from "react";
 
 import Home from './pages/index';
 import Login from './pages/Login';
+import Register from "./pages/Register";
+import AdminList from "./pages/AdminList";
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -25,17 +27,22 @@ function App() {
 
         return (
           <Router>
-          <Routes>
+       
             {
  
             user ? (
+              <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/adminList" element={<AdminList/>}/>
+              </Routes>
             ) : (
               // <Route path="*" element={<Button>sddsd</Button>} />
+              <Routes>
+                   <Route path="/login" index element={<Login />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
+              </Routes>
             )}
-            <Route path="/login" index element={<Login />} />
-          </Routes>
         </Router>
         );
 }

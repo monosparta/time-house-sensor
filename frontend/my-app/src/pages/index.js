@@ -56,7 +56,7 @@ const Home = () => {
     <div className="page-container">
       <HeaderBar />
       <Content>
-        <div className="seatmap"><div className="a"/>
+        <div className="seatmap">
           <Row justify="center" align="middle">
             {seats.map((seat, i) => (
               <Col span={6} style={{ alignItems: "center" }}>

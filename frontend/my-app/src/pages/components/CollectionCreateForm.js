@@ -199,7 +199,7 @@ export const CollectionCreateForm = ({
         </Row>
       </Modal>
     );
-  } else {
+  }else {
     // 表單二，閒置位置
    
     return (

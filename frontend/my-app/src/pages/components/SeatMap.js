@@ -82,10 +82,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             username: values.username,
           });
           setIisAddSeatModalVisible(false);
+          console.log("確認更改座位資料"+data)
           putSeatState(data);
         })
         .catch(function (err) {
-            setError("新增使用者失敗")
+
+          console.log("新增失敗"+err.response.data.detail)
+            setError(err.response.data.detail)
         });
   
     } else {

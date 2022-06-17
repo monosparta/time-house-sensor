@@ -8,7 +8,12 @@ const getAllAdmins = async () => {
     admin.dataValues.password = "";
   });
   return admins.map((admin) => {
-    return admin.dataValues;
+    return {
+      id: admin.dataValues.id,
+      username: admin.dataValues.name,
+      mail: admin.dataValues.mail,
+      line: !admin.dataValues.lineId,
+    };
   });
 };
 
@@ -21,7 +26,7 @@ const addAdmin = async ({ username, password, mail }) => {
     name: username,
     password: hash,
     mail: mail,
-    level: 0
+    level: 0,
   });
   return admin.dataValues;
 };

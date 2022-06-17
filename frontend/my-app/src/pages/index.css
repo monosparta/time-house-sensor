@@ -93,11 +93,11 @@ img {
 }
 
 .ant-btn-primary {
-  background-color: #5CB4FD;
-  border-color: #5CB4FD;
-  border-radius: 3px;
-  font-size: 10px;
-
+  height: 60px;
+  font-size: 24px;
+  border: solid 1.5px #363F4E;
+  border-radius: 4px;
+  padding: 10px;
 }
 
 

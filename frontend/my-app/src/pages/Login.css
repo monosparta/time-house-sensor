@@ -79,9 +79,14 @@ min-height: 80%;}
     display: flex;
     text-align: left;
   }
-
+  .ant-btn-lgl {
+    height: 59px !important;
+    padding: 7px 34px;
+    border: solid 1.5px #363F4E;
+    border-radius: 4px;
+}
   h1{
-    font-size: 30px !important;
+    font-size: 36px !important;
    }
   
   h2{
@@ -188,4 +193,7 @@ min-height: 80%;}
   flex-direction: column;
   display: flex;
   text-align: left;
+}
+body{
+  font-family: 'Roboto';
 }

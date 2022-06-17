@@ -103,7 +103,7 @@ const Login = () => {
                     <Input
                       size="large"
                       status={inputStatus}
-                      placeholder="User@gmail.com"
+                      placeholder="請輸入帳號"
                     />
                   </Form.Item>
                   <Form.Item
@@ -120,7 +120,7 @@ const Login = () => {
                     <Input.Password
                       size="large"
                       status={inputStatus}
-                      placeholder="Password"
+                      placeholder="請輸入密碼"
                     />
                   </Form.Item>
                   <Form.Item valuePropName="checked" offset="1">
@@ -131,14 +131,17 @@ const Login = () => {
                       type="primary"
                       htmlType="submit"
                       block
-                      size="large"
+                      
+                      
                       style={{
                         background: "#363F4E",
                         borderColor: "#363F4E",
                         color: "white",
+                       
+                        
                       }}
                     >
-                      <span style={{ fontSize: "1.7vh" }}>立即登入 </span>
+                     立即登入
                     </Button>
                   </Form.Item>
                 </Form>

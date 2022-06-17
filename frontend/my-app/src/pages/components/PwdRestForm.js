@@ -64,7 +64,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
             }}
           >
             <Form.Item
-              label="新密碼"
+              label="新密碼 Password"
               name="password"
               rules={[
                 {
@@ -77,7 +77,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
             </Form.Item>
             <Form.Item
               name="confirm"
-              label="確認密碼"
+              label="確認密碼 Confirm Password"
               dependencies={["password"]}
               hasFeedback
               rules={[

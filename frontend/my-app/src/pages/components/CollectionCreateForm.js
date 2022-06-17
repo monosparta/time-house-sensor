@@ -26,6 +26,8 @@ export const CollectionCreateForm = ({
   member,
   isError,
   inputStatus,
+  setInputStatus,
+  setError,
 }) => {
   const [form] = Form.useForm();
   useEffect(() => {
@@ -51,10 +53,25 @@ export const CollectionCreateForm = ({
     form
       .validateFields()
       .then((values) => {
-        console.log(values);
+        console.log("A"+values);
     
         console.log(values);
-        onFinish(values);
+          if( whichModal===1){
+            if (values.phoneNumber.length < 12) {
+              setError("請輸入有效的電話號碼");
+              setInputStatus("error");
+              return 0;
+             
+            }
+            console.log(values.phoneNumber.substr(0,4))
+            if(values.phoneNumber.substr(0,4)!=="8869"){
+              setError("請輸入有效的電話號碼");
+              setInputStatus("error");
+              return 0;
+            }
+          }
+
+        onFinish(values); 
         form.resetFields();
       })
       .catch((info) => {

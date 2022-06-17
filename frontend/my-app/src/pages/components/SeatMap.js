@@ -34,18 +34,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   
     if (which === seatState.AVAILABLE) {
 
-        if (values.phoneNumber.length < 12) {
-          console.log("A");
-          setError("請輸入有效的電話號碼");
-          setInputStatus("error");
-          return 0;
-        }
-
-        if(values.phoneNumber.substr(2)!=="886"){
-          setError("請輸入有效的電話號碼");
-          setInputStatus("error");
-          return 0;
-        }
+     
       
      let data = JSON.stringify({
         username: values.username,
@@ -55,9 +44,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
       var config = {
         method: "post",
-        url: "/api/auth/admin/addUser",
+        url: "/api/auth/isAdmin/addUser",
         headers: {
-          // authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+          authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
         },
         data: data,
       };
@@ -132,7 +121,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     } else if (state === seatState.IDLE_TOO_LONG) {
       console.log("我要得到使用者資料" + seat.memberId);
       axios
-        .get("/api/auth/admin/memberInfo", {
+        .get("/api/auth/isAdmin/memberInfo", {
           params: {
             memberId: seat.memberId,
           },
@@ -157,7 +146,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const putSeatState = (data) => {
     var config = {
       method: "put",
-      url: "/api/auth/admin/seatState",
+      url: "/api/auth/isAdmin/seatState",
       headers: {
         authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
       },
@@ -239,7 +228,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           chairInfo={selectedChair}
           member={""}
           isError={isError}
+          setError={setError}
           inputStatus={inputStatus}
+          setInputStatus={setInputStatus}
         
         />
   

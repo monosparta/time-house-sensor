@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-06-17 14:56:00
+ * @LastEditTime: 2022-06-17 16:15:46
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -65,7 +65,6 @@ const AdminList = () => {
   };
 
   const Delete=(data)=>{
-
     var config = {
       method: 'delete',
       url: '/api/auth/isAdmin/admin/'+data.id,

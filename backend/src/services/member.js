@@ -2,6 +2,49 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const db = require("../models/index");
 
+const getAllAdmins = async () => {
+  const admins = await db["Members"].findAll({ where: { level: 0 } });
+  admins.forEach((admin) => {
+    admin.dataValues.password = "";
+  });
+  return admins.map((admin) => {
+    return admin.dataValues;
+  });
+};
+
+const addAdmin = async ({ username, password, mail }) => {
+  const hash = bcrypt.hashSync(
+    password,
+    Number.parseInt(process.env.SALT_ROUND)
+  );
+  const admin = await db["Members"].create({
+    name: username,
+    password: hash,
+    mail: mail,
+  });
+  return admin.dataValues;
+};
+
+const updateAdmin = async ({ id, username, mail, password }) => {
+  const admin = await db["Members"].findOne({ where: { id: id } });
+
+  admin.set({
+    name: username || admin.dataValues.name,
+    mail: mail || admin.dataValues.mail,
+    password:
+      (password &&
+        bcrypt.hashSync(password, Number.parseInt(process.env.SALT_ROUND))) ||
+      admin.dataValues.password,
+  });
+
+  await admin.save();
+};
+
+const destroyAdmin = async (id) => {
+  await db["Members"].destroy({ where: { id: id } });
+  return;
+};
+
 const getMemberInfoByUsername = async (username) => {
   if (typeof username !== "string") {
     throw new TypeError("Username must be a string");
@@ -130,6 +173,11 @@ const addMember = async (username, mail, phoneNumber, cardId, level) => {
 };
 
 module.exports = {
+  getAllAdmins,
+  addAdmin,
+  updateAdmin,
+  destroyAdmin,
+
   getMemberInfoByUsername,
   getMemberInfoById,
   getMemberInfoByLineId,

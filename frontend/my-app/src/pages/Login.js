@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelector, loginUser, clearState } from "../features/userSlice";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [inputStatus, setInputStatus] = useState("");
 
-  const {  mail, password } = useSelector(userSelector);
+  const { mail, password } = useSelector(userSelector);
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
   const dispatch = useDispatch();
@@ -20,8 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      // dispatch(clearState());
-      setInputStatus("error")
+      setInputStatus("error");
       console.log("Error...");
     }
     if (isFetching) {
@@ -51,21 +50,12 @@ const Login = () => {
           className="Color box"
         >
           <div className="box">
-          <Row type="flex" align="middle">
-          <div style={{margin:"auto 0"}}>
-          <Col span={24}>
-          <h2 style={{ color: "white"}} >高階智能座位管理系統</h2>
-           
-          </Col>
-          <Col>
-          <div className="image">
+            <div className="logo">
+              <h2 style={{ color: "white", display: "block" }}>
+                高階智能座位管理系統
+              </h2>
               <img src={"../image/logo.png"} alt="logo"></img>
             </div>
-          </Col>
-          </div>
-      
-          </Row>
-          
           </div>
         </Col>
         <Col
@@ -100,18 +90,21 @@ const Login = () => {
                   ) : null}
 
                   <Form.Item
-                    label="信箱 Mail"
+                    label="帳號 UserName or Email"
                     name="mail"
                     value={mail}
                     rules={[
-                      { type: "email", message: "請輸入有效的郵件地址" },
                       {
                         required: true,
                         message: "",
                       },
                     ]}
                   >
-                    <Input size="large" status={inputStatus} placeholder="請輸入帳號" />
+                    <Input
+                      size="large"
+                      status={inputStatus}
+                      placeholder="User@gmail.com"
+                    />
                   </Form.Item>
                   <Form.Item
                     label="密碼 Password"
@@ -124,7 +117,11 @@ const Login = () => {
                       },
                     ]}
                   >
-                    <Input.Password size="large"  status={inputStatus} placeholder="請輸入密碼" />
+                    <Input.Password
+                      size="large"
+                      status={inputStatus}
+                      placeholder="Password"
+                    />
                   </Form.Item>
                   <Form.Item valuePropName="checked" offset="1">
                     <Checkbox className="checkbox-red">保持登入</Checkbox>

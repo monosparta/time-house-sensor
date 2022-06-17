@@ -6,24 +6,16 @@
 }
 
 .logo {
-  align-items: center;
+  display:flex;
+  flex-direction: column;
   justify-content: center; 
-  height: 100vh;
+  align-items: center;
 }
-.image{
-  left: 3vw;
-  position: relative;
-  max-height: 80%;  
-  max-width: 80%; 
-}
-.image img{
-  max-height: 80%;  
-  max-width: 80%; 
-  width: auto;
-  height: auto;
-  left: 3vw;
 
-}
+.logo img
+{display:inline-block;
+max-width: 80%;
+min-height: 80%;}
 
 .Color {
 

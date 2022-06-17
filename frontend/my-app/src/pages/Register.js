@@ -27,19 +27,13 @@ const Register = () => {
           lg={{ span: 8 }}
           className="Color box"
         >
-          <div className="box">
-            <Row type="flex" align="middle">
-              <div style={{ margin: "auto 0" }}>
-                <Col span={24}>
-                  <h2 style={{ color: "white" }}>高階智能座位管理系統</h2>
-                </Col>
-                <Col>
-                  <div className="image">
-                    <img src={"../image/logo.png"} alt="logo"></img>
-                  </div>
-                </Col>
-              </div>
-            </Row>
+        <div className="box">
+            <div className="logo">
+              <h2 style={{ color: "white", display: "block" }}>
+                高階智能座位管理系統
+              </h2>
+              <img src={"../image/logo.png"} alt="logo"></img>
+            </div>
           </div>
         </Col>
         <Col

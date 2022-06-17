@@ -270,7 +270,7 @@ export const CollectionCreateForm = ({
                   </Space>
                 </Col>
               </Row>
-            </Space>
+          
 
             <Form.Item label="狀態更改" name="state">
               <Radio.Group onChange={onChange} value={chioces}>
@@ -278,6 +278,7 @@ export const CollectionCreateForm = ({
                 <Radio value={1}>可使用</Radio>
               </Radio.Group>
             </Form.Item>
+            </Space>
             <Form.Item name="index" noStyle rules={[{ required: true }]}>
               <Input type="hidden"></Input>
             </Form.Item>

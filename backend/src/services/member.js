@@ -21,6 +21,7 @@ const addAdmin = async ({ username, password, mail }) => {
     name: username,
     password: hash,
     mail: mail,
+    level: 0
   });
   return admin.dataValues;
 };

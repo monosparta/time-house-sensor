@@ -6,7 +6,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
   const [inputStatus, setInputStatus] = useState("");
-
+  const [isError, setError] = useState(null);
   const navigate = useNavigate();
 
   const onFinish = async (data) => {
@@ -31,10 +31,12 @@ const Register = () => {
     axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data.detail));
+      setError(null);
       navigate("/",{ replace: true });
     })
     .catch(function (error) {
-      console.log(error);
+      console.log("新增失敗"+error.response.data.detail)
+      setError(error.response.data.detail)
     });
   };
   
@@ -88,6 +90,9 @@ const Register = () => {
                   onFinishFailed={onFinishFailed}
                   autoComplete="off"
                 >
+                   {isError ? (
+                   <><Alert message={isError} type="error" showIcon /><br/></> 
+                  ) : null}
                   <Form.Item
                     label="名稱 UserName"
                     name="name"

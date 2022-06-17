@@ -149,8 +149,8 @@ const AdminList = () => {
               </Col>
             </Row>
             <Table dataSource={admins}>
-              <Column title="name" dataIndex="name" key="name" width="30%" />
-              <Column title="email" dataIndex="email" key="email" width="30%" />
+              <Column title="username" dataIndex="username" key="name" width="30%" />
+              <Column title="mail" dataIndex="mail" key="email" width="30%" />
               <Column title="role" dataIndex="role" key="role" width="30%" />
             
               <Column

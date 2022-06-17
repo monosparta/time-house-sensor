@@ -5,7 +5,7 @@ let adminLoginRes;
 
 beforeAll(async () => {
   adminLoginRes = await request(app).post("/api/login").send({
-    mail: "admin@mail.com",
+    usernameOrMail: "admin@mail.com",
     password: "admin",
   });
 });

@@ -1,29 +1,53 @@
+/*
+ * @Author: 20181101remon mindy80230@gmail.com
+ * @Date: 2022-05-20 14:46:28
+ * @LastEditors: 20181101remon mindy80230@gmail.com
+ * @LastEditTime: 2022-06-17 10:34:28
+ * @FilePath: \time-house-sensor\frontend\my-app\src\pages\components\HeaderBar.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import React from "react";
 import {
   Layout,
   Button,
   Row,
   Col,
+  Menu,
+  Avatar,
+  Dropdown
 } from "antd";
 
-// import { useNavigate } from "react-router-dom";
-import { LogoutOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { BarsOutlined } from "@ant-design/icons";
 const { Header} = Layout;
 
 
 
 export const HeaderBar = () => {
-// const navigate = useNavigate();
-const handleLogout = (e) => {
-  localStorage.removeItem("authorized_keys");
-  window.location.reload();
+const navigate = useNavigate();
+
+const User = (e) => {
+  console.log("click ", e);
+  if (e.key === "logout") {
+    localStorage.removeItem("authorized_keys");
+    window.location.reload();
+  } else if (e.key === "adminList") {
+    navigate("/" + e.key, { replace: true });
+  }
 };
+const menu = (
+  <Menu mode="horizontal" defaultSelectedKeys={[""]} onClick={User}>
+      <Menu.Item key="adminList" >管理者列表</Menu.Item>
+      <Menu.Item key="logout">登出帳號</Menu.Item>
+    
+  </Menu>
+);
+
   return (
     <div>
       <Header className="black">
         <Row  justify="space-between">
           <Col
-          //  sm={{span:4,push:1}} md={{span:5,push:2}} lg={{span:5,push:1}} xl={{span:5,push:1}} xxl={{span:6,push:1}}
              sm={{span:10}} md={{span:10}} lg={{span:6}} xl={{span:6}} xxl={{span:6}} 
           style={{
               verticalAlign: "middle",
@@ -33,14 +57,13 @@ const handleLogout = (e) => {
             高階智能座位管理系統
           </Col>
           <Col
-          //  sm={{span:2,offset:15}} md={{span:2,offset:16}} lg={{span:2,offset:15}} xl={{span:2,offset:15}} xxl={{span:2,offset:15}}
           sm={{span:4}} md={{span:4}} lg={{span:2,}} xl={{span:2,}} xxl={{span:2,}}
             style={{
               verticalAlign: "middle",
               color: "white",
             }}
           >
-            <Button
+            {/* <Button
                className="logut"
               icon={<LogoutOutlined />}
               onClick={(e) => {
@@ -48,7 +71,16 @@ const handleLogout = (e) => {
               }}
             >
               <span  style={{ fontSize:"14px"}}>LOGOUT</span>
-            </Button>
+            </Button> */}
+            <Dropdown
+                overlay={menu}
+                trigger={["click"]}
+                placement="bottomRight"
+              >
+                <div onClick={(e) => e.preventDefault()}>
+                <BarsOutlined style={{fontSize: '35px'}}/>
+                </div>
+              </Dropdown>
           </Col>
         </Row>
       </Header>

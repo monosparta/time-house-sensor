@@ -36,7 +36,6 @@ jobs:
     needs: Clone
     name: Backend CI/CD
     runs-on: self-hosted
-    environment: production
 
     steps:
       - run: node -v
@@ -68,7 +67,7 @@ jobs:
     needs: Backend_CI_CD
     name: Python CI/CD
     runs-on: self-hosted
-    environment: production
+    
     steps:
       - name: 'Create env file'
         run: |

@@ -133,13 +133,14 @@ body {
 }
 
 
-.my-modal-class .ant-modal-footer {
+/* .my-modal-class .ant-modal-footer {
   justify-content: center;
   display: flex;
   border-top: 1px solid #ffffff;
   font-weight: bold;
   padding: 8px;
-}
+  padding-bottom: 32px;
+} */
 /* .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   position: relative;
   background-color: #fff;
@@ -147,14 +148,15 @@ body {
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 } */
-.idle-modal-class .ant-modal-footer {
+/* .idle-modal-class .ant-modal-footer {
 
   margin-right: 10px;
   justify-content: right;
   display: flex;
   border-top: 1px solid #ffffff;
   font-weight: bold;
-}
+  margin-bottom: 5000px;
+} */
 
 .ant-btn-lg {
   height: 40px;
@@ -185,8 +187,12 @@ body {
 
 
 .ant-modal-footer {
-  padding: 0px 10px 30px 10px;
+  justify-content: center;
+  display: flex;
+  border-top: 1px solid #ffffff;
   font-weight: bold;
+  padding: 8px;
+  padding-bottom: 32px;
 }
 
 
@@ -249,35 +255,3 @@ body {
 
 
 }
-
-/* @media (max-width:1200px) and (min-width:900px)  { 
-
-  .chair {
-   
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-  
-}
-@media (max-width:1400px) and (min-width:1200px)  { 
- 
-  .chair {
-    
-    height: 75%;
-    width: 75%;
-    position: relative;
-  }
-
-
-}
-@media (max-width:1800px) and (min-width:1400px)  { 
-  
-  
-  .chair {
-    
-    height: 80%;
-    width: 80%;
-    position: relative;
-  }
-} */

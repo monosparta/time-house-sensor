@@ -16,8 +16,6 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
       .validateFields()
       .then((values) => {
         console.log(values);
-
-        console.log(values);
         onFinish(values);
         form.resetFields();
       })

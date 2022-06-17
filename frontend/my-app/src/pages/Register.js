@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-
+import axios from "../Axios.config";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
@@ -10,12 +10,37 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onFinish = async (data) => {
+
     console.log(data);
+
+    var udata = JSON.stringify({
+      "username": data.name,
+      "mail": data.mail,
+      "password": data.password
+    });
+    
+    var config = {
+      method: 'post',
+      url: '/api/auth/isAdmin/admin',
+      headers: { 
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      },
+      data : udata
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data.detail));
+      navigate("/",{ replace: true });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
   
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    navigate("/login");
+  
   };
   return (
     <div>
@@ -127,7 +152,6 @@ const Register = () => {
                           if (!value || getFieldValue("password") === value) {
                             return Promise.resolve();
                           }
-
                           return Promise.reject(
                             new Error(
                               "The two passwords that you entered do not match!"

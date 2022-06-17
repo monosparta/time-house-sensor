@@ -30,35 +30,34 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
 
   const onFinish = (values, which) => {
-    console.log("??"+values.front)
-    
-
-
+   
+  
     if (which === seatState.AVAILABLE) {
 
-      if(!values.front){
-        values.front="+886"
-      }
-      if ("+886" === values.front) {
-        if (values.phoneNumber.length < 9) {
+        if (values.phoneNumber.length < 12) {
           console.log("A");
           setError("請輸入有效的電話號碼");
           setInputStatus("error");
           return 0;
         }
-      }
 
+        if(values.phoneNumber.substr(2)!=="886"){
+          setError("請輸入有效的電話號碼");
+          setInputStatus("error");
+          return 0;
+        }
+      
      let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
-        phoneNumber: values.front+values.phoneNumber,
+        phoneNumber:values.phoneNumber,
       });
 
       var config = {
         method: "post",
         url: "/api/auth/admin/addUser",
         headers: {
-          authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+          // authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
         },
         data: data,
       };

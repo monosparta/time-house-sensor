@@ -38,28 +38,21 @@ export const CollectionCreateForm = ({
   // Radio選單
   const [chioces, SetChioces] = useState(1);
   const [value, setValue] = useState(null);
-  const [front, setFront] = useState("+886");
+
    
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     SetChioces(e.target.value);
   };
-  const handleChange = (value) => {
-    console.log(value);
-    setFront(value);
-  };
+
 
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
         console.log(values);
-        console.log("AA" + front);
-        if(whichModal==1){
-          values.front=front;
-        }
-       
+    
         console.log(values);
         onFinish(values);
         form.resetFields();
@@ -126,41 +119,18 @@ export const CollectionCreateForm = ({
               <Form.Item 
                 label="電話號碼"
                 name="phoneNumber"
-                rules={[{ required: true, message: "" }]}>
-                
-                <Input.Group compact
-                      rules={[{ required: true, message: "請輸入連絡電話" }]}>
-                    
-                  <Form.Item name="front">
-                    <Select
-                       defaultValue="+886"
-                      style={{
-                        width: "6vw",
-                      }}
-                      onChange={handleChange}
-                    >
-                      <Option value="+886">+886</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    name="phoneNumber"
-                    rules={[
-                  {    
-                    required: true,
-                    message: "格式錯誤，請重新輸入!! ", 
-                  },
+                rules={[{ required: true, message: "請輸入連絡電話" },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                     if(front === "+886"){
+                   
                         if (
-                        (/d{9,9}$/.test(value) && value.length === 9) ||
-                        !value
+                        (/^886\d{9}$/.test(value) && value.length === 12)
                       ) {
                         return Promise.resolve();
-                      } else if (value.length <= 9) {
+                      } else if (value.length <= 12) {
                         return Promise.resolve(); 
                       }
-                      }
+                      
                       return Promise.reject(new Error("請輸入有效的電話號碼"));
                     },
                   }),
@@ -168,15 +138,15 @@ export const CollectionCreateForm = ({
                   >
               
                     <NumericInput
-                      front={front}
+                 
                       value={value}
                       onChange={setValue}
                       inputStatus={inputStatus}
                     />
                   </Form.Item>
                  
-                </Input.Group>
-                </Form.Item>
+           
+               
               
               <Form.Item
                 label="聯絡信箱"

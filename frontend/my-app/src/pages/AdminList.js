@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-06-17 11:01:39
+ * @LastEditTime: 2022-06-17 14:56:00
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -23,28 +23,81 @@ const data = require("../json/admin.json");
 const { Content } = Layout;
 
 const AdminList = () => {
-  const [seats, setSeats] = useState([]);
+  const [admins, setAdmins] = useState([]);
+  const [edit, setEdit] = useState();
   const navigate = useNavigate();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
+  const showModal = (data) => {
+    setEdit(data.id);
+    console.log(edit);
     setIsModalVisible(true);
   };
 
-  const onFinish = (values, which) => {
-    console.log("??"+values.front)
+  const onFinish = (values) => {
+    console.log("??"+values)
+    var udata = JSON.stringify({
+      "password": values.password
+    });
+    
+    var config = {
+      method: 'put',
+      url: '/api/auth/isAdmin/admin/'+edit,
+      headers: { 
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      },
+      data : udata
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      setIsModalVisible(false)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
     };
   
   const onCancel = () => {
     setIsModalVisible(false)
   };
-  const getSeatsInfo = () => {
-    axios.get(`/api/seatsInfo`).then((res) => {
-      let tempSeat = res.data.seats;
-      tempSeat.splice(4, 0, { state: "null" });
-      tempSeat.splice(8, 0, { state: "null" });
-      setSeats(tempSeat);
+
+  const Delete=(data)=>{
+
+    var config = {
+      method: 'delete',
+      url: '/api/auth/isAdmin/admin/'+data.id,
+      headers: { 
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      }
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+  }
+  const getAdminsInfo = () => {
+    var config = {
+      method: 'get',
+      url: '/api/auth/isAdmin/admins',
+      headers: { 
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      }
+    };
+    
+    axios(config)
+    .then(function (response) {
+      setAdmins(response.data.admins);
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   };
 
@@ -54,9 +107,9 @@ const AdminList = () => {
   };
 
   useEffect(() => {
-    getSeatsInfo();
+    getAdminsInfo();
     let timer = setInterval(() => {
-      getSeatsInfo();
+      getAdminsInfo();
     }, 5000);
     return () => clearInterval(timer);
   }, []);
@@ -96,17 +149,19 @@ const AdminList = () => {
                 </Button>
               </Col>
             </Row>
-            <Table dataSource={data}>
+            <Table dataSource={admins}>
               <Column title="name" dataIndex="name" key="name" width="30%" />
               <Column title="email" dataIndex="email" key="email" width="30%" />
               <Column title="role" dataIndex="role" key="role" width="30%" />
+            
               <Column
                 key="action"
                 fixed="right"
                 width="10%"
-                render={(_, record) => (
+                dataIndex="id"
+                render={(_, id) => (
                   <Space size="middle">
-                    <Button size={"large"} onClick={showModal} style={{background:"#363F4E",color:"white"}}>
+                    <Button size={"large"} onClick={() => showModal(id)} style={{background:"#363F4E",color:"white"}}>
                       <span style={{ fontSize: "14px" }}>Reset PassWord</span>
                     </Button>
                     <Button
@@ -114,6 +169,7 @@ const AdminList = () => {
                       icon={<DeleteFilled />}
                       size={"large"}
                       style={{border:"none" ,color:"#363F4E"}}
+                      onClick={() => Delete(id)}
                     />
                   </Space>
                 )}

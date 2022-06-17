@@ -176,7 +176,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     >
       <Tooltip
         title={
-          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + "分鐘" : undefined
+          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + " 分鐘" : undefined
         }
         color={"#5F5A60"}
       >

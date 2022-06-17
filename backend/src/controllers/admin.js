@@ -8,7 +8,7 @@ const member = require("../utils/member");
 
 const getAllAdmins = async (req, res) => {
   try {
-    const admins = await adminService.getAllAdmins();
+    const admins = await memberService.getAllAdmins();
 
     return res.status(200).json({
       detail: "成功取得所有特權使用者",
@@ -24,10 +24,22 @@ const getAllAdmins = async (req, res) => {
 
 const addAdmin = async (req, res) => {
   try {
+    const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     const body = req.body;
-    if (!body.username || body.mail || !body.password) {
+    if (!body.username || !body.mail || req.body.mail.search(emailRule) === -1 || !body.password) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
+      });
+    }
+
+    if (await memberService.checkMemberExistsByUsername(body.username)) {
+      return res.status(400).json({
+        detail: "使用者名稱重複",
+      });
+    }
+    if (await memberService.checkMemberExistsByMail(body.mail)) {
+      return res.status(400).json({
+        detail: "信箱重複",
       });
     }
 
@@ -53,7 +65,7 @@ const updateAdmin = async (req, res) => {
       });
     }
 
-    memberService.updateAdmin({ id: id, password: password });
+    memberService.updateAdmin({ id: id, ...body });
 
     return res.status(200).json({
       detail: "修改成功",

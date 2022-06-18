@@ -12,6 +12,7 @@ const getAllAdmins = async () => {
       id: admin.dataValues.id,
       username: admin.dataValues.name,
       mail: admin.dataValues.mail,
+      role: "admin",
       line: !admin.dataValues.lineId,
     };
   });

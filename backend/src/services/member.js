@@ -34,6 +34,10 @@ const addAdmin = async ({ username, password, mail }) => {
 
 const updateAdmin = async ({ id, username, mail, password }) => {
   const admin = await db["Members"].findOne({ where: { id: id } });
+  console.log(admin)
+  if (!admin || admin?.dataValues?.level) {
+    return [false, "該人物並不存在，或非管理者"];
+  }
 
   admin.set({
     name: username || admin.dataValues.name,
@@ -45,11 +49,17 @@ const updateAdmin = async ({ id, username, mail, password }) => {
   });
 
   await admin.save();
+
+  return [true, null];
 };
 
 const destroyAdmin = async (id) => {
+  const member = await db["Members"].findOne({ where: { id: id } });
+  if (!member || member.dataValues?.level) {
+    return [false, "該人物並不存在，或非管理者"];
+  }
   await db["Members"].destroy({ where: { id: id } });
-  return;
+  return [true, null];
 };
 
 const getMemberInfoByUsername = async (username) => {

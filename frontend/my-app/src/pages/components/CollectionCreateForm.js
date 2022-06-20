@@ -26,6 +26,8 @@ export const CollectionCreateForm = ({
   member,
   isError,
   inputStatus,
+  setInputStatus,
+  setError,
 }) => {
   const [form] = Form.useForm();
   useEffect(() => {
@@ -38,31 +40,38 @@ export const CollectionCreateForm = ({
   // Radio選單
   const [chioces, SetChioces] = useState(1);
   const [value, setValue] = useState(null);
-  const [front, setFront] = useState("09");
-   
-  // const [isError, setError] = useState(null);
-  // const [front, setFront] = useState("09");
 
+   
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     SetChioces(e.target.value);
   };
-  const handleChange = (value) => {
-    console.log(value);
-    setFront(value);
-  };
+
 
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
+        console.log("A"+values);
+    
         console.log(values);
-        console.log("AA" + front);
+          if( whichModal===1){
+            if (values.phoneNumber.length < 12) {
+              setError("請輸入有效的電話號碼");
+              setInputStatus("error");
+              return 0;
+             
+            }
+            console.log(values.phoneNumber.substr(0,4))
+            if(values.phoneNumber.substr(0,4)!=="8869"){
+              setError("請輸入有效的電話號碼");
+              setInputStatus("error");
+              return 0;
+            }
+          }
 
-        // values.front = front;
-        console.log(values);
-        onFinish(values);
+        onFinish(values); 
         form.resetFields();
       })
       .catch((info) => {
@@ -73,8 +82,6 @@ export const CollectionCreateForm = ({
   let ChairId = chairInfo.no;
 
   if (whichModal === 1) {
-    // 表單一，可使用位置
-
     return (
       <Modal
         className="my-modal-class"
@@ -129,67 +136,29 @@ export const CollectionCreateForm = ({
               <Form.Item 
                 label="電話號碼"
                 name="phoneNumber"
-                rules={[{ required: true, message: "" }]}>
-                
-                <Input.Group compact
-                      rules={[{ required: true, message: "請輸入連絡電話" }]}>
-                    
-                  <Form.Item name="front">
-                    <Select
-                       defaultValue="09"
-                      style={{
-                        width: "6vw",
-                      }}
-                      onChange={handleChange}
-                    >
-                      <Option value="09">09</Option>
-                      <Option value="+886">+886</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    name="phoneNumber"
-                    rules={[
-                  {    
-                    required: true,
-                    message: "格式錯誤，請重新輸入!! ", 
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (front === "09") {
-                      if (
-                        (/d{8,8}$/.test(value) && value.length === 8) ||
-                        !value
-                      ) {
-                        return Promise.resolve();
-                      } else if (value.length <= 8) {
-                        return Promise.resolve(); 
-                      }}else if(front === "+886"){
-                        if (
-                        (/d{9,9}$/.test(value) && value.length === 9) ||
-                        !value
-                      ) {
-                        return Promise.resolve();
-                      } else if (value.length <= 9) {
-                        return Promise.resolve(); 
-                      }
-                      }
-                      return Promise.reject(new Error("請輸入有效的電話號碼"));
-                    },
-                  }),
+                rules={[{ required: true, message: "請輸入連絡電話" },
+                  // ({ getFieldValue }) => ({
+                  //   validator(_, value) {
+                  //       if (
+                  //       (/^886\d{9}$/.test(value) && value.length === 12)
+                  //     ) {
+                  //       return Promise.resolve();
+                  //     } else if (value.length <= 12) {
+                  //       return Promise.resolve(); 
+                  //     }else if (value == "") {
+                  //       return Promise.resolve(); 
+                  //     }
+                  //     return Promise.reject(new Error("請輸入有效的電話號碼"));
+                  //   },
+                  // }),
                 ]}
-                  >
-              
-                    <NumericInput
-                      front={front}
+                  > 
+                    <NumericInput  
                       value={value}
                       onChange={setValue}
                       inputStatus={inputStatus}
                     />
-                  </Form.Item>
-                 
-                </Input.Group>
-                </Form.Item>
-              
+                  </Form.Item>  
               <Form.Item
                 label="聯絡信箱"
                 name="mail"
@@ -211,7 +180,7 @@ export const CollectionCreateForm = ({
         </Row>
       </Modal>
     );
-  } else {
+  }else {
     // 表單二，閒置位置
    
     return (
@@ -267,7 +236,7 @@ export const CollectionCreateForm = ({
           <div className="fromcontact">
             <Space
               direction="vertical"
-              size="small"
+              size="large"
               style={{ display: "flex" }}
             >
               <Row>
@@ -285,7 +254,7 @@ export const CollectionCreateForm = ({
                       style={{ background: "white" }}
                     />
 
-                    <span>目前為閒置座位</span>
+                    <span>座位目前閒置中</span>
                   </Space>
                 </Col>
               </Row>
@@ -301,7 +270,7 @@ export const CollectionCreateForm = ({
                   </Space>
                 </Col>
               </Row>
-            </Space>
+          
 
             <Form.Item label="狀態更改" name="state">
               <Radio.Group onChange={onChange} value={chioces}>
@@ -309,6 +278,7 @@ export const CollectionCreateForm = ({
                 <Radio value={1}>可使用</Radio>
               </Radio.Group>
             </Form.Item>
+            </Space>
             <Form.Item name="index" noStyle rules={[{ required: true }]}>
               <Input type="hidden"></Input>
             </Form.Item>

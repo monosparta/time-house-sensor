@@ -30,40 +30,21 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
 
   const onFinish = (values, which) => {
-    console.log("??"+which)
-    
-
-
+   
+  
     if (which === seatState.AVAILABLE) {
 
-      if(!values.front){
-        values.front="09"
-      }
-      if ("09" === values.front) {
-        if (values.phoneNumber.length < 8 || values.phoneNumber.length > 9) {
-          console.log("A");
-          setError("請輸入有效的電話號碼");
-          setInputStatus("error")
-          return 0;
-        }
-      } else if ("+886" === values.front) {
-        if (values.phoneNumber.length < 9) {
-          console.log("A");
-          setError("請輸入有效的電話號碼");
-          setInputStatus("error");
-          return 0;
-        }
-      }
-
+     
+      
      let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
-        phoneNumber: values.front+values.phoneNumber,
+        phoneNumber:values.phoneNumber,
       });
 
       var config = {
         method: "post",
-        url: "/api/auth/admin/addUser",
+        url: "/api/auth/isAdmin/addUser",
         headers: {
           authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
         },
@@ -82,10 +63,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             username: values.username,
           });
           setIisAddSeatModalVisible(false);
+          console.log("確認更改座位資料"+data)
           putSeatState(data);
         })
         .catch(function (err) {
-            setError("新增使用者失敗")
+
+          console.log("新增失敗"+err.response.data.detail)
+            setError(err.response.data.detail)
         });
   
     } else {
@@ -137,7 +121,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     } else if (state === seatState.IDLE_TOO_LONG) {
       console.log("我要得到使用者資料" + seat.memberId);
       axios
-        .get("/api/auth/admin/memberInfo", {
+        .get("/api/auth/isAdmin/memberInfo", {
           params: {
             memberId: seat.memberId,
           },
@@ -152,9 +136,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
          });
         })
         .catch(function (error) {
-          console.log("我要得到使用者資料" + seat.memberId);
-          console.log(error);
-
+          console.log(error.data.detail);
         });
       setVisible(2,seat);
   
@@ -164,7 +146,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const putSeatState = (data) => {
     var config = {
       method: "put",
-      url: "/api/auth/admin/seatState",
+      url: "/api/auth/isAdmin/seatState",
       headers: {
         authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
       },
@@ -194,7 +176,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     >
       <Tooltip
         title={
-          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + "分鐘" : undefined
+          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + " 分鐘" : undefined
         }
         color={"#5F5A60"}
       >
@@ -254,7 +236,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
           chairInfo={selectedChair}
           member={""}
           isError={isError}
+          setError={setError}
           inputStatus={inputStatus}
+          setInputStatus={setInputStatus}
         
         />
   

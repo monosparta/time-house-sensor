@@ -44,10 +44,10 @@ export const SendMail = ({sendMail}) => {
   return (
     <div>
       <form id="fromcontact" ref={form} onSubmit={sendEmail}>
-        <Space direction="vertical" size="small" style={{ display: "flex" }}>
+        <Space direction="vertical" size="large" style={{ display: "flex" }}>
           <Row>
             <Col span={24}>
-              <Space>
+              <Space >
                 <Avatar shape="square" icon={<UserOutlined />} />
                 <span>{username}</span>{" "}
                 <input type="hidden" name="username" value={username} />
@@ -71,7 +71,7 @@ export const SendMail = ({sendMail}) => {
               </Space>
             </Col>
             <Col span={5} offset={1}>
-              <Button type="primary" htmlType="submit">
+              <Button htmlType="submit" style={{color:"#1976D2",borderColor:"#1976D2"}}>
                 <EditOutlined style={{ color: "#1976D2" }} />
                 寄送通知
               </Button>

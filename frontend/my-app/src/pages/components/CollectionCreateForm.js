@@ -152,19 +152,13 @@ export const CollectionCreateForm = ({
                     },
                   }),
                 ]}
-                  >
-              
-                    <NumericInput
-                 
+                  > 
+                    <NumericInput  
                       value={value}
                       onChange={setValue}
                       inputStatus={inputStatus}
                     />
-                  </Form.Item>
-                 
-           
-               
-              
+                  </Form.Item>  
               <Form.Item
                 label="聯絡信箱"
                 name="mail"
@@ -242,7 +236,7 @@ export const CollectionCreateForm = ({
           <div className="fromcontact">
             <Space
               direction="vertical"
-              size="small"
+              size="large"
               style={{ display: "flex" }}
             >
               <Row>
@@ -260,7 +254,7 @@ export const CollectionCreateForm = ({
                       style={{ background: "white" }}
                     />
 
-                    <span>目前為閒置座位</span>
+                    <span>座位目前閒置中</span>
                   </Space>
                 </Col>
               </Row>
@@ -276,7 +270,7 @@ export const CollectionCreateForm = ({
                   </Space>
                 </Col>
               </Row>
-            </Space>
+          
 
             <Form.Item label="狀態更改" name="state">
               <Radio.Group onChange={onChange} value={chioces}>
@@ -284,6 +278,7 @@ export const CollectionCreateForm = ({
                 <Radio value={1}>可使用</Radio>
               </Radio.Group>
             </Form.Item>
+            </Space>
             <Form.Item name="index" noStyle rules={[{ required: true }]}>
               <Input type="hidden"></Input>
             </Form.Item>

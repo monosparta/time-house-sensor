@@ -25,7 +25,8 @@ const { Header} = Layout;
 
 export const HeaderBar = () => {
 const navigate = useNavigate();
-
+const path=(window.location.pathname==="/adminList"?1:0);
+console.log("嗨"+path)
 const User = (e) => {
   console.log("click ", e);
   if (e.key === "logout") {
@@ -33,11 +34,19 @@ const User = (e) => {
     window.location.reload();
   } else if (e.key === "adminList") {
     navigate("/" + e.key, { replace: true });
+  }else{
+    navigate("/", { replace: true });
   }
 };
 const menu = (
   <Menu mode="horizontal" defaultSelectedKeys={[""]} onClick={User}>
-      <Menu.Item key="adminList" >管理者列表</Menu.Item>
+     
+      {path ? (
+       <Menu.Item key="/" >管理頁面</Menu.Item>
+      ) : (
+        <Menu.Item key="adminList" >管理者列表</Menu.Item>
+      )}
+        
       <Menu.Item key="logout">登出帳號</Menu.Item>
     
   </Menu>

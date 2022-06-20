@@ -142,7 +142,7 @@ const Register = () => {
                   </Form.Item>
                   <Form.Item
                     name="confirm"
-                    label="Confirm Password"
+                    label="確認密碼 Confirm Password"
                     dependencies={["password"]}
                     hasFeedback
                     rules={[
@@ -157,7 +157,7 @@ const Register = () => {
                           }
                           return Promise.reject(
                             new Error(
-                              "The two passwords that you entered do not match!"
+                              "兩次輸入的密碼需要一致！"
                             )
                           );
                         },
@@ -176,7 +176,7 @@ const Register = () => {
                       type="primary"
                       htmlType="submit"
                       block
-                      size="large"
+                     
                       style={{
                         background: "#363F4E",
                         borderColor: "#363F4E",

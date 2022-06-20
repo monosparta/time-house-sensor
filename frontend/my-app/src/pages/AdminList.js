@@ -116,6 +116,7 @@ const AdminList = () => {
   return (
     <div>
       <div className="page-container">
+        
         <HeaderBar />
         <Content>
           <div style={{ width: "80vw", margin: "0 auto" }}>

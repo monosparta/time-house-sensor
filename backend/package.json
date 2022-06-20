@@ -7,7 +7,7 @@
     "start": "node src/app.js",
     "build": "npm build",
     "unit": "node src/controllers/mosquitto.js",
-    "test": "npm run db:migrate:reset && jest --coverage --forceExit",
+    "test": "npm run db:migrate:reset && jest --runInBand --forceExit",
     "db:pre-migrate": "node src/config/createDB.js",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
@@ -54,6 +54,10 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/", "/test/controllers/", "/test/middleware/"
+    ],
+    "collectCoverage": true
   }
 }

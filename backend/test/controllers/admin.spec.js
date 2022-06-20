@@ -230,7 +230,6 @@ describe("POST /api/auth/isAdmin/addUser", () => {
 });
 
 describe("PUT /api/auth/isAdmin/seatState", () => {
-
   it("no body params", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/seatState")
@@ -374,86 +373,86 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
   });
 
   // todo: params type error hasn't been tested
-  it("test type error", async() => {
+  it("test type error", async () => {
     const res = await request(app)
-    .put("/api/auth/isAdmin/seatState")
-    .set({ authorization: "Bearer " + token })
-    .send({
-      seat: {
-        index: "1",
-        state: 0,
-      },
-      username: "kfyjfghrtygs",
-    });
+      .put("/api/auth/isAdmin/seatState")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        seat: {
+          index: "1",
+          state: 0,
+        },
+        username: "kfyjfghrtygs",
+      });
 
     expect(res.statusCode).toEqual(404);
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
-  })
+  });
 
   // todo: params type error hasn't been tested
-  it("test type error", async() => {
+  it("test type error", async () => {
     const res = await request(app)
-    .put("/api/auth/isAdmin/seatState")
-    .set({ authorization: "Bearer " + token })
-    .send({
-      seat: {
-        index: 1,
-        state: "2",
-      },
-      username: "kfyjfghrtygs",
-    });
+      .put("/api/auth/isAdmin/seatState")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        seat: {
+          index: 1,
+          state: "2",
+        },
+        username: "kfyjfghrtygs",
+      });
 
     expect(res.statusCode).toEqual(404);
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
-  })
+  });
 
   // todo: params type error hasn't been tested
-  it("test type error", async() => {
+  it("test type error", async () => {
     const res = await request(app)
-    .put("/api/auth/isAdmin/seatState")
-    .set({ authorization: "Bearer " + token })
-    .send({
-      seat: {
-        index: 1,
-        state: 0,
-      },
-      username: 12312123,
-    });
+      .put("/api/auth/isAdmin/seatState")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        seat: {
+          index: 1,
+          state: 0,
+        },
+        username: 12312123,
+      });
 
     expect(res.statusCode).toEqual(404);
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
-  })
+  });
 
   // todo: params type error hasn't been tested
-  it("test type error", async() => {
+  it("test type error", async () => {
     const res = await request(app)
-    .put("/api/auth/isAdmin/seatState")
-    .set({ authorization: "Bearer " + token })
-    .send({
-      seat: {
-        index: 1.7,
-        state: 0,
-      },
-      username: "kfyjfghrtygs",
-    });
+      .put("/api/auth/isAdmin/seatState")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        seat: {
+          index: 1.7,
+          state: 0,
+        },
+        username: "kfyjfghrtygs",
+      });
 
     expect(res.statusCode).toEqual(422);
-  })
+  });
 
-  it("test type error", async() => {
+  it("test type error", async () => {
     const res = await request(app)
-    .put("/api/auth/isAdmin/seatState")
-    .set({ authorization: "Bearer " + token })
-    .send({
-      seat: {
-        index: 1,
-        state: 0.6,
-      },
-      username: "kfyjfghrtygs",
-    });
+      .put("/api/auth/isAdmin/seatState")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        seat: {
+          index: 1,
+          state: 0.6,
+        },
+        username: "kfyjfghrtygs",
+      });
 
     expect(res.statusCode).toEqual(422);
-  })
+  });
 
   it("correct", async () => {
     const res = await request(app)
@@ -485,11 +484,253 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.detail).toEqual("成功修改座位資訊");
-    
+
     const seatsInfoRes = await request(app).get("/api/seatsInfo");
     const seats = seatsInfoRes.body.seats;
     expect(seats[0].state).toEqual(1);
     expect(seats[0].memberId).toBeNull();
   });
+});
 
+describe("GET /api/auth/isAdmin/admins", () => {
+  it("test res result with query", async () => {
+    const res = await request(app)
+      .get("/api/auth/isAdmin/admins?query=123123")
+      .set({ authorization: "Bearer " + token });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("test res result with body", async () => {
+    const res = await request(app)
+      .get("/api/auth/isAdmin/admins")
+      .set({ authorization: "Bearer " + token })
+      .send({ id: 123 });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("correct res result", async () => {
+    const res = await request(app)
+      .get("/api/auth/isAdmin/admins")
+      .set({ authorization: "Bearer " + token });
+    expect(res.statusCode).toEqual(200);
+  });
+});
+
+describe("POST /api/auth/isAdmin/admin", () => {
+  it("no body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        mail: "IAmATestAdmin@mail.com",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+        mail: "IAmATestAdmin@mail.com",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("partial data missing in body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        mail: "IAmATestAdmin@mail.com",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("malformed mail", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+        mail: "IAmATestAdmin.com",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("correct body", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+        mail: "IAmATestAdmin@mail.com",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(201);
+  });
+
+  it("duplicated username", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "IAmATestAdmin",
+        mail: "dsfsdf@mail.com",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it("duplicated mail", async () => {
+    const res = await request(app)
+      .post("/api/auth/isAdmin/admin")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        username: "dfsdfasdf",
+        mail: "IAmATestAdmin@mail.com",
+        password: "IAmATestAdmin",
+      });
+
+    expect(res.statusCode).toEqual(400);
+  });
+});
+
+describe("PUT /api/auth/isAdmin/admin/:id", () => {
+  it("update data by not exist id", async () => {
+    const res = await request(app)
+      .put("/api/auth/isAdmin/admin/-1")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("update data by not exist id", async () => {
+    const res = await request(app)
+      .put("/api/auth/isAdmin/admin/0")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("update data by not exist id", async () => {
+    const res = await request(app)
+      .put("/api/auth/isAdmin/admin/878797984")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        password: "test_edit"
+      });
+
+    expect(res.statusCode).toEqual(404);
+  });
+
+  it("update admin password", async () => {
+    const res = await request(app)
+      .put("/api/auth/isAdmin/admin/1")
+      .set({ authorization: "Bearer " + token })
+      .send({
+        password: "admin_edited",
+      });
+
+    expect(res.statusCode).toEqual(200);
+
+    const newLoginRes = await request(app)
+      .post("/api/login")
+      .send({ usernameOrMail: "admin", password: "admin_edited" });
+
+    expect(newLoginRes.statusCode).toEqual(200)
+  });
+});
+
+describe("DELETE /api/auth/isAdmin/admin/:id", () => {
+  it("delete not exist id", async () => {
+    const res = await request(app)
+      .delete("/api/auth/isAdmin/admin/-1")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("delete not exist id", async () => {
+    const res = await request(app)
+      .delete("/api/auth/isAdmin/admin/0")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(422);
+  });
+
+  it("delete general user", async () => {
+    const res = await request(app)
+      .delete("/api/auth/isAdmin/admin/2")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(404);
+  });
+
+  it("delete admin", async () => {
+    const res = await request(app)
+      .delete("/api/auth/isAdmin/admin/5")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("delete not exist", async () => {
+    const res = await request(app)
+      .delete("/api/auth/isAdmin/admin/3")
+      .set({ authorization: "Bearer " + token });
+
+    expect(res.statusCode).toEqual(404);
+  });
 });

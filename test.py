@@ -49,6 +49,13 @@ def detectsensor(client):
             savedata.write("Error",json.dumps(Error("RFID")))
         else:
             client.publish("Error", json.dumps(Error("RFID")))
+        oldCard=""
+        cntSecondIdleTime=0
+        cntSecondUseTime=0
+        cntIdleTime=0
+        cntUseTime=0
+        notificationState=0
+        nowState=[]
         print("Error Topic")
     if(useStat==0):
         if(oldCard!=userCardId):
@@ -110,30 +117,32 @@ def wificonnect(client):
     print('network config:', sta.ifconfig())
     client.connect(False)
     while True:
-        ntptime.settime()
-        if(sta.isconnected()):
-            print("has wifi")
-            try:
-                detectsensor(client)
-                client.check_msg()
-                data=savedata.read()
-                print(data)
-                for i in data:
-                    linedata=i.strip().split(',',1)
-                    client.publish(linedata[0], linedata[1])
-            except OSError as e:
-                print("reconncting")
-                client.connect(False)
-                print("reconected")
-        else:
-            print("hasn't wifi")
-            try:
-                detectsensor(client)
-                client.check_msg()
-            except OSError as e:
-                print("reconncting")
-                client.connect(False)
-                print("reconected")
-        time.sleep(1)
-
+        try:
+            ntptime.settime()
+            if(sta.isconnected()):
+                print("has wifi")
+                try:
+                    detectsensor(client)
+                    client.check_msg()
+                    data=savedata.read()
+                    print(data)
+                    for i in data:
+                        linedata=i.strip().split(',',1)
+                        client.publish(linedata[0], linedata[1])
+                except OSError as e:
+                    print("reconncting")
+                    client.connect(False)
+                    print("reconected")
+            else:
+                print("hasn't wifi")
+                try:
+                    detectsensor(client)
+                    client.check_msg()
+                except OSError as e:
+                    print("reconncting")
+                    client.connect(False)
+                    print("reconected")
+            time.sleep(1)
+        except OSError as e:
+            pass
 wificonnect(client)

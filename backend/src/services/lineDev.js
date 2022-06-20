@@ -9,7 +9,7 @@ const db = require("../models/index");
 const client = new line.Client(config);
 const middleware = line.middleware(config);
 
-const unknownMessageReply = async (event, status, username) => {
+const unknownMessageReply = async (event, status, username, level) => {
   if (!status) {
     const replyMessage = {
       type: "text",
@@ -17,7 +17,7 @@ const unknownMessageReply = async (event, status, username) => {
     };
     return await client.replyMessage(event.replyToken, replyMessage);
   } else {
-    userMessageReply(event, username);
+    userMessageReply(event, username, level);
   }
 };
 
@@ -97,7 +97,7 @@ const adminMessageReply = async (event, status, username) => {
     };
     return await client.replyMessage(event.replyToken, adminReplyMessage);
   } else {
-    userMessageReply(event, username);
+    userMessageReply(event, username, 0);
   }
 };
 const userMessageReply = async (event, username, level) => {
@@ -128,12 +128,16 @@ const replyFeedBackMessage = async (event) => {
   };
   return await client.replyMessage(event.replyToken, replyMessageFeedBack);
 };
-const replyWeb = async (event) => {
-  const replyWebMessage = {
-    type: "text",
-    text: process.env.PUBLIC_URL,
-  };
-  return await client.replyMessage(event.replyToken, replyWebMessage);
+const replyWeb = async (event, username, level) => {
+  if (level) {
+    userMessageReply(event, username, level);
+  } else {
+    const replyWebMessage = {
+      type: "text",
+      text: process.env.PUBLIC_URL,
+    };
+    return await client.replyMessage(event.replyToken, replyWebMessage);
+  }
 };
 const updateMemberLogin = async (memberLogin, memberlineId) => {
   await db["LineUsers"].update(
@@ -171,7 +175,7 @@ const searchMemberLevel = async (lineId) => {
   admins = await db["Members"].findOne({
     where: { lineId: lineId },
   });
-  return admins===null?1:0
+  return admins === null ? 1 : 0;
 };
 const pushAdminMessage = async (id) => {
   let admins = await db["Members"].findAll({

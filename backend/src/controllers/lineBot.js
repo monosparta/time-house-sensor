@@ -31,9 +31,9 @@ const lineMessageHandler = async (req, res) => {
         });
       return res.json(postbackSeat);
     }
-    if ((event.type === "message" && event.message.text === "進入後台")) {
+    if (event.type === "message" && event.message.text === "進入後台") {
       const postbackWeb = await lineDev
-        .replyWeb(event)
+        .replyWeb(event, member.dataValues.nickname,memberLevel)
         .then((result) => {
           return result;
         })
@@ -65,7 +65,8 @@ const lineMessageHandler = async (req, res) => {
         .unknownMessageReply(
           event,
           member.dataValues.login,
-          member.dataValues.nickname
+          member.dataValues.nickname,
+          memberLevel
         )
         .then((result) => {
           return result;
@@ -84,7 +85,7 @@ const lineMessageHandler = async (req, res) => {
       await lineDev.updateMemberUserName(event.message.text, messageUserId);
     }
 
-    member =await  lineDev.findMemberData(messageUserId);
+    member = await lineDev.findMemberData(messageUserId);
     //使用者加入官方帳號後，第一次發送訊息後，辨別為管理者
     if (memberLevel == 0) {
       client.linkRichMenuToUser(messageUserId, adminRichMenu);
@@ -93,7 +94,8 @@ const lineMessageHandler = async (req, res) => {
         .adminMessageReply(
           event,
           member.dataValues.login,
-          member.dataValues.nickname
+          member.dataValues.nickname,
+          memberLevel
         )
         .then((result) => {
           return result;
@@ -105,10 +107,10 @@ const lineMessageHandler = async (req, res) => {
     }
     //使用者加入官方帳號後，第一次發送訊息後，辨別為一般使用者
 
-    if (memberLevel=== 1) {
+    if (memberLevel === 1) {
       lineDev.updateMemberLogin(1, messageUserId);
       const userReplyResult = await lineDev
-        .userMessageReply(event, member.dataValues.nickname,memberLevel)
+        .userMessageReply(event, member.dataValues.nickname, memberLevel)
         .then((result) => {
           return result;
         })

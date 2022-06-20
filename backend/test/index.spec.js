@@ -1,0 +1,5 @@
+require("./middleware/memberAuth.spec")
+require("./controllers/seat.spec")
+require("./controllers/member.spec")
+require("./controllers/admin.spec")
+require("./controllers/mosquitto.spec")

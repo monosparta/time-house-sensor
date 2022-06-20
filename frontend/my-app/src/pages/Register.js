@@ -10,9 +10,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onFinish = async (data) => {
-
     console.log(data);
-
     var udata = JSON.stringify({
       "username": data.name,
       "mail": data.mail,

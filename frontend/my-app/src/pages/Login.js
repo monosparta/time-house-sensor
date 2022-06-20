@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [inputStatus, setInputStatus] = useState("");
 
-  const { mail, password } = useSelector(userSelector);
+  const {  usernameOrMail, password } = useSelector(userSelector);
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
   const dispatch = useDispatch();
@@ -91,8 +91,8 @@ const Login = () => {
 
                   <Form.Item
                     label="帳號 UserName or Email"
-                    name="mail"
-                    value={mail}
+                    name="usernameOrMail"
+                    value={usernameOrMail}
                     rules={[
                       {
                         required: true,

@@ -27,9 +27,7 @@ function App() {
 
         return (
           <Router>
-       
             {
- 
             user ? (
               <Routes>
               <Route path="/" element={<Home/>}/>

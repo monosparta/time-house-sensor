@@ -6,7 +6,7 @@ let token;
 
 beforeAll(async () => {
   adminLoginRes = await request(app).post("/api/login").send({
-    mail: "admin@mail.com",
+    usernameOrMail: "admin@mail.com",
     password: "admin",
   });
   token = adminLoginRes.body.token;
@@ -440,7 +440,6 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
     expect(res.statusCode).toEqual(422);
   })
 
-  // todo: params type error hasn't been tested
   it("test type error", async() => {
     const res = await request(app)
     .put("/api/auth/isAdmin/seatState")

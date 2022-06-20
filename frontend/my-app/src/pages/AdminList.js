@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-06-20 11:18:56
+ * @LastEditTime: 2022-06-20 11:43:41
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -159,7 +159,7 @@ const AdminList = () => {
                   size={"large"}
                   style={{ color: "white", background: "#363F4E" }}
                 >
-                  <span style={{ fontSize: "14px" }}>ADD</span>
+                  <span style={{ fontSize: "14px" }}>Add</span>
                 </Button>
               </Col>
             </Row>

@@ -24,9 +24,15 @@ const getAllAdmins = async (req, res) => {
 
 const addAdmin = async (req, res) => {
   try {
-    const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    const emailRule =
+      /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
     const body = req.body;
-    if (!body.username || !body.mail || req.body.mail.search(emailRule) === -1 || !body.password) {
+    if (
+      !body.username ||
+      !body.mail ||
+      req.body.mail.search(emailRule) === -1 ||
+      !body.password
+    ) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -65,7 +71,12 @@ const updateAdmin = async (req, res) => {
       });
     }
 
-    memberService.updateAdmin({ id: id, ...body });
+    const [result, errorMessage] = await memberService.updateAdmin({ id: id, ...body });
+    if(errorMessage) {
+      return res.status(404).json({
+        detail: "該人物並不存在，或非管理者"
+      })
+    }
 
     return res.status(200).json({
       detail: "修改成功",
@@ -87,7 +98,13 @@ const removeAdmin = async (req, res) => {
       });
     }
 
-    await memberService.destroyAdmin(id);
+    const [result, err] = await memberService.destroyAdmin(id);
+    if (err) {
+      return res.status(404).json({
+        detail: err.message,
+      });
+    }
+
     return res.status(200).json({
       detail: "刪除成功",
     });

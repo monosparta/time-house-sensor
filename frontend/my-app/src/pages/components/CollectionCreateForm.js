@@ -137,20 +137,20 @@ export const CollectionCreateForm = ({
                 label="電話號碼"
                 name="phoneNumber"
                 rules={[{ required: true, message: "請輸入連絡電話" },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                   
-                        if (
-                        (/^886\d{9}$/.test(value) && value.length === 12)
-                      ) {
-                        return Promise.resolve();
-                      } else if (value.length <= 12) {
-                        return Promise.resolve(); 
-                      }
-                      
-                      return Promise.reject(new Error("請輸入有效的電話號碼"));
-                    },
-                  }),
+                  // ({ getFieldValue }) => ({
+                  //   validator(_, value) {
+                  //       if (
+                  //       (/^886\d{9}$/.test(value) && value.length === 12)
+                  //     ) {
+                  //       return Promise.resolve();
+                  //     } else if (value.length <= 12) {
+                  //       return Promise.resolve(); 
+                  //     }else if (value == "") {
+                  //       return Promise.resolve(); 
+                  //     }
+                  //     return Promise.reject(new Error("請輸入有效的電話號碼"));
+                  //   },
+                  // }),
                 ]}
                   > 
                     <NumericInput  

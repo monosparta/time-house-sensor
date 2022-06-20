@@ -4,9 +4,9 @@ const db = require("../models/index");
 
 const getAllAdmins = async () => {
   const admins = await db["Members"].findAll({ where: { level: 0 } });
-  admins.forEach((admin) => {
-    admin.dataValues.password = "";
-  });
+  // admins.forEach((admin) => {
+  //   admin.dataValues.password = "";
+  // });
   return admins.map((admin) => {
     return {
       id: admin.dataValues.id,

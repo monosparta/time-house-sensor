@@ -34,7 +34,7 @@ const login = async (req, res) => {
 
     if (userInfo.level) {
       return res.status(401).json({
-        detail: "僅允許管理者登入",
+        detail: "帳號或密碼錯誤",
       });
     }
     const token = jwt.sign(

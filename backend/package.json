@@ -7,14 +7,14 @@
     "start": "node src/app.js",
     "build": "npm build",
     "unit": "node src/controllers/mosquitto.js",
-    "test": "jest --detectOpenHandles",
+    "test": "npm run db:migrate:reset && jest --coverage --forceExit",
     "db:pre-migrate": "node src/config/createDB.js",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",
     "db:deploy:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/deploy",
     "db:seed:undo": "npx sequelize-cli db:seed:undo --config ./src/config/config.js --seeders-path ./src/seeders/dev",
-    "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate"
+    "db:migrate:reset": "npx sequelize-cli --config ./src/config/config.js --migrations-path ./src/migrations db:migrate:undo:all && npm run db:migrate && npm run db:dev:seed"
   },
   "repository": {
     "type": "git",
@@ -33,13 +33,27 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.3",
+    "moment-timezone": "^0.5.34",
+    "morgan": "^1.10.0",
     "mqtt": "^4.3.7",
     "mysql2": "^2.3.3",
+    "path": "^0.12.7",
     "sequelize": "^6.18.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "winston": "^3.7.2"
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "supertest": "^6.2.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

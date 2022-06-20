@@ -4,6 +4,7 @@ import requests
 from PIL import ImageFont, ImageDraw, Image
 from datetime import datetime, timezone, timedelta
 import time
+import pytz
 
 load_dotenv()
 
@@ -137,10 +138,11 @@ while True:
                 basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
 
         basemapCanvas = ImageDraw.Draw(basemap)
-        utcTime = datetime.utcnow()
-        localTIme = utcTime.astimezone(timezone(timedelta(hours=8)))
-        localTimeString = localTIme.strftime(
+        
+        taipeiLocalTime = datetime.now(pytz.timezone('Asia/Taipei'))
+        localTimeString = taipeiLocalTime.strftime(
             "%Y/%m/%d %H:%M:%S").replace("-", "/")
+
         basemapCanvas.text((996, 682), localTimeString,
                         (0, 0, 0, 255), font18Roboto)
         basemap.save(imgDesDir + "seat_map.png")
@@ -149,4 +151,4 @@ while True:
         preSeatsState = []
         time.sleep(1.39)
     except Exception as e:
-        continue
+        print(e)

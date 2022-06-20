@@ -2,6 +2,7 @@ const db = require("../models/index");
 const { memberService, seatService } = require("../services/index");
 const seatProperties = require("../utils/seat");
 const memberProperties = require("../utils/member")
+const logger = require("../utils/logger");
 
 // add member for one-day member or want-experience member
 const addMember = async (req, res) => {
@@ -36,13 +37,14 @@ const addMember = async (req, res) => {
     );
     if (!created) {
       return res.status(400).json({
-        detail: "該名用戶已存在"
+        detail: "信箱或手機號碼重複"
       });
     }
-    return res.status(200).json({
+    return res.status(201).json({
       detail: "成功新增",
     });
   } catch (err) {
+    logger.error(err);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });
@@ -52,7 +54,7 @@ const addMember = async (req, res) => {
 const getMemberById = async (req, res) => {
   try {
     let id = req.query?.memberId;
-    if (!id) {
+    if (!id || (typeof id !== "number" && isNaN(id))) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -68,13 +70,13 @@ const getMemberById = async (req, res) => {
     return res.status(200).json({
       detail: "成功取得該使用者之相關資訊",
       member: {
-        name: userInfo.username,
-        phoneNumber: userInfo.phoneNumber,
+        name: userInfo.name,
+        phoneNumber: userInfo.phone,
         mail: userInfo.mail,
       },
     });
   } catch (err) {
-    // console.log(err);
+    logger.error(err);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });
@@ -85,7 +87,7 @@ const updateSeatState = async (req, res) => {
   try {
     const seat = req.body.seat;
     const username = req.body.username;
-    if (!seat || !seat.index || !seat.state || !username) {
+    if (!seat || isNaN(seat.index) || isNaN(seat.state) || !username) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -93,8 +95,9 @@ const updateSeatState = async (req, res) => {
 
     if (
       !(await seatService.checkSeatIndexExist(seat.index)) ||
+      !Number.isInteger(Number(seat.state))||
       seat.state < seatProperties.stateRange.min ||
-      2 < seatProperties.stateRange.max
+      seatProperties.stateRange.max < seat.state
     ) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
@@ -114,7 +117,9 @@ const updateSeatState = async (req, res) => {
       new Date(),
       parseInt(memberInfo.id)
     );
+
     if (result !== "success") {
+      logger.error(result);
       return res.status(500).json({
         detail: "伺服器內部錯誤",
       });
@@ -124,6 +129,8 @@ const updateSeatState = async (req, res) => {
       detail: "成功修改座位資訊"
     });
   } catch (err) {
+    logger.error(err);
+    console.log(err)
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });

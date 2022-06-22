@@ -1,10 +1,7 @@
-const db = require("../models/index");
 const { memberService, seatService } = require("../services/index");
-const bcrypt = require("bcrypt");
 const seatProperties = require("../utils/seat");
 const memberProperties = require("../utils/member");
 const logger = require("../utils/logger");
-const member = require("../utils/member");
 
 const getAllAdmins = async (req, res) => {
   try {
@@ -65,7 +62,7 @@ const updateAdmin = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    if (isNaN(id) || Number.parseInt(id) < 1 || !body.password) {
+    if (!id || !body.password) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -92,7 +89,7 @@ const updateAdmin = async (req, res) => {
 const removeAdmin = async (req, res) => {
   try {
     const id = req.params.id;
-    if (isNaN(id) || Number.parseInt(id) < 1) {
+    if (!id) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
@@ -167,19 +164,19 @@ const addMember = async (req, res) => {
 const getMemberById = async (req, res) => {
   try {
     let id = req.query?.memberId;
-    if (!id || (typeof id !== "number" && isNaN(id))) {
+    if (!id) {
       return res.status(422).json({
         detail: "參數錯誤，請參考文件",
       });
     }
 
-    if (!(await memberService.checkMemberExistsById(parseInt(id)))) {
+    if (!(await memberService.checkMemberExistsById(id))) {
       return res.status(404).json({
         detail: "該會員並不存在，請聯絡相關人員",
       });
     }
 
-    const userInfo = await memberService.getMemberInfoById(parseInt(id));
+    const userInfo = await memberService.getMemberInfoById(id);
     return res.status(200).json({
       detail: "成功取得該使用者之相關資訊",
       member: {
@@ -228,7 +225,7 @@ const updateSeatState = async (req, res) => {
       parseInt(seat.index),
       parseInt(seat.state),
       new Date(),
-      parseInt(memberInfo.id)
+      memberInfo.id
     );
 
     if (result !== "success") {
@@ -243,7 +240,6 @@ const updateSeatState = async (req, res) => {
     });
   } catch (err) {
     logger.error(err);
-    console.log(err);
     return res.status(500).json({
       detail: "伺服器內部錯誤",
     });

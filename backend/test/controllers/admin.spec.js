@@ -1,15 +1,19 @@
 const request = require("supertest");
 const app = require("../../src/app");
+const db = require("../../src/models/index");
 
-let adminLoginRes;
 let token;
+let allMembers;
 
 beforeAll(async () => {
-  adminLoginRes = await request(app).post("/api/login").send({
-    usernameOrMail: "admin@mail.com",
+  const res = await request(app).post("/api/login").send({
+    usernameOrMail: "admin",
     password: "admin",
   });
-  token = adminLoginRes.body.token;
+  token = res.body.token;
+
+  const members = await db["Members"].findAll();
+  allMembers = members.map((member) => member.dataValues);
 });
 
 describe("GET /api/auth/isAdmin/memberInfo", () => {
@@ -28,11 +32,10 @@ describe("GET /api/auth/isAdmin/memberInfo", () => {
       .query({ memberId: "character" })
       .set({ authorization: "Bearer " + token });
 
-    expect(res.statusCode).toEqual(422);
-    expect(res.body.detail).toEqual("參數錯誤，請參考文件");
+    expect(res.statusCode).toEqual(404);
   });
 
-  it("with too-large-number query params", async () => {
+  it("query params member id doesn't exist", async () => {
     const res = await request(app)
       .get("/api/auth/isAdmin/memberInfo")
       .query({ memberId: 1000000001 })
@@ -42,34 +45,10 @@ describe("GET /api/auth/isAdmin/memberInfo", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
-  it("with float query params", async () => {
-    const res = await request(app)
-      .get("/api/auth/isAdmin/memberInfo")
-      .query({ memberId: 45.2 })
-      .set({ authorization: "Bearer " + token });
-
-    expect(res.statusCode).toEqual(404);
-    expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
-  });
-
-  it(" with number-string query params in number", async () => {
-    const res = await request(app)
-      .get("/api/auth/isAdmin/memberInfo")
-      .query({ memberId: "1" })
-      .set({ authorization: "Bearer " + token });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.detail).toEqual("成功取得該使用者之相關資訊");
-
-    const member = res.body.member;
-    expect(member).toHaveProperty("name");
-    expect(member).toHaveProperty("phoneNumber");
-    expect(member).toHaveProperty("mail");
-  });
-
   it("with correct query params", async () => {
     const res = await request(app)
       .get("/api/auth/isAdmin/memberInfo")
-      .query({ memberId: 1 })
+      .query({ memberId: allMembers[1].id })
       .set({ authorization: "Bearer " + token });
 
     expect(res.statusCode).toEqual(200);
@@ -372,7 +351,6 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
-  // todo: params type error hasn't been tested
   it("test type error", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/seatState")
@@ -389,7 +367,6 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
-  // todo: params type error hasn't been tested
   it("test type error", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/seatState")
@@ -406,7 +383,6 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
-  // todo: params type error hasn't been tested
   it("test type error", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/seatState")
@@ -423,7 +399,6 @@ describe("PUT /api/auth/isAdmin/seatState", () => {
     expect(res.body.detail).toEqual("該會員並不存在，請聯絡相關人員");
   });
 
-  // todo: params type error hasn't been tested
   it("test type error", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/seatState")
@@ -648,6 +623,12 @@ describe("POST /api/auth/isAdmin/admin", () => {
 });
 
 describe("PUT /api/auth/isAdmin/admin/:id", () => {
+  let allAdmins;
+  beforeAll(async () => {
+    const members = await db["Members"].findAll({where: {level: 0}, order: [['createdAt']]});
+    allAdmins = members.map(member => member.dataValues)
+  });
+
   it("update data by not exist id", async () => {
     const res = await request(app)
       .put("/api/auth/isAdmin/admin/-1")
@@ -664,55 +645,32 @@ describe("PUT /api/auth/isAdmin/admin/:id", () => {
     expect(res.statusCode).toEqual(422);
   });
 
-  it("update data by not exist id", async () => {
+  it("update password & check", async () => {
     const res = await request(app)
-      .put("/api/auth/isAdmin/admin/878797984")
-      .set({ authorization: "Bearer " + token })
-      .send({
-        password: "test_edit"
-      });
-
-    expect(res.statusCode).toEqual(404);
-  });
-
-  it("update admin password", async () => {
-    const res = await request(app)
-      .put("/api/auth/isAdmin/admin/1")
+      .put("/api/auth/isAdmin/admin/" + allMembers[0].id)
       .set({ authorization: "Bearer " + token })
       .send({
         password: "admin_edited",
       });
-
     expect(res.statusCode).toEqual(200);
 
     const newLoginRes = await request(app)
       .post("/api/login")
       .send({ usernameOrMail: "admin", password: "admin_edited" });
-
-    expect(newLoginRes.statusCode).toEqual(200)
+    expect(newLoginRes.statusCode).toEqual(200);
   });
 });
 
 describe("DELETE /api/auth/isAdmin/admin/:id", () => {
-  it("delete not exist id", async () => {
-    const res = await request(app)
-      .delete("/api/auth/isAdmin/admin/-1")
-      .set({ authorization: "Bearer " + token });
-
-    expect(res.statusCode).toEqual(422);
+  let allAdmins;
+  beforeAll(async () => {
+    const members = await db["Members"].findAll({where: {level: 0}, order: [['createdAt']]});
+    allAdmins = members.map(member => member.dataValues)
   });
 
   it("delete not exist id", async () => {
     const res = await request(app)
-      .delete("/api/auth/isAdmin/admin/0")
-      .set({ authorization: "Bearer " + token });
-
-    expect(res.statusCode).toEqual(422);
-  });
-
-  it("delete general user", async () => {
-    const res = await request(app)
-      .delete("/api/auth/isAdmin/admin/2")
+      .delete("/api/auth/isAdmin/admin/78879798575666453345")
       .set({ authorization: "Bearer " + token });
 
     expect(res.statusCode).toEqual(404);
@@ -720,15 +678,15 @@ describe("DELETE /api/auth/isAdmin/admin/:id", () => {
 
   it("delete admin", async () => {
     const res = await request(app)
-      .delete("/api/auth/isAdmin/admin/5")
+      .delete(`/api/auth/isAdmin/admin/${allAdmins[1].id}`)
       .set({ authorization: "Bearer " + token });
 
     expect(res.statusCode).toEqual(200);
   });
 
-  it("delete not exist", async () => {
+  it("check previous delete complete", async () => {
     const res = await request(app)
-      .delete("/api/auth/isAdmin/admin/3")
+      .delete(`/api/auth/isAdmin/admin/${allAdmins[1].id}`)
       .set({ authorization: "Bearer " + token });
 
     expect(res.statusCode).toEqual(404);

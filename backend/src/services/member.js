@@ -4,9 +4,6 @@ const db = require("../models/index");
 
 const getAllAdmins = async () => {
   const admins = await db["Members"].findAll({ where: { level: 0 } });
-  // admins.forEach((admin) => {
-  //   admin.dataValues.password = "";
-  // });
   return admins.map((admin) => {
     return {
       id: admin.dataValues.id,
@@ -34,7 +31,6 @@ const addAdmin = async ({ username, password, mail }) => {
 
 const updateAdmin = async ({ id, username, mail, password }) => {
   const admin = await db["Members"].findOne({ where: { id: id } });
-  console.log(admin)
   if (!admin || admin?.dataValues?.level) {
     return [false, "該人物並不存在，或非管理者"];
   }
@@ -74,9 +70,6 @@ const getMemberInfoByUsername = async (username) => {
 };
 
 const getMemberInfoById = async (id) => {
-  if (typeof id !== "number") {
-    throw new TypeError("ID must be a string");
-  }
   return (await db["Members"].findOne({ where: { id: id } })).dataValues;
 };
 
@@ -142,19 +135,12 @@ const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
 };
 
 const checkMemberExistsById = async (id) => {
-  if (typeof id !== "number") {
-    throw new TypeError("Id must be a number");
-  }
   const member = await db["Members"].findOne({
     where: { id: id },
   });
   return member !== null;
 };
 const checkMemberExistsByCardId = async (cardId) => {
-  if (typeof cardId !== "string") {
-    throw new TypeError("Card ID must be a string");
-  }
-
   const member = await db["Members"].findOne({
     where: { cardId: cardId },
   });

@@ -10,7 +10,7 @@ const getAllAdmins = async () => {
       username: admin.dataValues.name,
       mail: admin.dataValues.mail,
       role: "admin",
-      line: !admin.dataValues.lineId,
+      line: Boolean(admin.dataValues.lineId),
     };
   });
 };

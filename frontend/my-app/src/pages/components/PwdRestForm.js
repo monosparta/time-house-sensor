@@ -47,11 +47,12 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
       onCancel={onCancel}
       closable={false}
     >
-      <Row justify="center" align="middle">
+      <Row justify="center" align="middle" style={{display: "flex"}}>
         <Space direction="vertical">
           <div className="center">
             <h2 style={{ color: "black" }}>設定新密碼</h2>
           </div>
+          <div >
           <Form
             form={form}
             name="form_in_modal"
@@ -62,6 +63,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
             wrapperCol={{
               span: 24,
             }}
+
           >
             <Form.Item
               label="新密碼 Password"
@@ -69,7 +71,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
               rules={[
                 {
                   required: true,
-                  message: "",
+                  message: "請輸入密碼",
                 },
               ]}
             >
@@ -79,11 +81,10 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
               name="confirm"
               label="確認密碼 Confirm Password"
               dependencies={["password"]}
-              hasFeedback
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your password!",
+                  message: "請輸入確認密碼",
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -92,7 +93,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
                     }
                     return Promise.reject(
                       new Error(
-                        "The two passwords that you entered do not match!"
+                        "兩次密碼必須相同"
                       )
                     );
                   },
@@ -102,6 +103,8 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
               <Input.Password size="large" placeholder="請輸入密碼" />
             </Form.Item>
           </Form>
+          </div>
+          
         </Space>
       </Row>
     </Modal>

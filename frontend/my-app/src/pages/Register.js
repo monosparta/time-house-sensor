@@ -130,7 +130,7 @@ const Register = () => {
                     rules={[
                       {
                         required: true,
-                        message: "",
+                        message: "請輸入密碼",
                       },
                     ]}
                   >
@@ -144,11 +144,10 @@ const Register = () => {
                     name="confirm"
                     label="確認密碼 Confirm Password"
                     dependencies={["password"]}
-                    hasFeedback
                     rules={[
                       {
                         required: true,
-                        message: "Please confirm your password!",
+                        message: "請輸入確認密碼",
                       },
                       ({ getFieldValue }) => ({
                         validator(_, value) {

@@ -3,7 +3,10 @@ const { Op } = require("sequelize");
 const db = require("../models/index");
 
 const getAllAdmins = async () => {
-  const admins = await db["Members"].findAll({ where: { level: 0 } });
+  const admins = await db["Members"].findAll({
+    where: { level: 0 },
+    order: ["createdAt"],
+  });
   return admins.map((admin) => {
     return {
       id: admin.dataValues.id,

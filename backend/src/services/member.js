@@ -2,6 +2,66 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const db = require("../models/index");
 
+const getAllAdmins = async () => {
+  const admins = await db["Members"].findAll({ where: { level: 0 } });
+  // admins.forEach((admin) => {
+  //   admin.dataValues.password = "";
+  // });
+  return admins.map((admin) => {
+    return {
+      id: admin.dataValues.id,
+      username: admin.dataValues.name,
+      mail: admin.dataValues.mail,
+      role: "admin",
+      line: !admin.dataValues.lineId,
+    };
+  });
+};
+
+const addAdmin = async ({ username, password, mail }) => {
+  const hash = bcrypt.hashSync(
+    password,
+    Number.parseInt(process.env.SALT_ROUND)
+  );
+  const admin = await db["Members"].create({
+    name: username,
+    password: hash,
+    mail: mail,
+    level: 0,
+  });
+  return admin.dataValues;
+};
+
+const updateAdmin = async ({ id, username, mail, password }) => {
+  const admin = await db["Members"].findOne({ where: { id: id } });
+  console.log(admin)
+  if (!admin || admin?.dataValues?.level) {
+    return [false, "該人物並不存在，或非管理者"];
+  }
+
+  admin.set({
+    name: username || admin.dataValues.name,
+    mail: mail || admin.dataValues.mail,
+    password:
+      (password &&
+        bcrypt.hashSync(password, Number.parseInt(process.env.SALT_ROUND))) ||
+      admin.dataValues.password,
+  });
+
+  await admin.save();
+
+  return [true, null];
+};
+
+const destroyAdmin = async (id) => {
+  const member = await db["Members"].findOne({ where: { id: id } });
+  if (!member || member.dataValues?.level) {
+    return [false, "該人物並不存在，或非管理者"];
+  }
+  await db["Members"].destroy({ where: { id: id } });
+  return [true, null];
+};
+
 const getMemberInfoByUsername = async (username) => {
   if (typeof username !== "string") {
     throw new TypeError("Username must be a string");
@@ -130,6 +190,11 @@ const addMember = async (username, mail, phoneNumber, cardId, level) => {
 };
 
 module.exports = {
+  getAllAdmins,
+  addAdmin,
+  updateAdmin,
+  destroyAdmin,
+
   getMemberInfoByUsername,
   getMemberInfoById,
   getMemberInfoByLineId,

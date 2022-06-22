@@ -6,24 +6,16 @@
 }
 
 .logo {
-  align-items: center;
+  display:flex;
+  flex-direction: column;
   justify-content: center; 
-  height: 100vh;
+  align-items: center;
 }
-.image{
-  left: 3vw;
-  position: relative;
-  max-height: 80%;  
-  max-width: 80%; 
-}
-.image img{
-  max-height: 80%;  
-  max-width: 80%; 
-  width: auto;
-  height: auto;
-  left: 3vw;
 
-}
+.logo img
+{display:inline-block;
+max-width: 80%;
+min-height: 80%;}
 
 .Color {
 
@@ -87,9 +79,14 @@
     display: flex;
     text-align: left;
   }
-
+  .ant-btn-lgl {
+    height: 59px !important;
+    padding: 7px 34px;
+    border: solid 1.5px #363F4E;
+    border-radius: 4px;
+}
   h1{
-    font-size: 30px !important;
+    font-size: 36px !important;
    }
   
   h2{
@@ -196,4 +193,7 @@
   flex-direction: column;
   display: flex;
   text-align: left;
+}
+body{
+  font-family: 'Roboto';
 }

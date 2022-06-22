@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { userSelector, loginUser, clearState } from "../features/userSlice";
+import axios from "../Axios.config";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-const Login = () => {
+const Register = () => {
   const [inputStatus, setInputStatus] = useState("");
-
-  const {  usernameOrMail, password } = useSelector(userSelector);
-  const { isFetching, isSuccess, isError, errorMessage } =
-    useSelector(userSelector);
-  const dispatch = useDispatch();
+  const [isError, setError] = useState(null);
   const navigate = useNavigate();
 
   const onFinish = async (data) => {
-    dispatch(loginUser(data));
-    console.log("AA" + dispatch(loginUser(data)));
+    console.log(data);
+    var udata = JSON.stringify({
+      "username": data.name,
+      "mail": data.mail,
+      "password": data.password
+    });
+    
+    var config = {
+      method: 'post',
+      url: '/api/auth/isAdmin/admin',
+      headers: { 
+        authorization: `Bearer ` + localStorage.getItem("authorized_keys"),
+      },
+      data : udata
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data.detail));
+      setError(null);
+      navigate("/",{ replace: true });
+    })
+    .catch(function (error) {
+      console.log("新增失敗"+error.response.data.detail)
+      setError(error.response.data.detail)
+    });
   };
-
-  useEffect(() => {
-    if (isError) {
-      setInputStatus("error");
-      console.log("Error...");
-    }
-    if (isFetching) {
-      dispatch(clearState());
-      console.log("Waiting...");
-    }
-    if (isSuccess) {
-      console.log("準備跳轉囉123", isSuccess);
-      navigate("/", { replace: true });
-      window.location.reload();
-      dispatch(clearState());
-    }
-  }, [isSuccess, isError, isFetching, dispatch, navigate]);
-
+  
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    navigate("/login");
+  
   };
   return (
     <div>
@@ -49,7 +52,7 @@ const Login = () => {
           lg={{ span: 8 }}
           className="Color box"
         >
-          <div className="box">
+        <div className="box">
             <div className="logo">
               <h2 style={{ color: "white", display: "block" }}>
                 高階智能座位管理系統
@@ -67,7 +70,7 @@ const Login = () => {
           <div class="box">
             <div class="content">
               <div class="form">
-                <h1>Sign in</h1>
+                <h1>Sign up</h1>
                 <Form
                   name="basic"
                   labelCol={{
@@ -85,14 +88,12 @@ const Login = () => {
                   onFinishFailed={onFinishFailed}
                   autoComplete="off"
                 >
-                  {isError ? (
-                    <Alert message={errorMessage} type="error" showIcon />
+                   {isError ? (
+                   <><Alert message={isError} type="error" showIcon /><br/></> 
                   ) : null}
-
                   <Form.Item
-                    label="帳號 UserName or Email"
-                    name="usernameOrMail"
-                    value={usernameOrMail}
+                    label="名稱 UserName"
+                    name="name"
                     rules={[
                       {
                         required: true,
@@ -103,17 +104,33 @@ const Login = () => {
                     <Input
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入帳號"
+                      placeholder="請輸入名稱"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="信箱 Mail"
+                    name="mail"
+                    rules={[
+                      { type: "email", message: "請輸入有效的郵件地址" },
+                      {
+                        required: true,
+                        message: "",
+                      },
+                    ]}
+                  >
+                    <Input
+                      size="large"
+                      status={inputStatus}
+                      placeholder="請輸入信箱"
                     />
                   </Form.Item>
                   <Form.Item
                     label="密碼 Password"
                     name="password"
-                    value={password}
                     rules={[
                       {
                         required: true,
-                        message: "",
+                        message: "請輸入密碼",
                       },
                     ]}
                   >
@@ -123,25 +140,49 @@ const Login = () => {
                       placeholder="請輸入密碼"
                     />
                   </Form.Item>
-                  <Form.Item valuePropName="checked" offset="1">
-                    <Checkbox className="checkbox-red">保持登入</Checkbox>
+                  <Form.Item
+                    name="confirm"
+                    label="確認密碼 Confirm Password"
+                    dependencies={["password"]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "請輸入確認密碼",
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("password") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error(
+                              "兩次輸入的密碼需要一致！"
+                            )
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password
+                      size="large"
+                      status={inputStatus}
+                      placeholder="請輸入密碼"
+                    />
                   </Form.Item>
+
                   <Form.Item>
                     <Button
                       type="primary"
                       htmlType="submit"
                       block
-                      
-                      
+                     
                       style={{
                         background: "#363F4E",
                         borderColor: "#363F4E",
                         color: "white",
-                       
-                        
                       }}
                     >
-                     立即登入
+                      <span style={{ fontSize: "1.7vh" }}>立即註冊 </span>
                     </Button>
                   </Form.Item>
                 </Form>
@@ -154,4 +195,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

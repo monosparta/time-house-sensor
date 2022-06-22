@@ -5,7 +5,7 @@ let adminLoginRes;
 
 beforeAll(async () => {
   adminLoginRes = await request(app).post("/api/login").send({
-    mail: "admin@mail.com",
+    usernameOrMail: "admin@mail.com",
     password: "admin",
   });
 });
@@ -45,7 +45,7 @@ describe("middleware check admin", () => {
   it("set correct bearer_token, and must return 404 info", async () => {
     const token = adminLoginRes.body.token;
     const res = await request(app)
-      .get("/api/auth/admin/")
+      .get("/api/auth/isAdmin/")
       .set({ authorization: "Bearer " + token });
 
     expect(res.statusCode).toEqual(404);

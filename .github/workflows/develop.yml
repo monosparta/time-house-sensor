@@ -1,0 +1,77 @@
+name: Develop CI
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  Clone:
+    name: Clone Git Repository
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+
+  Frontend_CI_CD:
+    needs: Clone
+    name: Frontend CI/CD
+    runs-on: self-hosted
+    environment: staging
+
+    steps:
+      - run: node -v
+      - run: npm -v
+      - run: echo ${{secrets.DEPLOY_PATH}}
+      - name: 'Create env file'
+        run: |
+          touch ./frontend/my-app/.env
+          echo REACT_APP_BASEURL=${{secrets.REACT_APP_BASEURL}} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_OWNER=${{ secrets.REACT_APP_EMAILJS_OWNER }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_SERVISE=${{ secrets.REACT_APP_EMAILJS_SERVISE }} >> ./frontend/my-app/.env
+          echo REACT_APP_EMAILJS_TEMPLATE=${{ secrets.REACT_APP_EMAILJS_TEMPLATE }} >> ./frontend/my-app/.env
+      - run: npm --prefix ./frontend/my-app ci
+      - run: npm --prefix ./frontend/my-app test
+      
+  Backend_CI_CD:
+    needs: Clone
+    name: Backend CI/CD
+    runs-on: self-hosted
+    environment: staging
+
+    steps:
+      - run: node -v
+      - run: npm -v
+      - run: npm --prefix ./backend ci
+      - name: 'Create env file'
+        run: |
+          touch ./backend/.env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> ./backend/.env
+          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> ./backend/.env
+          echo DB_USER=${{ secrets.DB_USER }} >> ./backend/.env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> ./backend/.env
+          echo REACT_PUBLIC_URL=${{ secrets.REACT_PUBLIC_URL }} >> ./backend/.env
+          echo EXPRESS_PUBLIC_URL=${{ secrets.EXPRESS_PUBLIC_URL }} >> ./backend/.env
+
+          echo PORT=${{ secrets.PORT }} >> ./backend/.env
+          echo SALT_ROUND=${{ secrets.SALT_ROUND }} >> ./backend/.env
+          echo LINE_CHANNEL_ACCESS_TOKEN=${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }} >> ./backend/.env
+          echo LINE_CHANNEL_SECRET=${{ secrets.LINE_CHANNEL_SECRET }} >> ./backend/.env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> ./backend/.env
+
+          echo MQTT_HOST=${{ secrets.MQTT_HOST }} >> ./backend/.env
+          echo MQTT_PORT=${{ secrets.MQTT_PORT }} >> ./backend/.env
+          echo MQTT_USERNAME=${{ secrets.MQTT_USERNAME }} >> ./backend/.env
+          echo MQTT_PASSWORD=${{ secrets.MQTT_PASSWORD }} >> ./backend/.env
+      - run: npm --prefix ./backend test
+
+  Python_CI_CD:
+    needs: Backend_CI_CD
+    name: Python CI/CD
+    runs-on: self-hosted
+    environment: staging
+    
+    steps:
+      - name: 'Create env file'
+        run: |
+          touch ./drawer/.env
+          echo EXPRESS_SERVER=${{ secrets.EXPRESS_SERVER }} >> ./drawer/.env
+          echo EXPRESS_PORT=${{ secrets.EXPRESS_PORT }} >> ./drawer/.env

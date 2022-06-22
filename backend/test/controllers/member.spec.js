@@ -92,7 +92,7 @@ describe("POST /api/login", () => {
       usernameOrMail: "general@mail.com",
       password: "general",
     });
-    expect(res.statusCode).toEqual(401);
+    expect(res.statusCode).toEqual(403);
   });
 
   it("test user account is an admin", async () => {

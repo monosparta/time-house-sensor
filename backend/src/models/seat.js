@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
       },
       memberId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         references: { model: "Members", key: "id" },
       },
       createdAt: {

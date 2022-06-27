@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       memberId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: { model: "Members", key: "id" },
       },
       stateChangedAt: {

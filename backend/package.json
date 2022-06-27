@@ -7,14 +7,15 @@
     "start": "node src/app.js",
     "build": "npm build",
     "unit": "node src/controllers/mosquitto.js",
-    "test": "npm run db:migrate:reset && jest --runInBand --forceExit",
+    "test": "npm run db:reset && jest --runInBand --forceExit",
     "db:pre-migrate": "node src/config/createDB.js",
+    "db:refresh-members": "node src/config/renewMembers.js",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",
     "db:deploy:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/deploy",
     "db:seed:undo": "npx sequelize-cli db:seed:undo --config ./src/config/config.js --seeders-path ./src/seeders/dev",
-    "db:migrate:reset": "npx sequelize-cli --config ./src/config/config.js --migrations-path ./src/migrations db:migrate:undo:all && npm run db:migrate && npm run db:dev:seed"
+    "db:reset": "npx sequelize-cli --config ./src/config/config.js --migrations-path ./src/migrations db:migrate:undo:all && npm run db:migrate && npm run db:dev:seed"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "path": "^0.12.7",
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1",
+    "uuid": "^8.3.2",
     "winston": "^3.7.2"
   },
   "devDependencies": {
@@ -56,7 +58,9 @@
       "/node_modules/"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/", "/test/controllers/", "/test/middleware/"
+      "/node_modules/",
+      "/test/controllers/",
+      "/test/middleware/"
     ],
     "collectCoverage": true
   }

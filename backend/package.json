@@ -9,7 +9,7 @@
     "unit": "node src/controllers/mosquitto.js",
     "test": "npm run db:reset && jest --runInBand --forceExit",
     "db:pre-migrate": "node src/config/createDB.js",
-    "db:refresh-members": "node src/config/renewMembers.js",
+    "db:refresh-members": "node src/config/refreshMembers.js",
     "db:migrate": "npx sequelize-cli db:migrate --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config ./src/config/config.js --migrations-path ./src/migrations",
     "db:dev:seed": "npx sequelize-cli db:seed:all --config ./src/config/config.js --seeders-path ./src/seeders/dev",

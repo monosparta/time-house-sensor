@@ -4,59 +4,76 @@ const https = require("https");
 
 var membersStr = "";
 
-const req = https.request(
-  `https://script.google.com/macros/s/AKfycby-ihROmlQHLMymSvIaoYwBJ27cHty5DZccYKMYAG7TJA8ersq-5w0o3yVD90HtIJF0ew/exec?_token=${process.env.MSC_API_TOKEN}`,
-  (res) => {
-    const dataLocation = res.headers.location;
+const getLocation = () => {
+  const req = https.request(
+    `https://script.google.com/macros/s/AKfycby-ihROmlQHLMymSvIaoYwBJ27cHty5DZccYKMYAG7TJA8ersq-5w0o3yVD90HtIJF0ew/exec?_token=${process.env.MSC_API_TOKEN}`,
+    (res) => {
+      const location = res.headers.location;
+      getMembers(location);
+    }
+  );
+  req.on("error", (error) => {
+    console.error(error);
+  });
+  req.end();
+};
 
-    const memberReq = https.request(dataLocation, (memberRes) => {
-      memberRes.on("data", (data) => {
-        // process.stdout.write(data)
-        membersStr += data;
-      });
-      memberRes.on("end", () => {
-        // console.log(members)
-        refreshDBMembers();
-      });
+const getMembers = (location) => {
+  const memberReq = https.request(location, (memberRes) => {
+    memberRes.on("data", (data) => {
+      membersStr += data;
     });
+    memberRes.on("end", async () => {
+      // console.log(membersStr);
+      const htmlIndex = membersStr.indexOf("<HTML>");
+      const substr = membersStr.substring(
+        0,
+        htmlIndex === -1 ? membersStr.length : htmlIndex
+      );
+      // console.log(substr)
+      const members = JSON.parse(substr).users;
+      // console.log(members)
+      if (members[0].uuid.indexOf("#") !== -1) {
+        membersStr = "";
+        getMembers(location);
+        return;
+      }
+      refreshDBMembers(members);
+    });
+  });
+  memberReq.end();
+};
 
-    memberReq.end();
-  }
-);
-
-req.on("error", (error) => {
-  console.error(error);
-});
-
-req.end();
-
-const refreshDBMembers = async () => {
-  // console.log(membersStr);
-  const members = JSON.parse(membersStr).users;
-
+const refreshDBMembers = async (members) => {
   for (let member of members) {
     const dbMember = await db["Members"].findOne({
       where: { id: member.uuid },
     });
 
     if (dbMember) {
-      await dbMember.set({
-        name: member.name,
-        phone: member.phone,
-        mail: member.mail,
-        cardId: member.cardId,
-      });
-      await dbMember.save();
+      try {
+        await db["Members"].update(
+          {
+            name: member.name,
+            phone: member.phone,
+            mail: member.mail,
+            cardId: member.cardId,
+          },
+          { where: { id: member.uuid } }
+        );
+      } catch (err) {}
       continue;
     }
-    await db["Members"].create({
-      id: member.uuid,
-      name: member.name,
-      phone: member.phone,
-      mail: member.email,
-      cardId: member.cardId,
-      level: 1,
-    });
+    try {
+      await db["Members"].create({
+        id: member.uuid,
+        name: member.name,
+        phone: member.phone,
+        mail: member.email,
+        cardId: member.cardId,
+        level: 1,
+      });
+    } catch (err) {}
   }
 
   const allDBMembers = await db["Members"].findAll({ where: { level: 1 } });
@@ -68,6 +85,6 @@ const refreshDBMembers = async () => {
       await dbMember.destroy();
     }
   }
-
-  process.exit();
 };
+
+getLocation();

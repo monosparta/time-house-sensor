@@ -647,7 +647,7 @@ describe("PUT /api/auth/isAdmin/admin/:id", () => {
 
   it("update password & check", async () => {
     const res = await request(app)
-      .put("/api/auth/isAdmin/admin/" + allMembers[0].id)
+      .put("/api/auth/isAdmin/admin/" + allAdmins[0].id)
       .set({ authorization: "Bearer " + token })
       .send({
         password: "admin_edited",

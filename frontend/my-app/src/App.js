@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 11:08:57
- * @LastEditTime: 2022-06-20 10:47:45
+ * @LastEditTime: 2022-07-22 11:14:32
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\App.js
@@ -38,7 +38,7 @@ function App() {
             ) : (
               // <Route path="*" element={<Button>sddsd</Button>} />
               <Routes>
-                   <Route path="/login" index element={<Login />} />
+              <Route path="/login" index element={<Login />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
               </Routes>
             )}

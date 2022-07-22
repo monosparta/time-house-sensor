@@ -1,0 +1,170 @@
+*   [33m2d99fbc[m[33m ([m[1;31morigin/staging[m[33m)[m Merge branch 'develop' into staging
+[31m|[m[32m\[m  
+[31m|[m *   [33ma421903[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m Merge branch 'develop' of https://github.com/monosparta/time-house-sensor into develop
+[31m|[m [33m|[m[34m\[m  
+[31m|[m * [34m\[m   [33m1c8615a[m Merge branch 'frontend' into develop
+[31m|[m [35m|[m[36m\[m [34m\[m  
+[31m|[m [35m|[m * [34m|[m [33mc5674d6[m[33m ([m[1;36mHEAD -> [m[1;32mfrontend[m[33m, [m[1;31morigin/frontend[m[33m)[m fix: :bug: 由於Modal會因為hasFeedBack功能自動增長,因此拿掉確認密碼has FeedBack
+[31m|[m [35m|[m * [34m|[m [33m5577720[m feat: :sparkles: 刪除確認視窗
+* [35m|[m [36m|[m [34m|[m   [33m466659a[m Merge branch 'develop' into staging
+[1;31m|[m[34m\[m [35m\[m [36m\[m [34m\[m  
+[1;31m|[m [34m|[m [35m|[m[34m_[m[36m|[m[34m/[m  
+[1;31m|[m [34m|[m[34m/[m[35m|[m [36m|[m   
+[1;31m|[m * [35m|[m [36m|[m   [33m792120a[m Merge branch 'add-admin-crud-test-case' into develop
+[1;31m|[m [35m|[m[1;34m\[m [35m\[m [36m\[m  
+[1;31m|[m [35m|[m [1;34m|[m[35m/[m [36m/[m  
+[1;31m|[m [35m|[m[35m/[m[1;34m|[m [36m|[m   
+[1;31m|[m [35m|[m * [36m|[m [33m6e98dbd[m fix: :sparkles: add return value when update-admin & destroy-admin
+[1;31m|[m [35m|[m * [36m|[m [33m1613296[m refactor: :recycle: fix errors
+[1;31m|[m [35m|[m * [36m|[m [33mb06b29e[m test: :white_check_mark: add admin accounts crud test-cases
+[1;31m|[m [35m|[m * [36m|[m [33m23772a4[m chore: :wrench: set test execution order
+[1;31m|[m [35m|[m * [36m|[m [33m4b355cb[m refactor: :fire: get rid of useless code
+[1;31m|[m * [1;34m|[m [36m|[m   [33m07b9460[m Merge branch 'frontend' into develop
+[1;31m|[m [1;34m|[m[36m\[m [1;34m\[m [36m\[m  
+[1;31m|[m [1;34m|[m [36m|[m[1;34m/[m [36m/[m  
+[1;31m|[m [1;34m|[m[1;34m/[m[36m|[m [36m/[m   
+[1;31m|[m [1;34m|[m [36m|[m[36m/[m    
+[1;31m|[m [1;34m|[m * [33me97e73c[m 修正錯誤訊息
+[1;31m|[m [1;34m|[m *   [33m872a4a7[m Merge branch 'frontend' of https://github.com/monosparta/time-house-sensor into frontend
+[1;31m|[m [1;34m|[m [31m|[m[32m\[m  
+[1;31m|[m [1;34m|[m [31m|[m * [33m490714e[m feat: :zap: dropdown根據頁面顯示不同選項 / 修改確認密碼提示訊息
+[1;31m|[m [1;34m|[m [31m|[m * [33m109e84f[m fix: :zap: Fix 閒置座位狀態更改按鈕space
+[1;31m|[m [1;34m|[m [31m|[m * [33m15be9bf[m fix: :zap: Fix #31
+[1;31m|[m [1;34m|[m [31m|[m * [33m5bea354[m fix: :zap: Fix #30
+[1;31m|[m [1;34m|[m [31m|[m * [33m07ad525[m fix: :zap: Fix  #29
+[1;31m|[m [1;34m|[m * [32m|[m [33m88b93ef[m 更新登入可用帳號或信箱 Fix #27
+[1;31m|[m [1;34m|[m [32m|[m[32m/[m  
+[1;31m|[m [1;34m|[m * [33md3b2f92[m 新增管理者功能串接錯誤訊息
+[1;31m|[m [1;34m|[m * [33m1c50e96[m fix: 刪除admin、修改新增與編輯座位資訊api、修改手機格式錯誤顯示
+[1;31m|[m [1;34m|[m * [33m74442f8[m feat: :zap: Fix  #29 與串接新增管理員、抓取管理員與修改密碼api
+[1;31m|[m [1;34m|[m * [33m3daf0b1[m fix: :zap: Fix #26
+[1;31m|[m [1;34m|[m * [33m1db56d6[m fix: :zap: Fix #24
+[1;31m|[m [1;34m|[m * [33m7b0d638[m feat: :sparkles: 完成RestPwd Form、dropdown以及修改Table Css
+[1;31m|[m [1;34m|[m * [33m67e05e1[m feat: :sparkles: 註冊頁面以及AdminList初版
+[1;31m|[m [1;34m|[m * [33mf910d82[m 修正為僅限mail
+[1;31m|[m [1;34m|[m * [33m71d449f[m 電話格式僅限國碼
+[1;31m|[m [1;34m|[m * [33m4c98d21[m 修改api錯誤訊息
+[1;31m|[m * [32m|[m   [33m455a296[m Merge branch 'Joe-lin-ezra/issue28' into develop
+[1;31m|[m [33m|[m[34m\[m [32m\[m  
+[1;31m|[m [33m|[m * [32m|[m [33m1a1c92b[m refactor: :recycle: update res message
+[1;31m|[m [33m|[m[33m/[m [32m/[m  
+[1;31m|[m * [32m|[m   [33m761a92b[m Merge branch 'fix-admin-using-username-login' into develop
+[1;31m|[m [35m|[m[36m\[m [32m\[m  
+[1;31m|[m [35m|[m * [32m|[m [33m4c1ed6f[m refactor: :recycle: update login method
+[1;31m|[m [35m|[m * [32m|[m [33m8c6d188[m refactor: :construction_worker: update mail-login to username-or-mail-login
+[1;31m|[m * [36m|[m [32m|[m   [33m8bda8ee[m Merge branch 'fix-add-role-in-admin-list-res' into develop
+[1;31m|[m [1;31m|[m[1;32m\[m [36m\[m [32m\[m  
+[1;31m|[m [1;31m|[m * [36m|[m [32m|[m [33m805d3a0[m fix: :adhesive_bandage: add role info in admin-list-res
+[1;31m|[m [1;31m|[m[1;31m/[m [36m/[m [32m/[m  
+[1;31m|[m * [36m|[m [32m|[m   [33m68daa26[m Merge branch 'fix-admin-list-res' into develop
+[1;31m|[m [1;33m|[m[1;34m\[m [36m\[m [32m\[m  
+[1;31m|[m [1;33m|[m * [36m|[m [32m|[m [33mfe75feb[m refactor: :recycle: update response content of getting-all-admins
+[1;31m|[m [1;33m|[m[1;33m/[m [36m/[m [32m/[m  
+[1;31m|[m * [36m|[m [32m|[m [33m9c9992a[m Merge commit '73ad6209986da17729a5d874be048cb91369c11f' into develop
+[1;31m|[m [1;35m|[m[36m\[m[36m|[m [32m|[m 
+[1;31m|[m [1;35m|[m * [32m|[m [33m73ad620[m fix: :bug: set level when add admin
+[1;31m|[m [1;35m|[m[1;35m/[m [32m/[m  
+[1;31m|[m * [32m|[m   [33m3457196[m Merge branch 'feat-admin-CRUD' into develop
+[1;31m|[m [31m|[m[32m\[m [32m\[m  
+[1;31m|[m [31m|[m * [32m|[m [33ma05a895[m fix router path
+[1;31m|[m [31m|[m * [32m|[m [33mf7d9f24[m fix syntax error, and update add admin flow
+[1;31m|[m [31m|[m * [32m|[m [33mee083db[m add admin CRUD
+[1;31m|[m [31m|[m * [32m|[m [33m2a366d3[m fix: :bug: change route path admin -> isAdmin
+[1;31m|[m * [32m|[m [32m|[m [33mad1e765[m Update develop.yml
+[1;31m|[m * [32m|[m [32m|[m [33me86c7fd[m Update develop.yml
+[1;31m|[m * [32m|[m [32m|[m [33m572c453[m Update develop.yml
+[1;31m|[m * [32m|[m [32m|[m [33m4a05c41[m Add Develop CI
+[1;31m|[m * [32m|[m [32m|[m   [33m3ba1c0e[m Merge branch 'hotfix-linebot' into develop
+[1;31m|[m [32m|[m[34m\[m [32m\[m [32m\[m  
+[1;31m|[m [32m|[m [34m|[m[32m/[m [32m/[m  
+[1;31m|[m [32m|[m[32m/[m[34m|[m [32m|[m   
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [33mf8ca326[m[33m ([m[1;31morigin/esp8266[m[33m)[m fix time error
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [33m6a1b4a5[m fix time mistake
+[1;31m|[m [32m|[m [34m|[m [32m|[m *   [33m5d109dc[m fix MQTT disconnection and Wifi disconnection
+[1;31m|[m [32m|[m [34m|[m [32m|[m [36m|[m[1;31m\[m  
+[1;31m|[m [32m|[m [34m|[m [32m|[m [36m|[m * [33m4c5135d[m 加註解
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [1;31m|[m [33m4fb8ef5[m test
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [1;31m|[m [33mb166d2f[m Fix unconnected & MQTT unconncted
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [1;31m|[m [33m3621280[m 0520fi
+[1;31m|[m [32m|[m [34m|[m [32m|[m [1;31m|[m[1;31m/[m  
+[1;31m|[m [32m|[m [34m|[m [32m|[m * [33mb369fb3[m esp8266 sensor code
+[1;31m|[m [32m|[m [34m|[m [32m|[m [1;31m|[m *   [33m3e66636[m[33m ([m[1;33mtag: v1.6[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge branch 'staging'
+[1;31m|[m [32m|[m [34m|[m [32m|[m [1;31m|[m [1;32m|[m[1;31m\[m  
+[1;31m|[m [32m|[m[1;31m_[m[34m|[m[1;31m_[m[32m|[m[1;31m_[m[1;31m|[m[1;31m_[m[1;32m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[32m|[m [34m|[m [32m|[m [1;31m|[m [1;32m|[m   
+* [32m|[m [34m|[m [32m|[m [1;31m|[m [1;32m|[m [33mfb19cd9[m Merge branch 'staging' of https://github.com/monosparta/time-house-sensor into staging
+[1;34m|[m[32m\[m[32m|[m [34m|[m [32m|[m [1;31m|[m [1;32m|[m 
+* [32m|[m [34m|[m [32m|[m [1;31m|[m [1;32m|[m   [33ma814c2d[m Merge branch 'hotfix-linebot' into staging
+[1;36m|[m[34m\[m [32m\[m [34m\[m [32m\[m [1;31m\[m [1;32m\[m  
+[1;36m|[m [34m|[m [32m|[m[34m/[m [32m/[m [1;31m/[m [1;32m/[m  
+[1;36m|[m [34m|[m[34m/[m[32m|[m [32m|[m [1;31m|[m [1;32m|[m   
+[1;36m|[m * [32m|[m [32m|[m [1;31m|[m [1;32m|[m [33me31a080[m[33m ([m[1;31morigin/hotfix-Linebot[m[33m)[m 修復一般使用者輸入關鍵字【進入後台】便可取得後台網址的問題
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m * [33m084dc25[m[33m ([m[1;33mtag: v1.5[m[33m)[m Merge branch 'main' of https://github.com/monosparta/time-house-sensor
+[1;36m|[m [31m|[m [32m|[m [32m|[m[32m_[m[1;31m|[m[32m/[m[33m|[m 
+[1;36m|[m [31m|[m [32m|[m[32m/[m[32m|[m [1;31m|[m [33m|[m 
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m *   [33m1eab96d[m[33m ([m[1;33mtag: v1.4[m[33m)[m Merge branch 'staging'
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m [34m|[m[35m\[m  
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m * [35m|[m [33me08f91a[m Update production.yml
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m * [35m|[m [33m42d9a94[m Update staging.yml
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m * [35m|[m [33m8d71b94[m Update production.yml
+[1;36m|[m [31m|[m [32m|[m [32m|[m [1;31m|[m * [35m|[m [33mafd6df4[m Update production.yml
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33m9787701[m add pytz into python requirements.txt
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m   [33me0eef72[m Merge branch 'fix-drawer-timezone' into develop
+[1;36m|[m [31m|[m [36m|[m[1;31m\[m [32m\[m [1;31m\[m [35m\[m [35m\[m  
+[1;36m|[m [31m|[m [36m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33mbbda994[m fix: change a method to get time(utc+8)
+[1;36m|[m [31m|[m [36m|[m[36m/[m [32m/[m [1;31m/[m [35m/[m [35m/[m  
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33md2c58a5[m fix: :bug: change the format of time to utc format
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33m2c35d92[m remove log content, due to [object, object]
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33m157518b[m add express helmet
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33m1ae03f9[m add subscribe error log
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [35m|[m [33m7b405ed[m fix: :bug: change prodution env variable
+[1;36m|[m [31m|[m [35m|[m [32m|[m[35m_[m[1;31m|[m[35m_[m[35m|[m[35m/[m  
+[1;36m|[m [31m|[m [35m|[m[35m/[m[32m|[m [1;31m|[m [35m|[m   
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [33m5410abc[m fix: :ambulance: add username & password for mosquitto connection
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [33m85e6c52[m add params type error test
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [33m53add5a[m remove para type check
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [33m82496c9[m fix: :bug: fix error, when seat.state is floating point number
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m [33mf7a9431[m refactor: :loud_sound: update log format of log.error
+[1;36m|[m [31m|[m * [32m|[m [1;31m|[m [35m|[m   [33mce7d3c1[m Merge branch 'develop' of https://github.com/monosparta/time-house-sensor into develop
+[1;36m|[m [31m|[m [1;32m|[m[1;33m\[m [32m\[m [1;31m\[m [35m\[m  
+[1;36m|[m [31m|[m [1;32m|[m * [32m|[m [1;31m|[m [35m|[m [33mfc1498d[m Merge branch 'frontend' into develop
+[1;36m|[m [31m|[m [1;32m|[m [1;34m|[m[32m\[m[32m|[m [1;31m|[m [35m|[m 
+[1;36m|[m [31m|[m [1;32m|[m [1;34m|[m * [1;31m|[m [35m|[m [33me6f65a2[m fix: :zap: #20
+[1;36m|[m [31m|[m [1;32m|[m [1;34m|[m * [1;31m|[m [35m|[m [33m4fd8a44[m fix: :zap: Fix #21  #11
+[1;36m|[m [31m|[m [1;32m|[m * [1;35m|[m [1;31m|[m [35m|[m [33m7757c20[m Merge branch 'frontend' into develop
+[1;36m|[m [31m|[m [1;32m|[m [1;36m|[m[1;35m\[m[1;35m|[m [1;31m|[m [35m|[m 
+[1;36m|[m [31m|[m [1;32m|[m [1;36m|[m * [1;31m|[m [35m|[m [33m6a89fd2[m 修正為只能使用信箱登入
+[1;36m|[m [31m|[m [1;32m|[m * [31m|[m [1;31m|[m [35m|[m   [33m85dd243[m Merge branch 'develop' of https://github.com/monosparta/time-house-sensor into develop
+[1;36m|[m [31m|[m [1;32m|[m [32m|[m[33m\[m [31m\[m [1;31m\[m [35m\[m  
+[1;36m|[m [31m|[m [1;32m|[m * [33m\[m [31m\[m [1;31m\[m [35m\[m   [33md69aee7[m Merge branch 'frontend' into develop
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m[31m\[m [33m\[m [31m\[m [1;31m\[m [35m\[m  
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m [31m|[m [33m|[m[31m/[m [1;31m/[m [35m/[m  
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m [31m|[m[31m/[m[33m|[m [1;31m|[m [35m|[m   
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m * [33m|[m [1;31m|[m [35m|[m [33m679b5e9[m fix: :bug: 電話號碼只能輸入數字
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m * [33m|[m [1;31m|[m [35m|[m [33m9e8d994[m fix  #12、#19
+[1;36m|[m [31m|[m [1;32m|[m [34m|[m * [33m|[m [1;31m|[m [35m|[m [33md984c3e[m 更換icon
+[1;36m|[m [31m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m   [33mdfd19a6[m Merge branch 'feat-write_test' into develop
+[1;36m|[m [31m|[m [36m|[m[1;31m\[m [34m\[m [35m\[m [33m\[m [1;31m\[m [35m\[m  
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33mc3a4b32[m fix syntax error
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33m92f6271[m remove console.log statement
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33mc415e82[m cancel console log
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33me04f089[m fix: :bug: multiple changes
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33m9d8a3ca[m change dev seeds
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33m3f9660d[m check duplicated mail & phone, when add member
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33mc8a35e7[m test: :white_check_mark: add api tests
+[1;36m|[m [31m|[m [36m|[m * [34m|[m [35m|[m [33m|[m [1;31m|[m [35m|[m [33m8135671[m add jest setting, supertest, db:reset command
+[1;36m|[m [31m|[m [36m|[m [33m|[m [34m|[m[33m_[m[35m|[m[33m/[m [1;31m/[m [35m/[m  
+[1;36m|[m [31m|[m [36m|[m [33m|[m[33m/[m[34m|[m [35m|[m [1;31m|[m [35m|[m   
+[1;36m|[m [31m|[m * [33m/[m [34m|[m [35m|[m [1;31m|[m [35m|[m [33mfad68de[m todo: mosquitto controller test case
+[1;36m|[m [31m|[m [33m|[m[33m/[m [34m/[m [35m/[m [1;31m/[m [35m/[m  
+[1;36m|[m [31m|[m * [34m|[m [35m|[m [1;31m|[m [35m|[m [33mb8c6e54[m[33m ([m[1;31morigin/fix-bugs[m[33m)[m refactor: :triangular_flag_on_post: modify login feature, limit user uses mail to login only
+[1;36m|[m [31m|[m * [34m|[m [35m|[m [1;31m|[m [35m|[m [33m4a68704[m fix: :card_file_box: fix sequelize where statement, due to renaming column
+[1;36m|[m [31m|[m * [34m|[m [35m|[m [1;31m|[m [35m|[m [33m746428b[m refactor: :card_file_box: change the columns' name
+[1;36m|[m [31m|[m * [34m|[m [35m|[m [1;31m|[m [35m|[m   [33m6e0e40c[m Merge branch 'staging' into fix-bugs
+[1;36m|[m [31m|[m [1;32m|[m[1;36m\[m [34m\[m [35m\[m [1;31m\[m [35m\[m  
+[1;36m|[m [31m|[m[1;36m_[m[1;32m|[m[1;36m/[m [34m/[m [35m/[m [1;31m/[m [35m/[m  
+[1;36m|[m[1;36m/[m[31m|[m [1;32m|[m [34m|[m [35m|[m [1;31m|[m [35m|[m   
+* [31m|[m [1;32m|[m [34m|[m [35m|[m [1;31m|[m [35m|[m [33m2eba067[m fix property.state
+* [31m|[m [1;32m|[m [34m|[m [35m|[m [1;31m|[m [35m|[m [33m64d859f[m Fix Property.state
+* [31m|[m [1;32m|[m [34m|[m [35m|[m [1;31m|[m [35m|[m   [33m17da629[m Merge branch 'staging' of https://github.com/monosparta/time-house-sensor into staging
+[1;34m|[m[1;35m\[m [31m\[m [1;32m\[m [34m\[m [35m\[m [1;31m\[m [35m\[m  

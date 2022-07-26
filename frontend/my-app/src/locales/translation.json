@@ -1,0 +1,12 @@
+{
+    "en":{
+        "translation":{
+          "hello":"hihihihihi"
+        }
+       },
+       "tw":{
+         "translation":{
+            "hello":"你好"
+          }
+       }
+}

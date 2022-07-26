@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Layout, Row, Col, Space, Avatar } from "antd";
 import { Input, Tooltip } from "antd";
 import axios from "../Axios.config";
-import "./i18n";
+
 import { HeaderBar } from "./components/HeaderBar";
 import { SeatMap } from "./components/SeatMap";
 import { useTranslation } from "react-i18next";

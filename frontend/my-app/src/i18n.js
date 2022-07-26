@@ -8,8 +8,8 @@
  */
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "../locales/en/translation.json"
-import tw from "../locales/tw/translation.json"
+import en from "./locales/en/translation.json"
+import tw from "./locales/tw/translation.json"
 
 const resources = {
    en: {

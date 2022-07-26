@@ -1,0 +1,24 @@
+{
+ 
+    "ln":"語言",
+    "en":"英文（en）",
+    "project":"高階智能座位管理系統",
+    "adminList":"管理頁面",
+    "logout":"登出",
+    "home":"主頁面",
+    "AdminList":"管理者列表",
+    "Add":"新增",
+    "Reset PassWord":"重設密碼",
+    "username":"使用者名稱",
+    "mail":"信箱",
+    "role":"權限",
+    "confirm":"確認",
+    "cancel":"刪除",
+    "waringDeleteAdmin":"確認要刪除該管理者嗎",
+    "newPwd":"新密碼",
+    "enterPwd":"請輸入您的密碼",
+    "confirmPwd":"確認密碼",
+    "enterConfirmPwd":"請輸入您的確認密碼",
+    "NotsamePwd":"兩次輸入的密碼必須相同"
+
+}

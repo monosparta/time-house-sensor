@@ -2,13 +2,24 @@
  * @Author: 20181101remon mindy80230@gmail.com
  * @Date: 2022-07-26 10:32:13
  * @LastEditors: 20181101remon mindy80230@gmail.com
- * @LastEditTime: 2022-07-26 11:44:36
+ * @LastEditTime: 2022-07-26 16:06:00
  * @FilePath: \my-app\src\pages\i18n.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import resources from '../locales/translation.json'
+import en from "../locales/en/translation.json"
+import tw from "../locales/tw/translation.json"
+
+const resources = {
+   en: {
+     translation: en,
+   },
+   'zh-TW': {
+     translation: tw,
+   },
+ };
+ 
 
 i18n
    // 使用 i18next-http-backend
@@ -17,7 +28,7 @@ i18n
    .init({
       resources,
       // 預設語言
-      lng: "tw",
+      lng: "zh-TW",
       // 當目前的語言檔找不到對應的字詞時，會用 fallbackLng (en) 作為預設語言
       fallbackLng: "en",
       interpolation: {

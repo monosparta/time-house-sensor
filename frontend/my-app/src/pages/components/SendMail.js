@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-04-25 10:35:01
- * @LastEditTime: 2022-04-25 11:11:31
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-07-27 15:27:18
+ * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\components\SendMail.js
  */
@@ -11,8 +11,9 @@ import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { Button, Row, Col, Space, Avatar, message } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
-
+import { useTranslation } from "react-i18next";
 export const SendMail = ({sendMail}) => {
+  const { t } = useTranslation();
   var username = sendMail.name;
   console.log("??/"+Object.values(sendMail))
   var phoneNumber = sendMail.phoneNumber;
@@ -73,7 +74,7 @@ export const SendMail = ({sendMail}) => {
             <Col span={5} offset={1}>
               <Button htmlType="submit" style={{color:"#1976D2",borderColor:"#1976D2"}}>
                 <EditOutlined style={{ color: "#1976D2" }} />
-                寄送通知
+               {t("sendMail")}
               </Button>
             </Col>
           </Row>

@@ -84,7 +84,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
                       if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error(t("NotsamePwd")));
+                      return Promise.reject(new Error(t("notSamePwd")));
                     },
                   }),
                 ]}

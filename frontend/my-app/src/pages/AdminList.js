@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-07-26 17:12:33
+ * @LastEditTime: 2022-07-27 10:16:36
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -143,7 +143,7 @@ const AdminList = () => {
                   verticalAlign: "middle",
                 }}
               >
-              {t("AdminList")}
+              {t("adminList")}
                 
               </Col>
               <Col
@@ -162,7 +162,7 @@ const AdminList = () => {
                   size={"large"}
                   style={{ color: "white", background: "#363F4E" }}
                 >
-                  <span style={{ fontSize: "14px" }}>{t("Add")}</span>
+                  <span style={{ fontSize: "14px" }}>{t("add")}</span>
                 </Button>
               </Col>
             </Row>
@@ -188,7 +188,7 @@ const AdminList = () => {
                       onClick={() => showModal(id, 1)}
                       style={{ background: "#363F4E", color: "white" }}
                     >
-                      <span style={{ fontSize: "14px" }}>{t("Reset PassWord")}</span>
+                      <span style={{ fontSize: "14px" }}>{t("resetPwd")}</span>
                     </Button>
                     <Button
                       type="link"

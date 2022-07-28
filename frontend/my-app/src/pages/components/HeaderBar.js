@@ -17,7 +17,7 @@ const { Header } = Layout;
 export const HeaderBar = () => {
   const navigate = useNavigate();
   const { t,i18n } = useTranslation();
-  const currentLn = i18n.language === "zh-tw" ? 1 : 0;
+ 
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng.key);
@@ -36,11 +36,9 @@ export const HeaderBar = () => {
   };
   const menu = (
     <Menu mode="horizontal" defaultSelectedKeys={[""]} onClick={changeLanguage}>
-       {currentLn ? (
+      
         <Menu.Item key="en">{t("en")}</Menu.Item>
-      ) : (
         <Menu.Item key="zh-tw">{t("tw")}</Menu.Item>
-      )}
     </Menu>
   );
   return (

@@ -2,7 +2,7 @@
  * @Author: 20181101remon mindy80230@gmail.com
  * @Date: 2022-05-20 14:46:28
  * @LastEditors: 20181101remon mindy80230@gmail.com
- * @LastEditTime: 2022-07-26 16:54:18
+ * @LastEditTime: 2022-07-28 12:15:20
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\components\HeaderBar.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -17,7 +17,7 @@ const { Header } = Layout;
 export const HeaderBar = () => {
   const navigate = useNavigate();
   const { t,i18n } = useTranslation();
- 
+
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng.key);
@@ -73,7 +73,7 @@ export const HeaderBar = () => {
                     block
                     onClick={() => User("adminList")}
                   >
-                   {t("adminList")}
+                  {t("adminList")}
                   </Button>
                 )}
               </Col>
@@ -90,7 +90,7 @@ export const HeaderBar = () => {
                       block
                       icon={<GlobalOutlined />}
                     >
-                     {t("ln")}
+                    {t("ln")}
                     </Button>
                   </div>
                 </Dropdown>
@@ -102,7 +102,7 @@ export const HeaderBar = () => {
                   block
                   onClick={() => User("logout")}
                 >
-                 {t("logout")}
+                {t("logout")}
                 </Button>
               </Col>
             </Row>

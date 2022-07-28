@@ -1,5 +1,4 @@
 {
- 
     "ln":"語言",
     "en":"英文（en）",
     "project":"高階智能座位管理系統",
@@ -49,6 +48,7 @@
     "changeStatus":"更改狀態",
     "inUse":"使用中",
     "available":"可使用",
-    "sendMail":"寄送通知信"
+    "sendMail":"寄送通知信",
+    "error":"異常"
 
 }

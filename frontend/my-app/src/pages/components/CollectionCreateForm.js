@@ -52,7 +52,6 @@ export const CollectionCreateForm = ({
       .validateFields()
       .then((values) => {
         console.log("A" + values);
-
         console.log(values);
         if (whichModal === 1) {
           if (values.phoneNumber.length < 12) {
@@ -184,7 +183,7 @@ export const CollectionCreateForm = ({
               style={{ background: "#363F4E", color: "white" }}
               size="large"
             >
-             {t("confirm")}
+            {t("confirm")}
             </Button>
             <Button onClick={onCancel} size="large">
               <b>{t("cancel")}</b>

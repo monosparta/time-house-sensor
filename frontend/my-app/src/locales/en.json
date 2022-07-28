@@ -50,5 +50,6 @@
     "changeStatus": "Change status",
     "inUse": "In use",
     "available": "available",
-    "sendMail": "Send mail"
+    "sendMail": "Send mail",
+    "error":"error"
 }

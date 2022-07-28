@@ -2,24 +2,24 @@
  * @Author: 20181101remon mindy80230@gmail.com
  * @Date: 2022-07-26 10:32:13
  * @LastEditors: 20181101remon mindy80230@gmail.com
- * @LastEditTime: 2022-07-27 10:13:38
+ * @LastEditTime: 2022-07-28 15:40:07
  * @FilePath: \my-app\src\pages\i18n.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "./locales/en/translation.json"
-import tw from "./locales/tw/translation.json"
+import en from "./locales/en.json"
+import tw from "./locales/zh-TW.json"
 
 const resources = {
    en: {
-     translation: en,
+   translation: en,
    },
    'zh-TW': {
-     translation: tw,
+   translation: tw,
    },
- };
- 
+};
+
 
 i18n
    .use(initReactI18next) 

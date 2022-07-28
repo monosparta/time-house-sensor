@@ -51,5 +51,6 @@
   "sendMail": "寄送通知信",
   "error": "異常",
   "tw": "中文（zh-tw）",
-  "username": "用戶名"
+  "username": "用戶名",
+  "resetNewPwd":"設定新密碼"
 }

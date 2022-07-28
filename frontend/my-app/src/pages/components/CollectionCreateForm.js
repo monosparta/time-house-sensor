@@ -125,7 +125,7 @@ export const CollectionCreateForm = ({
                 </>
               ) : null}
               <Form.Item
-                label={t("userName")}
+                label={t("username")}
                 name="username"
                 rules={[{ required: true, message: t("enterUserName") }]}
               >

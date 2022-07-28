@@ -93,7 +93,7 @@ const Register = () => {
                    <><Alert message={isError} type="error" showIcon /><br/></> 
                   ) : null}
                   <Form.Item
-                    label={t("userName")}
+                    label={t("username")}
                     name="name"
                     rules={[
                       {
@@ -167,7 +167,7 @@ const Register = () => {
                     <Input.Password
                       size="large"
                       status={inputStatus}
-                      placeholder={t("enterPwd")}
+                      placeholder={t("enterConfirmPwd")}
                     />
                   </Form.Item>
 

@@ -44,7 +44,7 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
       <Row justify="center" align="middle" style={{ display: "flex" }}>
         <Space direction="vertical">
           <div className="center">
-            <h2 style={{ color: "black" }}>設定新密碼</h2>
+            <h2 style={{ color: "black" }}>{t("resetNewPwd")}</h2>
           </div>
           <div>
             <Form

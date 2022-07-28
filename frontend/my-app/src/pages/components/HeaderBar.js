@@ -39,6 +39,7 @@ export const HeaderBar = () => {
       
         <Menu.Item key="en">{t("en")}</Menu.Item>
         <Menu.Item key="zh-tw">{t("tw")}</Menu.Item>
+        <Menu.Item key="de">{t("de")}</Menu.Item>
     </Menu>
   );
   return (

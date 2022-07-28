@@ -108,7 +108,10 @@ export const CollectionCreateForm = ({
         <Row justify="center" align="middle">
           <Space direction="vertical">
             <div className="center">
-              <h2 style={{ color: "black" }}>{t("seat")}{ChairId}-{t("seatIsAvailable")}</h2>
+              <h2 style={{ color: "black" }}>
+                {t("seat")}
+                {ChairId}-{t("seatIsAvailable")}
+              </h2>
             </div>
             <Form
               form={form}
@@ -116,6 +119,12 @@ export const CollectionCreateForm = ({
               autoComplete="off"
               initialValues={{
                 modifier: "public",
+              }}
+              labelCol={{
+                span: 5,
+              }}
+              wrapperCol={{
+                span: 19,
               }}
             >
               {isError ? (
@@ -128,7 +137,8 @@ export const CollectionCreateForm = ({
                 label={t("username")}
                 name="username"
                 rules={[{ required: true, message: t("enterUserName") }]}
-              >
+                labelAlign="right"              
+                >
                 <Input placeholder={t("enterUserName")} />
               </Form.Item>
 
@@ -136,6 +146,7 @@ export const CollectionCreateForm = ({
                 label={t("phone")}
                 name="phoneNumber"
                 rules={[{ required: true, message: t("enterPhone") }]}
+                labelAlign="right"
               >
                 <NumericInput
                   value={value}
@@ -153,8 +164,9 @@ export const CollectionCreateForm = ({
                     message: t("enterMail"),
                   },
                 ]}
+                labelAlign="right"
               >
-                <Input placeholder= {t("enterMail")} />
+                <Input placeholder={t("enterMail")} />
               </Form.Item>
               <Form.Item name="index" noStyle>
                 <Input type="hidden"></Input>
@@ -183,7 +195,7 @@ export const CollectionCreateForm = ({
               style={{ background: "#363F4E", color: "white" }}
               size="large"
             >
-            {t("confirm")}
+              {t("confirm")}
             </Button>
             <Button onClick={onCancel} size="large">
               <b>{t("cancel")}</b>
@@ -211,10 +223,10 @@ export const CollectionCreateForm = ({
           form={form}
           name="form_in_modal"
           labelCol={{
-            span: 4,
+            span: 6,
           }}
           wrapperCol={{
-            span: 20,
+            span: 18,
           }}
         >
           <div className="fromcontact">
@@ -237,7 +249,6 @@ export const CollectionCreateForm = ({
                       icon={<WarningOutlined style={{ color: "#FB8C00" }} />}
                       style={{ background: "white" }}
                     />
-
                     <span>{t("seatIsIdle")}</span>
                   </Space>
                 </Col>
@@ -255,7 +266,9 @@ export const CollectionCreateForm = ({
                 </Col>
               </Row>
 
-              <Form.Item label={t("changeStatus")} name="state">
+              <Form.Item label={t("changeStatus")} 
+              name="state" 
+              labelAlign="left">
                 <Radio.Group onChange={onChange} value={chioces}>
                   <Radio value={0}>{t("inUse")}</Radio>
                   <Radio value={1}>{t("available")}</Radio>

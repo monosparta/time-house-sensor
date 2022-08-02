@@ -2,6 +2,7 @@
     "ln": "Language",
     "tw": "中文（zh-tw）",
     "en":"英文（en）",
+    "de":"德語（de）",
     "project": "AI Seat Management System",
     "adminList": "Admin List",
     "logout": "Logout",
@@ -53,4 +54,5 @@
     "sendMail": "Send mail",
     "error":"Error",
     "resetNewPwd":"Reset New Password"
+
 }

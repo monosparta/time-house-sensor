@@ -183,7 +183,7 @@ const Register = () => {
                         color: "white",
                       }}
                     >
-                      <span style={{ fontSize: "1.7vh" }}>{t("signUpNow")} </span>
+                      <span>{t("signUpNow")} </span>
                     </Button>
                   </Form.Item>
                 </Form>

@@ -8,9 +8,11 @@
  */
 import React, { useState,useEffect } from "react";
 import { Input, Tooltip } from "antd";
+import { useTranslation } from "react-i18next";
 const formatNumber = (value) => new Intl.NumberFormat().format(value);
 
 export function NumericInput(props) {
+  const { t } = useTranslation();
   const { style , value, onChange,inputStatus } = props;
         // console.log("?"+value)
     
@@ -34,7 +36,7 @@ export function NumericInput(props) {
         onChange={(e) => {
             onChange(e.target.value.replace(/[^\d.]/g, ""));
             }}
-        placeholder="請輸入連絡電話"
+        placeholder={t("enterPhone")}
          
         maxLength={12}
       />

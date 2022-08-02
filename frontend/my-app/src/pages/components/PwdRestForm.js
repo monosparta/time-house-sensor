@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Row,
-  Modal,
-  Space,
-  Form,
-  Input,
-
-} from "antd";
+import { Button, Row, Modal, Space, Form, Input } from "antd";
+import { useTranslation } from "react-i18next";
 export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
@@ -28,8 +22,8 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
     <Modal
       className="my-modal-class"
       visible={visible}
-      cancelText="　取消　"
-      okText="　確認　"
+      cancelText={t("cancel")}
+      okText={t("confirm")}
       footer={[
         <Space size="middle">
           <Button
@@ -37,74 +31,68 @@ export const PwdRestForm = ({ visible, onFinish, onCancel }) => {
             style={{ background: "#363F4E", color: "white" }}
             size="large"
           >
-            確認
+            {t("confirm")}
           </Button>
           <Button size="large" onClick={onCancel} style={{ color: "#363F4E" }}>
-            <b>取消</b>
+            <b>{t("cancel")}</b>
           </Button>
         </Space>,
       ]}
       onCancel={onCancel}
       closable={false}
     >
-      <Row justify="center" align="middle" style={{display: "flex"}}>
+      <Row justify="center" align="middle" style={{ display: "flex" }}>
         <Space direction="vertical">
           <div className="center">
-            <h2 style={{ color: "black" }}>設定新密碼</h2>
+            <h2 style={{ color: "black" }}>{t("resetNewPwd")}</h2>
           </div>
-          <div >
-          <Form
-            form={form}
-            name="form_in_modal"
-            autoComplete="off"
-            labelCol={{
-              span: 24,
-            }}
-            wrapperCol={{
-              span: 24,
-            }}
-
-          >
-            <Form.Item
-              label="新密碼 Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "請輸入密碼",
-                },
-              ]}
+          <div>
+            <Form
+              form={form}
+              name="form_in_modal"
+              autoComplete="off"
+              labelCol={{
+                span: 24,
+              }}
+              wrapperCol={{
+                span: 24,
+              }}
             >
-              <Input.Password size="large" placeholder="請輸入密碼" />
-            </Form.Item>
-            <Form.Item
-              name="confirm"
-              label="確認密碼 Confirm Password"
-              dependencies={["password"]}
-              rules={[
-                {
-                  required: true,
-                  message: "請輸入確認密碼",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "兩次密碼必須相同"
-                      )
-                    );
+              <Form.Item
+                label={t("newPwd")}
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: t("enterPwd"),
                   },
-                }),
-              ]}
-            >
-              <Input.Password size="large" placeholder="請輸入密碼" />
-            </Form.Item>
-          </Form>
+                ]}
+              >
+                <Input.Password size="large" placeholder={t("enterPwd")} />
+              </Form.Item>
+              <Form.Item
+                name="confirm"
+                label={t("confirmPwd")}
+                dependencies={["password"]}
+                rules={[
+                  {
+                    required: true,
+                    message: t("enterConfirmPwd"),
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error(t("notSamePwd")));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password size="large" placeholder={t("enterConfirmPwd")} />
+              </Form.Item>
+            </Form>
           </div>
-          
         </Space>
       </Row>
     </Modal>

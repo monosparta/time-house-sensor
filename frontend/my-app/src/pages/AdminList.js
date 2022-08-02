@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-06-20 11:43:41
+ * @LastEditTime: 2022-07-28 15:55:03
  * @LastEditors: 20181101remon mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
@@ -16,11 +16,14 @@ import { Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { DeleteFilled } from "@ant-design/icons";
 import PwdRestForm from "./components/PwdRestForm";
+import { useTranslation } from "react-i18next";
 import "./AdminList.css";
+
 const { Column } = Table;
 const { Content } = Layout;
 
 const AdminList = () => {
+  const { t } = useTranslation();
   const [admins, setAdmins] = useState([]);
   const [edit, setEdit] = useState();
   const navigate = useNavigate();
@@ -68,7 +71,6 @@ const AdminList = () => {
     setConfirmDeleteModalVisible(false);
   };
   const handleSubmit = () => {
-    console.log("對對對刪爆他");
     Delete(edit);
   };
   const Delete = (data) => {
@@ -141,7 +143,8 @@ const AdminList = () => {
                   verticalAlign: "middle",
                 }}
               >
-                AdminList
+              {t("adminList")}
+                
               </Col>
               <Col
                 sm={{ span: 4 }}
@@ -159,19 +162,19 @@ const AdminList = () => {
                   size={"large"}
                   style={{ color: "white", background: "#363F4E" }}
                 >
-                  <span style={{ fontSize: "14px" }}>Add</span>
+                  <span style={{ fontSize: "14px" }}>{t("add")}</span>
                 </Button>
               </Col>
             </Row>
             <Table dataSource={admins}>
               <Column
-                title="username"
+                title={t("username")}
                 dataIndex="username"
                 key="name"
                 width="30%"
               />
-              <Column title="mail" dataIndex="mail" key="email" width="30%" />
-              <Column title="role" dataIndex="role" key="role" width="30%" />
+              <Column title={t("mail")} dataIndex="mail" key="email" width="30%" />
+              <Column title={t("role")} dataIndex="role" key="role" width="30%" />
 
               <Column
                 key="action"
@@ -185,7 +188,7 @@ const AdminList = () => {
                       onClick={() => showModal(id, 1)}
                       style={{ background: "#363F4E", color: "white" }}
                     >
-                      <span style={{ fontSize: "14px" }}>Reset PassWord</span>
+                      <span style={{ fontSize: "14px" }}>{t("resetPwd")}</span>
                     </Button>
                     <Button
                       type="link"
@@ -221,16 +224,16 @@ const AdminList = () => {
                 style={{ background: "#363F4E", color: "white" }}
                 size="large"
               >
-                確定
+                {t("confirm")}
               </Button>
               <Button onClick={onCancel} size="large">
-                <b>取消</b>
+                <b> {t("cancel")}</b>
               </Button>
             </Space>,
           ]}
           onCancel={onCancel}
         >
-          <Result status="warning" title="確認要刪除該管理者嗎" />
+          <Result status="warning" title={t("waringDeleteAdmin")} />
         </Modal>
       </div>
     </div>

@@ -1,15 +1,17 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import axios from "../../Axios.config";
-import { notification, Tooltip,message } from "antd";
-import { Form } from "antd"
+import { notification, Tooltip, message } from "antd";
+import { Form } from "antd";
+import { useTranslation } from "react-i18next";
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { CollectionCreateForm } from "./CollectionCreateForm";
 const seatState = require("../utils/seatState");
-const URL=process.env.REACT_APP_BASEURL;
-export const SeatMap = ({ seat,callSeatApi }) => {
+const URL = process.env.REACT_APP_BASEURL;
+export const SeatMap = ({ seat, callSeatApi }) => {
+  const { t } = useTranslation();
   const [isAddSeatModalVisible, setIisAddSeatModalVisible] = useState(false);
   const [isChangeModalVisible, setChangeModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState("");
@@ -18,28 +20,22 @@ export const SeatMap = ({ seat,callSeatApi }) => {
   const [inputStatus, setInputStatus] = useState("");
   const [form] = Form.useForm();
 
-  const setVisible = (which,chair) => {
-    if(which===seatState.AVAILABLE){
+  const setVisible = (which, chair) => {
+    if (which === seatState.AVAILABLE) {
       setIisAddSeatModalVisible(true);
       setSelectedChair(chair);
-    }else{
+    } else {
       setChangeModalVisible(true);
       setSelectedChair(chair);
     }
   };
 
-
   const onFinish = (values, which) => {
-   
-  
     if (which === seatState.AVAILABLE) {
-
-     
-      
-     let data = JSON.stringify({
+      let data = JSON.stringify({
         username: values.username,
         mail: values.mail,
-        phoneNumber:values.phoneNumber,
+        phoneNumber: values.phoneNumber,
       });
 
       var config = {
@@ -50,11 +46,11 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
         data: data,
       };
-      console.log("資料確認"+data);
+      console.log("資料確認" + data);
       axios(config)
         .then(function (response) {
           setError(null);
-          console.log("成功新增使用者資料")
+          console.log("成功新增使用者資料");
           var data = JSON.stringify({
             seat: {
               index: values.index,
@@ -63,15 +59,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             username: values.username,
           });
           setIisAddSeatModalVisible(false);
-          console.log("確認更改座位資料"+data)
+          console.log("確認更改座位資料" + data);
           putSeatState(data);
         })
         .catch(function (err) {
-
-          console.log("新增失敗"+err.response.data.detail)
-            setError(err.response.data.detail)
+          console.log("新增失敗" + err.response.data.detail);
+          setError(err.response.data.detail);
         });
-  
     } else {
       var data = JSON.stringify({
         seat: {
@@ -94,10 +88,10 @@ export const SeatMap = ({ seat,callSeatApi }) => {
 
   const Action = (seat) => {
     var state = seat.state;
-    console.log(seat.no)
+    console.log(seat.no);
     if (state === seatState.USING) {
       notification.open({
-        message: seat.no+"座位狀態為使用中",
+        message: seat.no + t("seatStatusUsing"),
         className: "custom-class",
         icon: <CheckCircleOutlined style={{ color: "#C0E54B" }} />,
         onClick: () => {
@@ -106,7 +100,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
       });
     } else if (state === seatState.ERROR) {
       notification.open({
-        message: seat.no+" 座位狀態為異常",
+        message: seat.no + t("seatStateError"),
         className: "custom-class",
         icon: <ExclamationCircleOutlined style={{ color: "#FF5A5A" }} />,
         style: {
@@ -117,7 +111,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         },
       });
     } else if (state === seatState.AVAILABLE) {
-      setVisible(1,seat);
+      setVisible(1, seat);
     } else if (state === seatState.IDLE_TOO_LONG) {
       console.log("我要得到使用者資料" + seat.memberId);
       axios
@@ -132,14 +126,13 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         .then(function (res) {
           setSelecteduser(res.data.member);
           form.setFieldsValue({
-            username:res.data.member.name
-         });
+            username: res.data.member.name,
+          });
         })
         .catch(function (error) {
           console.log(error.data.detail);
         });
-      setVisible(2,seat);
-  
+      setVisible(2, seat);
     }
   };
 
@@ -154,18 +147,15 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     };
     axios(config)
       .then(function (response) {
-       
         callSeatApi();
       })
       .catch(function (error) {
-        message.error('更改座位狀態失敗');
+        message.error(t("changeStateFail"));
         console.log(error);
-  
       });
   };
 
   return (
-    
     <div
       style={{
         alignItems: "center",
@@ -176,7 +166,9 @@ export const SeatMap = ({ seat,callSeatApi }) => {
     >
       <Tooltip
         title={
-          seat.state === seatState.IDLE_TOO_LONG ? "已閒置 " + seat.idleMinutes + " 分鐘" : undefined
+          seat.state === seatState.IDLE_TOO_LONG
+            ? t("idle") + seat.idleMinutes + t("min")
+            : undefined
         }
         color={"#5F5A60"}
       >
@@ -192,7 +184,8 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             key={seat.id}
             className="chair"
             src={
-              URL + "/api/static/img/seats/" +
+              URL +
+              "/api/static/img/seats/" +
               seat.id +
               ".png?date=" +
               new Date()
@@ -201,7 +194,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
             onClick={() => Action(seat)}
           />
         )}
-      
+
         {seat.id === 4 || seat.id === 1 || seat.id === 2 || seat.id === 3 ? (
           <div>
             <br />
@@ -218,7 +211,7 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         ) : (
           ""
         )}
-         {seat.id === 5 || seat.id === 6 || seat.id === 7 ? (
+        {seat.id === 5 || seat.id === 6 || seat.id === 7 ? (
           <div>
             <br />
           </div>
@@ -227,33 +220,30 @@ export const SeatMap = ({ seat,callSeatApi }) => {
         )}
       </Tooltip>
 
+      <CollectionCreateForm
+        visible={isAddSeatModalVisible}
+        onFinish={(e) => onFinish(e, 1)}
+        onCancel={() => onCancel(1)}
+        whichModal={1}
+        chairInfo={selectedChair}
+        member={""}
+        isError={isError}
+        setError={setError}
+        inputStatus={inputStatus}
+        setInputStatus={setInputStatus}
+      />
 
       <CollectionCreateForm
-          visible={isAddSeatModalVisible}
-          onFinish={(e) => onFinish(e, 1)}
-          onCancel={() => onCancel(1)}
-          whichModal={1}
-          chairInfo={selectedChair}
-          member={""}
-          isError={isError}
-          setError={setError}
-          inputStatus={inputStatus}
-          setInputStatus={setInputStatus}
-        
-        />
-  
-        <CollectionCreateForm
-          visible={isChangeModalVisible}
-          onFinish={(e) => onFinish(e, 2)}
-          onCancel={() => onCancel(2)}
-          whichModal={2}
-          chairInfo={selectedChair}
-          member={selecteduser}
-          isError={isError}
-          inputStatus={inputStatus}
-        />
+        visible={isChangeModalVisible}
+        onFinish={(e) => onFinish(e, 2)}
+        onCancel={() => onCancel(2)}
+        whichModal={2}
+        chairInfo={selectedChair}
+        member={selecteduser}
+        isError={isError}
+        inputStatus={inputStatus}
+      />
     </div>
-     
   );
 };
 

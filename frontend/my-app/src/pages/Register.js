@@ -68,9 +68,9 @@ const Register = () => {
           md={{ span: 16 }}
           lg={{ span: 16 }}
         >
-          <div class="box">
-            <div class="content">
-              <div class="form">
+          <div className="box">
+            <div className="content">
+              <div className="form">
                 <h1>{t("signUp")}</h1>
                 <Form
                   name="basic"

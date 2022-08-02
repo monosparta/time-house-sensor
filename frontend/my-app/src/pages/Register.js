@@ -68,9 +68,9 @@ const Register = () => {
           md={{ span: 16 }}
           lg={{ span: 16 }}
         >
-          <div class="box">
-            <div class="content">
-              <div class="form">
+          <div className="box">
+            <div className="content">
+              <div className="form">
                 <h1>{t("signUp")}</h1>
                 <Form
                   name="basic"
@@ -183,7 +183,7 @@ const Register = () => {
                         color: "white",
                       }}
                     >
-                      <span style={{ fontSize: "1.7vh" }}>{t("signUpNow")} </span>
+                      <span>{t("signUpNow")} </span>
                     </Button>
                   </Form.Item>
                 </Form>

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelector, loginUser, clearState } from "../features/userSlice";
+import { useTranslation } from "react-i18next";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const { t } = useTranslation();
   const [inputStatus, setInputStatus] = useState("");
-
   const {  usernameOrMail, password } = useSelector(userSelector);
   const { isFetching, isSuccess, isError, errorMessage } =
     useSelector(userSelector);
@@ -52,7 +53,7 @@ const Login = () => {
           <div className="box">
             <div className="logo">
               <h2 style={{ color: "white", display: "block" }}>
-                高階智能座位管理系統
+              {t("project")}
               </h2>
               <img src={"../image/logo.png"} alt="logo"></img>
             </div>
@@ -64,10 +65,10 @@ const Login = () => {
           md={{ span: 16 }}
           lg={{ span: 16 }}
         >
-          <div class="box">
-            <div class="content">
-              <div class="form">
-                <h1>Sign in</h1>
+          <div className="box">
+            <div className="content">
+              <div className="form">
+                <h1>  {t("signIn")}</h1>
                 <Form
                   name="basic"
                   labelCol={{
@@ -90,7 +91,7 @@ const Login = () => {
                   ) : null}
 
                   <Form.Item
-                    label="帳號 UserName or Email"
+                    label={t("account")}
                     name="usernameOrMail"
                     value={usernameOrMail}
                     rules={[
@@ -103,11 +104,11 @@ const Login = () => {
                     <Input
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入帳號"
+                      placeholder={t("enterAccount")}
                     />
                   </Form.Item>
                   <Form.Item
-                    label="密碼 Password"
+                    label={t("pwd")}
                     name="password"
                     value={password}
                     rules={[
@@ -120,11 +121,11 @@ const Login = () => {
                     <Input.Password
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入密碼"
+                      placeholder={t("enterPwd")}
                     />
                   </Form.Item>
                   <Form.Item valuePropName="checked" offset="1">
-                    <Checkbox className="checkbox-red">保持登入</Checkbox>
+                    <Checkbox className="checkbox-red">{t("keepSignIn")}</Checkbox>
                   </Form.Item>
                   <Form.Item>
                     <Button
@@ -141,7 +142,7 @@ const Login = () => {
                         
                       }}
                     >
-                     立即登入
+                     {t("signInNow")}
                     </Button>
                   </Form.Item>
                 </Form>

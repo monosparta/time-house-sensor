@@ -106,9 +106,11 @@ img {
   font-size: 14px;
   line-height: 1.5715;
   word-wrap: break-word;
-  margin-top: 10vh;
-}
 
+}
+.ant-btn-link {
+  color: #E9E9E9;
+}
 hr {
 
   border: 0.5px solid rgb(0 0 0 / 12%);

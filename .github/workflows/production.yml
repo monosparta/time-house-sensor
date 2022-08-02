@@ -65,7 +65,6 @@ jobs:
           echo MSC_API_TOKEN=${{ secrets.MSC_API_TOKEN }} >> ./backend/.env
       - run: npm --prefix ./backend test
       - run: rsync -rvz --exclude=node_modules -e 'ssh' ./backend/ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.BACKEND_DEPLOY_PATH }}
-      - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm run db:refresh-members --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
       - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "npm ci --prefix ${{ secrets.BACKEND_DEPLOY_PATH }}"
       - run: ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "pm2 restart Backend"
 

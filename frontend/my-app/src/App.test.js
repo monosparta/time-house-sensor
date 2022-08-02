@@ -18,6 +18,6 @@ test("renders default page", () => {
       <App />
     </Provider>
   );
-  const linkElement = screen.getByText(/立即登入/i);
+  const linkElement = screen.getByText(/u/i);
   expect(linkElement).toBeInTheDocument();
 });

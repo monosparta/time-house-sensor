@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Alert } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "../Axios.config";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 const Register = () => {
+  const { t } = useTranslation();
   const [inputStatus, setInputStatus] = useState("");
   const [isError, setError] = useState(null);
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Register = () => {
         <div className="box">
             <div className="logo">
               <h2 style={{ color: "white", display: "block" }}>
-                高階智能座位管理系統
+                {t("project")}
               </h2>
               <img src={"../image/logo.png"} alt="logo"></img>
             </div>
@@ -67,10 +68,10 @@ const Register = () => {
           md={{ span: 16 }}
           lg={{ span: 16 }}
         >
-          <div class="box">
-            <div class="content">
-              <div class="form">
-                <h1>Sign up</h1>
+          <div className="box">
+            <div className="content">
+              <div className="form">
+                <h1>{t("signUp")}</h1>
                 <Form
                   name="basic"
                   labelCol={{
@@ -92,7 +93,7 @@ const Register = () => {
                    <><Alert message={isError} type="error" showIcon /><br/></> 
                   ) : null}
                   <Form.Item
-                    label="名稱 UserName"
+                    label={t("username")}
                     name="name"
                     rules={[
                       {
@@ -104,14 +105,14 @@ const Register = () => {
                     <Input
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入名稱"
+                      placeholder={t("enterUserName")}
                     />
                   </Form.Item>
                   <Form.Item
-                    label="信箱 Mail"
+                    label={t("mail")}
                     name="mail"
                     rules={[
-                      { type: "email", message: "請輸入有效的郵件地址" },
+                      { type: "email", message: t("enterValidMail") },
                       {
                         required: true,
                         message: "",
@@ -121,33 +122,33 @@ const Register = () => {
                     <Input
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入信箱"
+                      placeholder={t("enterMail")}
                     />
                   </Form.Item>
                   <Form.Item
-                    label="密碼 Password"
+                    label={t("pwd")}
                     name="password"
                     rules={[
                       {
                         required: true,
-                        message: "請輸入密碼",
+                        message: t("enterPwd"),
                       },
                     ]}
                   >
                     <Input.Password
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入密碼"
+                      placeholder={t("enterPwd")}
                     />
                   </Form.Item>
                   <Form.Item
                     name="confirm"
-                    label="確認密碼 Confirm Password"
+                    label={t("confirmPwd")}
                     dependencies={["password"]}
                     rules={[
                       {
                         required: true,
-                        message: "請輸入確認密碼",
+                        message: t("enterConfirmPwd"),
                       },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
@@ -156,7 +157,7 @@ const Register = () => {
                           }
                           return Promise.reject(
                             new Error(
-                              "兩次輸入的密碼需要一致！"
+                             t("notSamePwd")
                             )
                           );
                         },
@@ -166,7 +167,7 @@ const Register = () => {
                     <Input.Password
                       size="large"
                       status={inputStatus}
-                      placeholder="請輸入密碼"
+                      placeholder={t("enterConfirmPwd")}
                     />
                   </Form.Item>
 
@@ -182,7 +183,7 @@ const Register = () => {
                         color: "white",
                       }}
                     >
-                      <span style={{ fontSize: "1.7vh" }}>立即註冊 </span>
+                      <span>{t("signUpNow")} </span>
                     </Button>
                   </Form.Item>
                 </Form>

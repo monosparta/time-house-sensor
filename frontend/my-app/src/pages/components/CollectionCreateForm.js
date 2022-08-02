@@ -16,7 +16,7 @@ import { UserOutlined, WarningOutlined } from "@ant-design/icons";
 
 import { SendMail } from "./SendMail";
 import { NumericInput } from "./NumericInput";
-const { Option } = Select;
+import { useTranslation } from "react-i18next";
 export const CollectionCreateForm = ({
   visible,
   onFinish,
@@ -29,6 +29,7 @@ export const CollectionCreateForm = ({
   setInputStatus,
   setError,
 }) => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({
@@ -41,37 +42,32 @@ export const CollectionCreateForm = ({
   const [chioces, SetChioces] = useState(1);
   const [value, setValue] = useState(null);
 
-   
-
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     SetChioces(e.target.value);
   };
 
-
   const handleSubmit = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log("A"+values);
-    
+        console.log("A" + values);
         console.log(values);
-          if( whichModal===1){
-            if (values.phoneNumber.length < 12) {
-              setError("請輸入有效的電話號碼");
-              setInputStatus("error");
-              return 0;
-             
-            }
-            console.log(values.phoneNumber.substr(0,4))
-            if(values.phoneNumber.substr(0,4)!=="8869"){
-              setError("請輸入有效的電話號碼");
-              setInputStatus("error");
-              return 0;
-            }
+        if (whichModal === 1) {
+          if (values.phoneNumber.length < 12) {
+            setError(t("enterValidPhone"));
+            setInputStatus("error");
+            return 0;
           }
+          console.log(values.phoneNumber.substr(0, 4));
+          if (values.phoneNumber.substr(0, 4) !== "8869") {
+            setError(t("enterValidPhone"));
+            setInputStatus("error");
+            return 0;
+          }
+        }
 
-        onFinish(values); 
+        onFinish(values);
         form.resetFields();
       })
       .catch((info) => {
@@ -86,8 +82,8 @@ export const CollectionCreateForm = ({
       <Modal
         className="my-modal-class"
         visible={visible}
-        cancelText="　取消　"
-        okText="　確認　"
+        cancelText={t("cancel")}
+        okText={t("confirm")}
         footer={[
           <Space size="middle">
             <Button
@@ -95,24 +91,27 @@ export const CollectionCreateForm = ({
               style={{ background: "#363F4E", color: "white" }}
               size="large"
             >
-              確認
+              {t("confirm")}
             </Button>
             <Button
               size="large"
               onClick={onCancel}
               style={{ color: "#363F4E" }}
             >
-              <b>取消</b>
+              <b>{t("cancel")}</b>
             </Button>
-          </Space>
+          </Space>,
         ]}
         onCancel={onCancel}
         closable={false}
       >
         <Row justify="center" align="middle">
-          <Space direction="vertical" >
+          <Space direction="vertical">
             <div className="center">
-              <h2 style={{ color: "black" }}>座位{ChairId}-目前為可使用座位</h2>
+              <h2 style={{ color: "black" }}>
+                {t("seat")}
+                {ChairId}-{t("seatIsAvailable")}
+              </h2>
             </div>
             <Form
               form={form}
@@ -121,56 +120,53 @@ export const CollectionCreateForm = ({
               initialValues={{
                 modifier: "public",
               }}
+              labelCol={{
+                span: 5,
+              }}
+              wrapperCol={{
+                span: 19,
+              }}
             >
               {isError ? (
-                   <><Alert message={isError} type="error" showIcon /><br/></> 
-                  ) : null}
+                <>
+                  <Alert message={isError} type="error" showIcon />
+                  <br />
+                </>
+              ) : null}
               <Form.Item
-                label="名　　稱"
+                label={t("username")}
                 name="username"
-                rules={[{ required: true, message: "請輸入使用者名稱" }]}
-              >
-                <Input placeholder="請輸入名稱" />
+                rules={[{ required: true, message: t("enterUserName") }]}
+                labelAlign="right"              
+                >
+                <Input placeholder={t("enterUserName")} />
               </Form.Item>
-          
-              <Form.Item 
-                label="電話號碼"
-                name="phoneNumber"
-                rules={[{ required: true, message: "請輸入連絡電話" },
-                  // ({ getFieldValue }) => ({
-                  //   validator(_, value) {
-                  //       if (
-                  //       (/^886\d{9}$/.test(value) && value.length === 12)
-                  //     ) {
-                  //       return Promise.resolve();
-                  //     } else if (value.length <= 12) {
-                  //       return Promise.resolve(); 
-                  //     }else if (value == "") {
-                  //       return Promise.resolve(); 
-                  //     }
-                  //     return Promise.reject(new Error("請輸入有效的電話號碼"));
-                  //   },
-                  // }),
-                ]}
-                  > 
-                    <NumericInput  
-                      value={value}
-                      onChange={setValue}
-                      inputStatus={inputStatus}
-                    />
-                  </Form.Item>  
+
               <Form.Item
-                label="聯絡信箱"
+                label={t("phone")}
+                name="phoneNumber"
+                rules={[{ required: true, message: t("enterPhone") }]}
+                labelAlign="right"
+              >
+                <NumericInput
+                  value={value}
+                  onChange={setValue}
+                  inputStatus={inputStatus}
+                />
+              </Form.Item>
+              <Form.Item
+                label={t("mail")}
                 name="mail"
                 rules={[
-                  { type: "email", message: "格式錯誤，請重新輸入!!" },
+                  { type: "email", message: t("formatError") },
                   {
                     required: true,
-                    message: "請輸入聯絡的郵件地址",
+                    message: t("enterMail"),
                   },
                 ]}
+                labelAlign="right"
               >
-                <Input placeholder="請輸入聯絡信箱" />
+                <Input placeholder={t("enterMail")} />
               </Form.Item>
               <Form.Item name="index" noStyle>
                 <Input type="hidden"></Input>
@@ -180,15 +176,15 @@ export const CollectionCreateForm = ({
         </Row>
       </Modal>
     );
-  }else {
+  } else {
     // 表單二，閒置位置
-   
+
     return (
       <Modal
         closable={false}
         visible={visible}
-        okText="確認"
-        cancelText="取消"
+        okText={t("confirm")}
+        cancelText={t("cancel")}
         width={500}
         className="my-modal-class"
         cancelButtonProps={true}
@@ -199,10 +195,10 @@ export const CollectionCreateForm = ({
               style={{ background: "#363F4E", color: "white" }}
               size="large"
             >
-              確定
+              {t("confirm")}
             </Button>
             <Button onClick={onCancel} size="large">
-              <b>取消</b>
+              <b>{t("cancel")}</b>
             </Button>
           </Space>,
         ]}
@@ -210,15 +206,15 @@ export const CollectionCreateForm = ({
       >
         <Row>
           <Col span={24}>
-            <h3>更新座位</h3>
-            <h4>使用者資訊</h4>
+            <h3>{t("updateSeat")}</h3>
+            <h4>{t("userInfo")}</h4>
             <hr />
           </Col>
         </Row>
         <SendMail sendMail={member} />
         <Row>
           <Col span={24}>
-            <h4>座位資訊</h4>
+            <h4>{t("seatInfo")}</h4>
             <hr />
           </Col>
         </Row>
@@ -227,10 +223,10 @@ export const CollectionCreateForm = ({
           form={form}
           name="form_in_modal"
           labelCol={{
-            span: 4,
+            span: 6,
           }}
           wrapperCol={{
-            span: 20,
+            span: 18,
           }}
         >
           <div className="fromcontact">
@@ -253,8 +249,7 @@ export const CollectionCreateForm = ({
                       icon={<WarningOutlined style={{ color: "#FB8C00" }} />}
                       style={{ background: "white" }}
                     />
-
-                    <span>座位目前閒置中</span>
+                    <span>{t("seatIsIdle")}</span>
                   </Space>
                 </Col>
               </Row>
@@ -263,21 +258,22 @@ export const CollectionCreateForm = ({
                 <Col span={24}>
                   <Space>
                     <Avatar shape="square" icon={<UserOutlined />} />
-                    <span>座位剩餘時間</span>
+                    <span>{t("seatIdleTime")}</span>
                     <span style={{ color: "rgba(0, 0, 0, 0.6)" }}>
                       {chairInfo.idleMinutes} min
                     </span>
                   </Space>
                 </Col>
               </Row>
-          
 
-            <Form.Item label="狀態更改" name="state">
-              <Radio.Group onChange={onChange} value={chioces}>
-                <Radio value={0}>使用中</Radio>
-                <Radio value={1}>可使用</Radio>
-              </Radio.Group>
-            </Form.Item>
+              <Form.Item label={t("changeStatus")} 
+              name="state" 
+              labelAlign="left">
+                <Radio.Group onChange={onChange} value={chioces}>
+                  <Radio value={0}>{t("inUse")}</Radio>
+                  <Radio value={1}>{t("available")}</Radio>
+                </Radio.Group>
+              </Form.Item>
             </Space>
             <Form.Item name="index" noStyle rules={[{ required: true }]}>
               <Input type="hidden"></Input>

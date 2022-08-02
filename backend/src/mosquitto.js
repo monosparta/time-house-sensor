@@ -31,6 +31,7 @@ client.on("connect", () => {
 client.on("message", (topic, payload) => {
   payload = JSON.parse(payload);
   try {
+    logger.info(payload);
     if (topic === "IR") {
       mqttController.IRHandler(payload);
     } else if (topic === "RFID") {

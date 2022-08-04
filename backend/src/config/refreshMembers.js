@@ -2,7 +2,7 @@ require("dotenv").config();
 const db = require("../models/index");
 const https = require("https");
 
-var membersStr = "";
+let membersStr = "";
 
 const getLocation = () => {
   const req = https.request(

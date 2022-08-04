@@ -1,5 +1,5 @@
 const grpc = require("@grpc/grpc-js");
-var protoLoader = require("@grpc/proto-loader");
+const protoLoader = require("@grpc/proto-loader");
 const protoPath = "./src/services/grpc/SeatDrawer.proto";
 const md = new grpc.Metadata();
 const options = {

@@ -172,7 +172,7 @@ const findMemberData = async (memberlineId) => {
   return member;
 };
 const searchMemberLevel = async (lineId) => {
-  admins = await db["Members"].findOne({
+  const admins = await db["Members"].findOne({
     where: { lineId: lineId },
   });
   return admins === null ? 1 : 0;

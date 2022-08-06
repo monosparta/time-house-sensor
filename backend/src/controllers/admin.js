@@ -45,7 +45,8 @@ const addAdmin = async (req, res) => {
         detail: "信箱重複",
       });
     }
-
+    
+    await memberService.addAdmin(body);
     return res.status(201).json({
       detail: "新增成功",
     });

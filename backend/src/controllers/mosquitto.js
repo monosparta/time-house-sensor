@@ -22,7 +22,6 @@ const IRHandler = async ({ index, seatUseState, time }) => {
       seat.memberId
     );
     lineDev.pushAdminMessage(index);
-    return;
   } else if (seatUseState === 1) {
     seatService.updateSeatState(
       index,

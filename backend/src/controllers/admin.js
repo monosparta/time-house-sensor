@@ -3,7 +3,7 @@ const seatProperties = require("../utils/seat");
 const memberProperties = require("../utils/member");
 const logger = require("../utils/logger");
 
-const getAllAdmins = async (req, res) => {
+const getAllAdmins = async (_req, res) => {
   try {
     const admins = await memberService.getAllAdmins();
 
@@ -46,7 +46,6 @@ const addAdmin = async (req, res) => {
       });
     }
 
-    const admin = await memberService.addAdmin(body);
     return res.status(201).json({
       detail: "新增成功",
     });
@@ -68,7 +67,7 @@ const updateAdmin = async (req, res) => {
       });
     }
 
-    const [result, errorMessage] = await memberService.updateAdmin({ id: id, ...body });
+    const [_result, errorMessage] = await memberService.updateAdmin({ id: id, ...body });
     if(errorMessage) {
       return res.status(404).json({
         detail: "該人物並不存在，或非管理者"
@@ -95,7 +94,7 @@ const removeAdmin = async (req, res) => {
       });
     }
 
-    const [result, err] = await memberService.destroyAdmin(id);
+    const [_result, err] = await memberService.destroyAdmin(id);
     if (err) {
       return res.status(404).json({
         detail: err.message,
@@ -138,7 +137,7 @@ const addMember = async (req, res) => {
       });
     }
 
-    const [member, created] = await memberService.addMember(
+    const [_member, created] = await memberService.addMember(
       body.username,
       body.mail,
       body.phoneNumber,

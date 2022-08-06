@@ -47,7 +47,7 @@ const RFIDHandler = async ({ index, cardId, time }) => {
   );
 };
 
-const errorHandler = async ({ index, errorMessage, sensorName, time }) => {
+const errorHandler = async ({ index, _errorMessage, _sensorName, time }) => {
   const utcFormatTime = time.split(" ")[0] + "T" + time.split(" ")[1] + ".000Z";
   seatService.updateSeatState(
     index,

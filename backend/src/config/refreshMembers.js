@@ -24,7 +24,6 @@ const getMembers = (location) => {
       membersStr += data;
     });
     memberRes.on("end", async () => {
-      // console.log(membersStr);
       const htmlIndex = membersStr.indexOf("<HTML>");
       const substr = membersStr.substring(
         0,

@@ -67,7 +67,7 @@ class Seat:
 
 
 # draw the seats in web & line
-def drawSeat(seat):
+def draw_seat(seat):
     lineSeat, webSeat = [], []
     if seat["state"] == Seat.error:
         lineSeat = Seat.lineErrorSeat.copy()
@@ -130,7 +130,7 @@ while True:
         for i in range(len(curSeatsState)):
             if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
                 seat = curSeatsState[i]
-                lineSeat, webSeat = drawSeat(seat)
+                lineSeat, webSeat = draw_seat(seat)
 
                 # just save web seat in backend/public/img/seats
                 webSeat.save(imgDesDir + str(seat["id"]) + ".png")

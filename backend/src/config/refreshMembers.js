@@ -76,15 +76,15 @@ const refreshDBMembers = async (members) => {
     } catch (err) {}
   }
 
-  const allDBMembers = await db["Members"].findAll({ where: { level: 1 } });
-  for (let dbMember of allDBMembers) {
-    if (
-      new Date().getTime() - dbMember.dataValues.updatedAt.getTime() >
-      1000 * 60
-    ) {
-      await dbMember.destroy();
-    }
-  }
+  // const allDBMembers = await db["Members"].findAll({ where: { level: 1 } });
+  // for (let dbMember of allDBMembers) {
+  //   if (
+  //     new Date().getTime() - dbMember.dataValues.updatedAt.getTime() >
+  //     1000 * 60
+  //   ) {
+  //     await dbMember.destroy();
+  //   }
+  // }
 };
 
 getLocation();

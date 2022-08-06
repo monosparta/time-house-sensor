@@ -10,7 +10,7 @@ const updateSeatState = async (
   if (state === seatProperties.state.AVAILABLE) {
     memberId = null;
   }
-  const seat = await db["Seats"].update(
+  await db["Seats"].update(
     { state: state, stateChangedAt: stateChangedAt, memberId: memberId},
     { where: { id: index } }
   );

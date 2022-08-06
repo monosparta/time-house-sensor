@@ -11,7 +11,7 @@ mysql
     password: process.env.DB_PASSWORD,
   })
   .then((connection) => {
-    connection.query(`CREATE DATABASE IF NOT EXISTS ${dbName};`).then((res) => {
+    connection.query(`CREATE DATABASE IF NOT EXISTS ${dbName};`).then((_res) => {
       console.info("Database create or successfully checked");
       process.exit(0);
     });

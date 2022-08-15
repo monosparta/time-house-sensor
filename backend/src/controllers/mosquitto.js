@@ -9,10 +9,10 @@ const logger = require("../utils/logger");
  */
 const IRHandler = async ({ index, seatUseState, time }) => {
   const seat = await seatService.getOneSeatInfo(index);
+  if (seat.state === seatProperty.state.AVAILABLE) {
+    return;
+  }
   if (seatUseState === 0) {
-    if (seat.state === seatProperty.state.AVAILABLE) {
-      return;
-    }
     const utcFormatTime =
       time.split(" ")[0] + "T" + time.split(" ")[1] + ".000Z";
     seatService.updateSeatState(

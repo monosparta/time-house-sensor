@@ -2,7 +2,7 @@ const { seatService } = require("../services/");
 const logger = require("../utils/logger");
 
 
-const getAllSeatInfo = async (req, res) => {
+const getAllSeatInfo = async (_req, res) => {
   try {
     const seats = await seatService.getAllSeatInfo();
     return res.status(200).json({

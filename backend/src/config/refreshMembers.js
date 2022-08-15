@@ -2,7 +2,7 @@ require("dotenv").config();
 const db = require("../models/index");
 const https = require("https");
 
-var membersStr = "";
+let membersStr = "";
 
 const getLocation = () => {
   const req = https.request(
@@ -24,7 +24,6 @@ const getMembers = (location) => {
       membersStr += data;
     });
     memberRes.on("end", async () => {
-      // console.log(membersStr);
       const htmlIndex = membersStr.indexOf("<HTML>");
       const substr = membersStr.substring(
         0,
@@ -76,15 +75,15 @@ const refreshDBMembers = async (members) => {
     } catch (err) {}
   }
 
-  const allDBMembers = await db["Members"].findAll({ where: { level: 1 } });
-  for (let dbMember of allDBMembers) {
-    if (
-      new Date().getTime() - dbMember.dataValues.updatedAt.getTime() >
-      1000 * 60
-    ) {
-      await dbMember.destroy();
-    }
-  }
+  // const allDBMembers = await db["Members"].findAll({ where: { level: 1 } });
+  // for (let dbMember of allDBMembers) {
+  //   if (
+  //     new Date().getTime() - dbMember.dataValues.updatedAt.getTime() >
+  //     1000 * 60
+  //   ) {
+  //     await dbMember.destroy();
+  //   }
+  // }
 };
 
 getLocation();

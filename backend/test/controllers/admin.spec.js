@@ -146,15 +146,6 @@ describe("POST /api/auth/isAdmin/addUser", () => {
     expect(res.statusCode).toEqual(422);
   });
 
-  it("send all body para, but malformed phone", async () => {
-    const res = await request(app)
-      .post("/api/auth/isAdmin/addUser")
-      .set({ authorization: "Bearer " + token })
-      .send({ username: "Zzz", mail: "123@mail.com", phoneNumber: "0977765" });
-
-    expect(res.statusCode).toEqual(422);
-  });
-
   it("with duplicated mail", async () => {
     const res = await request(app)
       .post("/api/auth/isAdmin/addUser")

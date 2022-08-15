@@ -77,24 +77,23 @@ const getMemberInfoById = async (id) => {
 };
 
 const getMemberInfoByMail = async (mail) => {
-  const result = await db["Members"].findOne({
+  return await db["Members"].findOne({
     where: {
       mail: mail,
     },
   });
-  return result;
 };
 
 const getMemberInfoByUsernameOrMail = async (usernameOrMail) => {
   if (typeof usernameOrMail !== "string") {
     throw new TypeError("UsernameOrMail must be a string");
   }
-  const result = await db["Members"].findOne({
+
+  return await db["Members"].findOne({
     where: {
       [Op.or]: [{ name: usernameOrMail }, { mail: usernameOrMail }],
     },
   });
-  return result;
 };
 
 const getMemberInfoByCardId = async (cardId) => {
@@ -129,12 +128,12 @@ const checkMemberExistsByUsernameOrMail = async (usernameOrMail) => {
   if (typeof usernameOrMail !== "string") {
     throw new TypeError("Username must be a string");
   }
-  const result = await db["Members"].findOne({
+
+  return await db["Members"].findOne({
     where: {
       [Op.or]: [{ name: usernameOrMail }, { mail: usernameOrMail }],
     },
   });
-  return result;
 };
 
 const checkMemberExistsById = async (id) => {

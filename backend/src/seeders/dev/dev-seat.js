@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface, _Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -99,7 +99,7 @@ module.exports = {
     );
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(_queryInterface, _Sequelize) {
     /**
      * Add commands to revert seed here.
      *

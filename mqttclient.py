@@ -18,22 +18,22 @@ cntIdleTime=0
 cntUseTime=0
 notificationState=0
 nowState=[]
-def RFID_MQTT(cardId):
+def PN532_MQTT(cardId):
     now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'cardId':cardId,'index':config.SEAT_INDEX}
     return payload
 
-def IR_MQTT(seatState):
+def LD_MQTT(seatState):
     now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'seatUseState':seatState,'index':config.SEAT_INDEX}
     return payload
-
+'''
 def Error(sensorName):
     now='%04d-%02d-%02d %02d:%02d:%02d' %(time.localtime()[0],time.localtime()[1],time.localtime()[2],time.localtime()[3],time.localtime()[4],time.localtime()[5])
     payload={'time':now,'errorMessage':"sensor error",'sensorName':sensorName,'index':config.SEAT_INDEX}
     return payload
-
-def detectsensor(client):
+'''
+def Detectsensor(client):
     global cntUseTime,cntIdleTime,notificationState,nowState,oldCard,cntSecondIdleTime,cntSecondUseTime
     client.connect(False)
     (userCardId,useStat)=readPn532.readPn532()
@@ -42,12 +42,13 @@ def detectsensor(client):
         cntSecondUseTime=cntSecondUseTime+1
     else:
         cntSecondIdleTime=cntSecondIdleTime+1
+    '''
     if(useStat==2):
         if(client.connect()=="error"):
             savedata.deleteRepeat("Error,")
-            savedata.write("Error",json.dumps(Error("RFID")))
+            savedata.write("Error",json.dumps(Error("PN532")))
         else:
-            client.publish("Error", json.dumps(Error("RFID")))
+            client.publish("Error", json.dumps(Error("PN532")))
         oldCard=""
         cntSecondIdleTime=0
         cntSecondUseTime=0
@@ -56,16 +57,17 @@ def detectsensor(client):
         notificationState=0
         nowState=[]
         print("Error Topic")
+    '''
     if(useStat==0):
         if(oldCard!=userCardId):
             nowState=[]
             notificationState=0
             if(client.connect()=="error"):
-                savedata.deleteRepeat("RFID,")
-                savedata.write("RFID",json.dumps(RFID_MQTT(userCardId)))
+                savedata.deleteRepeat("PN532,")
+                savedata.write("PN532",json.dumps(PN532_MQTT(userCardId)))
             else:
-                client.publish("RFID", json.dumps(RFID_MQTT(userCardId)))
-            print("RFID Topic")
+                client.publish("PN532", json.dumps(PN532_MQTT(userCardId)))
+            print("PN532 Topic")
             oldCard=userCardId
     if((cntSecondUseTime+cntSecondIdleTime)==10):
         if(cntSecondUseTime>4):
@@ -90,22 +92,22 @@ def detectsensor(client):
             notificationState=0
             nowState=[]
             if(client.connect()=="error"):
-                savedata.write("IR",json.dumps(IR_MQTT(1)))
+                savedata.write("LD",json.dumps(LD_MQTT(1)))
             else:
-                client.publish("IR", json.dumps(IR_MQTT(1)))
-            print("IR Topic 1")
+                client.publish("LD", json.dumps(LD_MQTT(1)))
+            print("LD Topic 1")
     if(len(nowState)==30):
         computeThirtyUse=nowState.count(0)
         if(notificationState==0 and computeThirtyUse>=27 ):
             notificationState=1
             if(client.connect()=="error"):
-                savedata.write("IR",json.dumps(IR_MQTT(0)))
+                savedata.write("LD",json.dumps(LD_MQTT(0)))
             else:
-                client.publish("IR", json.dumps(IR_MQTT(0)))
-            print("IR Topic 0")
+                client.publish("LD", json.dumps(LD_MQTT(0)))
+            print("LD Topic 0")
     print(seatState)
     print(nowState)
-def wificonnect(client):
+def WifiConnect(client):
     sta = network.WLAN(network.STA_IF)
     print('connecting to network...')
     sta.active(True)
@@ -117,7 +119,7 @@ def wificonnect(client):
             ntptime.settime()
             if(sta.isconnected()):
                 try:
-                    detectsensor(client)
+                    Detectsensor(client)
                     client.check_msg()
                     data=saveData.read()
                     for i in data:
@@ -127,11 +129,11 @@ def wificonnect(client):
                     client.connect(False)
             else:
                 try:
-                    detectsensor(client)
+                    Detectsensor(client)
                     client.check_msg()
                 except OSError as e:
                     client.connect(False)
             time.sleep(1)
         except:
             pass
-wificonnect(client)
+WifiConnect(client)

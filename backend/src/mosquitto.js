@@ -3,7 +3,7 @@ const mqtt = require("mqtt");
 const mqttController = require("./controllers/mosquitto");
 const logger = require("./utils/logger");
 
-let topics = { IR: { qos: 2 }, RFID: { qos: 2 }, Error: { qos: 2 } };
+let topics = { LD: { qos: 2 }, PN532: { qos: 2 }, Error: { qos: 2 } };
 let client = mqtt.connect(
   "mqtt://" + process.env.MQTT_HOST + ":" + process.env.MQTT_PORT,
   {
@@ -32,10 +32,10 @@ client.on("message", (topic, payload) => {
   payload = JSON.parse(payload);
   try {
     logger.info(payload);
-    if (topic === "IR") {
-      mqttController.IRHandler(payload);
-    } else if (topic === "RFID") {
-      mqttController.RFIDHandler(payload);
+    if (topic === "LD") {
+      mqttController.LDHandler(payload);
+    } else if (topic === "PN532") {
+      mqttController.PN532Handler(payload);
     } else if (topic === "Error") {
       mqttController.errorHandler(payload);
     }

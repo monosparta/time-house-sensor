@@ -505,7 +505,7 @@
             "in": "body",
             "type": "object",
             "required": true,
-            "example": "{\"username\": \"<username>\",\"seat\": {\"index\": \"<seat_index>\",\"state\": \"<seat_state>\"}}"
+            "example": "{\"username\": \"<username>\", \"mail\": \"<mail>\", \"phoneNumber\": \"<phone_number>\"}"
           },
           {
             "name": "authorization",
@@ -560,7 +560,14 @@
         "description": "Update seat state.",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "body",
+            "in": "body",
+            "type": "object",
+            "required": true,
+            "example": "{\"username\": \"<username>\",\"seat\": {\"index\": \"<seat_index>\",\"state\": \"<seat_state>\"}}"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string",
             "required": true,

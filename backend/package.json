@@ -4,7 +4,7 @@
   "description": "<!--\r  * @Author: your name\r  * @Date: 2022-04-01 14:53:07\r  * @LastEditTime: 2022-04-01 17:03:34\r  * @LastEditors: Please set LastEditors\r  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE\r  * @FilePath: \\time-house-sensor\\README.md\r -->\r # 時光屋座位感測",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app.js",
+    "start": "node src/app.js",
     "build": "npm build",
     "unit": "node src/controllers/mosquitto.js",
     "test": "npm run db:reset && jest --runInBand --forceExit",

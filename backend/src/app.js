@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const helmet = require('helmet');
+const helmet = require("helmet");
 const lineDev = require("./services/lineDev");
 const app = express();
 const logger = require("./utils/logger");
@@ -29,7 +29,21 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
+module.exports = app;
+
+/**
+ * Mosquitto
+ *
+ */
 require("./mosquitto");
 
+/**
+ * Swagger Page
+ *
+ */
+if (process.env.NODE_ENV !== "production") {
+  const swaggerUI = require("swagger-ui-express");
+  const swaggerFile = require("../private/swagger_output.json");
 
-module.exports = app;
+  app.use("/api/swagger-doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
+}

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const db = require("../models/index");
 const https = require("https");
+const logger = require("../utils/logger");
 
 let membersStr = "";
 
@@ -107,8 +108,13 @@ const refreshDBMembers = async (members) => {
 // getLocation();
 
 const requestHandler = (req, res) => {
-  getLocation();
-  return res.status(200).json({ detail: "成功更新會員資料" });
+  try {
+    getLocation();
+    return res.status(200).json({ detail: "成功更新會員資料" });
+  } catch (err) {
+    logger.error(err);
+    return res.status(500).json({ detail: "伺服器內部錯誤" });
+  }
 };
 
 module.exports = requestHandler;

@@ -1,18 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-07-28 15:55:03
- * @LastEditors: 20181101remon mindy80230@gmail.com
+ * @LastEditTime: 2022-08-25 10:20:11
+ * @LastEditors: MING-CHUNLee mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
 
 import React, { useEffect, useState } from "react";
 
-import { Layout, Row, Col, Space, Button, Modal, Result } from "antd";
+import { Layout, Row, Col, Space, Button, Modal, Result,Affix,Table } from "antd";
 import axios from "../Axios.config";
 import { HeaderBar } from "./components/HeaderBar";
-import { Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { DeleteFilled } from "@ant-design/icons";
 import PwdRestForm from "./components/PwdRestForm";
@@ -41,7 +40,6 @@ const AdminList = () => {
   };
 
   const onFinish = (values) => {
-    console.log("??" + values);
     var udata = JSON.stringify({
       password: values.password,
     });
@@ -134,18 +132,18 @@ const AdminList = () => {
               style={{ margin: "2vh 0", marginTop: "5vh" }}
             >
               <Col
-                sm={{ span: 10 }}
-                md={{ span: 10 }}
-                lg={{ span: 6 }}
-                xl={{ span: 6 }}
-                xxl={{ span: 6 }}
+                sm={{ span: 14 }}
+                md={{ span: 14 }}
+                lg={{ span: 8 }}
+                xl={{ span: 8 }}
+                xxl={{ span: 8 }}
                 style={{
                   verticalAlign: "middle",
                 }}
               >
               {t("adminList")}
-                
               </Col>
+
               <Col
                 sm={{ span: 4 }}
                 md={{ span: 4 }}
@@ -201,13 +199,15 @@ const AdminList = () => {
                 )}
               />
             </Table>
-
+          
             <PwdRestForm
               visible={ChangePWdModalVisible}
               onFinish={(e) => onFinish(e)}
               onCancel={onCancel}
             />
           </div>
+
+     
         </Content>
         <Modal
           closable={false}

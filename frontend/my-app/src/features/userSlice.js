@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-04-20 17:25:00
- * @LastEditTime: 2022-07-08 14:00:54
- * @LastEditors: 20181101remon mindy80230@gmail.com
+ * @LastEditTime: 2022-08-22 11:37:21
+ * @LastEditors: MING-CHUNLee mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\features\counter\userSlice.js
  */
@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk(
           let data = "";
 
           if (response.status === 200) {
-            console.log("得到要使啦"+response.data.token)
+            // console.log("得鑰匙啦"+response.data.token)
             localStorage.setItem("authorized_keys", response.data.token);
             data = response.data;
             
@@ -68,7 +68,6 @@ export const userSlice = createSlice(
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
-
       return state;
     },
   },

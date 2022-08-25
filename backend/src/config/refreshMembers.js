@@ -3,8 +3,6 @@ const db = require("../models/index");
 const https = require("https");
 const logger = require("../utils/logger");
 
-let membersStr = "";
-
 /**
  * get the location url in header to jump to get the data of members
  */
@@ -33,6 +31,7 @@ const getLocation = () => {
  * 5. if uuid is correct format then call the refreshDBMembers function
  */
 const getMembers = (location) => {
+  let membersStr = "";
   const memberReq = https.request(location, (memberRes) => {
     memberRes.on("data", (data) => {
       membersStr += data;
@@ -43,11 +42,9 @@ const getMembers = (location) => {
         0,
         htmlIndex === -1 ? membersStr.length : htmlIndex
       );
-      // console.log(substr)
+      
       const members = JSON.parse(substr).users;
-      // console.log(members)
       if (members[0].uuid.indexOf("#") !== -1) {
-        membersStr = "";
         getMembers(location);
         return;
       }

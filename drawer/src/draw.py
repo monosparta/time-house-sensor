@@ -116,6 +116,7 @@ position = [(257, 92),  (433, 92),  (609, 92),  (785, 92),
             (433, 381), (609, 381), (785, 381)]
 preSeatsState = []
 curSeatsState = []
+basemap = Image.open(basemapPath)
 
 while True:
     try:
@@ -126,7 +127,6 @@ while True:
 
     try: 
         curSeatsState = response.json()["seats"]
-        basemap = Image.open(basemapPath)
         for i in range(len(curSeatsState)):
             if preSeatsState == [] or curSeatsState[i]["state"] != preSeatsState[i]["state"]:
                 seat = curSeatsState[i]
@@ -134,10 +134,10 @@ while True:
 
                 # just save web seat in backend/public/img/seats
                 webSeat.save(imgDesDir + str(seat["id"]) + ".png")
-
                 basemap.paste(lineSeat, (position[i][0], position[i][1]), lineSeat)
 
-        basemapCanvas = ImageDraw.Draw(basemap)
+        basemapCopy = basemap.copy()
+        basemapCanvas = ImageDraw.Draw(basemapCopy)
         
         taipeiLocalTime = datetime.now(pytz.timezone('Asia/Taipei'))
         localTimeString = taipeiLocalTime.strftime(
@@ -145,10 +145,10 @@ while True:
 
         basemapCanvas.text((996, 682), localTimeString,
                         (0, 0, 0, 255), font18Roboto)
-        basemap.save(imgDesDir + "seat_map.png")
+        basemapCopy.save(imgDesDir + "seat_map.png")
 
         preSeatsState = curSeatsState
-        preSeatsState = []
+        curSeatsState = []
         time.sleep(1.39)
     except Exception as e:
         print(e)

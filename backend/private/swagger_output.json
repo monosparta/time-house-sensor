@@ -1,0 +1,702 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.9",
+    "title": "Time House API",
+    "description": ""
+  },
+  "host": "localhost:3005",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": "application/json",
+  "produces": "application/json",
+  "paths": {
+    "/seatsInfo": {
+      "get": {
+        "description": "Get information of all seats.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved information",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                },
+                "seats": {
+                  "type": "array",
+                  "description": "An array of seats",
+                  "items": {
+                    "$ref": "#/definitions/ArrayOfSeats"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/line": {
+      "post": {
+        "description": "This is not usable for general usage.\n It's used for getting message from our line bot."
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Login.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "type": "object",
+            "required": true,
+            "example": "{\"usernameOrMail\": \"<your_username_or_mail>\",\"password\": \"<your_password>\"}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully login.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                },
+                "token": {
+                  "type": "string",
+                  "description": "This token must be put in headers of admin-requests."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized, due to user level.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Username, Email or password is incorrect.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Any of Parameters is incorrect or invalid.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/admins": {
+      "get": {
+        "description": "Get all admins from database.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get admins.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message.",
+                  "schema": {
+                    "$ref": "#/definitions/ArrayOfAdmins"
+                  }
+                },
+                "admins": {
+                  "type": "array",
+                  "description": "Array of admins.",
+                  "items": {
+                    "$ref": "#/definitions/ArrayOfAdmins"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/admin": {
+      "post": {
+        "description": "Create a new admin account.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "type": "object",
+            "required": true,
+            "example": "{\"username\": \"<your_username>\",\"mail\": \"<your_mail>\",\"password\": \"<your_password>\"}"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/admin/{id}": {
+      "put": {
+        "description": "Update the certain admin account information.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a certain admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/memberInfo": {
+      "get": {
+        "description": "Get the certain member information.",
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "query",
+            "type": "int",
+            "description": "member id (uuidv4)",
+            "required": true
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                },
+                "member": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "phoneNumber": {
+                      "type": "string"
+                    },
+                    "mail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/addUser": {
+      "post": {
+        "description": "Add a new user, due to one-day membership.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "type": "object",
+            "required": true,
+            "example": "{\"username\": \"<username>\", \"mail\": \"<mail>\", \"phoneNumber\": \"<phone_number>\"}"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/isAdmin/seatState": {
+      "put": {
+        "description": "Update seat state.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "type": "object",
+            "required": true,
+            "example": "{\"username\": \"<username>\",\"seat\": {\"index\": \"<seat_index>\",\"state\": \"<seat_state>\"}}"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "example": "Bearer < token >"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "description": "Returned message."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Seat": {
+      "properties": {
+        "id": {
+          "type": "int",
+          "description": "Seat index"
+        },
+        "no": {
+          "type": "string",
+          "description": "the number to display the location depends on rows & columns."
+        },
+        "state": {
+          "type": "int",
+          "description": "Seat state: -1)Hardware Error, 0)Someone is using, 1)Available, 2)Idle for too long."
+        },
+        "stateChangedAt": {
+          "type": "UTC Format Date",
+          "description": "The time when the state was changed is the iot record time."
+        },
+        "memberId": {
+          "type": "string",
+          "description": "uuidv4 format."
+        },
+        "createdAt": {
+          "type": "UTC format date"
+        },
+        "updatedAt": {
+          "type": "UTC format date"
+        },
+        "idleMinutes": {
+          "type": "int",
+          "description": "The minutes for the idle-for-too-long seat."
+        }
+      }
+    },
+    "ArrayOfSeats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Seat"
+      }
+    },
+    "Admin": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Admin uuid"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the admin user."
+        },
+        "mail": {
+          "type": "string",
+          "description": "The mail of the admin user."
+        },
+        "role": {
+          "type": "string",
+          "description": "The admin role of the admin user."
+        },
+        "line": {
+          "type": "boolean",
+          "description": "Represents whether the admin connect to his/her line account."
+        }
+      }
+    },
+    "ArrayOfAdmins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Admin"
+      }
+    }
+  }
+}

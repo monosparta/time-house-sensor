@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-04-12 12:01:23
- * @LastEditTime: 2022-07-28 15:42:16
- * @LastEditors: 20181101remon mindy80230@gmail.com
+ * @LastEditTime: 2022-08-22 13:24:57
+ * @LastEditors: MING-CHUNLee mindy80230@gmail.com
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \time-house-sensor\frontend\my-app\src\pages\index.js
  */
@@ -16,7 +16,6 @@ import { HeaderBar } from "./components/HeaderBar";
 import { SeatMap } from "./components/SeatMap";
 import { useTranslation } from "react-i18next";
 
-const seatState = require("./json/seatState.json");
 const { Content, Footer } = Layout;
 const Home = () => {
   const { t } = useTranslation();
@@ -44,7 +43,6 @@ const Home = () => {
       <div className="page-container">
         <HeaderBar />
         <Content>
-          {/* <h1>{t("hello")}</h1> */}
           <div className="seatmap">
             <Row justify="center" align="middle">
               {seats.map((seat, i) => (
@@ -57,14 +55,6 @@ const Home = () => {
         </Content>
       </div>
       <Footer style={{ textAlign: "center", background: "white" }}>
-        {/* {seatState.map((seat) => (
-          <Space>
-            &emsp;
-            <Avatar className={seat.color} /> &nbsp;
-            <b style={{ fontSize: "24px" }}>{seat.state}</b>
-          </Space>
-        ))} */}
-
           <Space>
             &emsp;
             <Avatar className="white" /> &nbsp;

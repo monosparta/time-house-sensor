@@ -53,5 +53,9 @@
   "error": "異常",
   "tw": "中文（zh-tw）",
   "username": "用戶名",
-  "resetNewPwd":"設定新密碼"
+  "resetNewPwd":"設定新密碼",
+  "renew":"更新",
+  "syncMembers":"更新會員資料",
+  "success":"成功",
+  "failed":"失敗"
 }

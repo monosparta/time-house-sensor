@@ -7,7 +7,7 @@ const logger = require("../utils/logger");
  *
  * @param {seatUseState} 0: nobody, 1: someone
  */
-const IRHandler = async ({ index, seatUseState, time }) => {
+const LDHandler = async ({ index, seatUseState, time }) => {
   const seat = await seatService.getOneSeatInfo(index);
   if (seat.state === seatProperty.state.AVAILABLE) {
     return;
@@ -32,7 +32,7 @@ const IRHandler = async ({ index, seatUseState, time }) => {
   }
 };
 
-const RFIDHandler = async ({ index, cardId, time }) => {
+const PN532Handler = async ({ index, cardId, time }) => {
   const memberInfo = await memberService.getMemberInfoByCardId(cardId);
   if (!memberInfo) {
     return;
@@ -57,7 +57,7 @@ const errorHandler = async ({ index, _errorMessage, _sensorName, time }) => {
 };
 
 module.exports = {
-  IRHandler,
-  RFIDHandler,
+  LDHandler,
+  PN532Handler,
   errorHandler,
 };

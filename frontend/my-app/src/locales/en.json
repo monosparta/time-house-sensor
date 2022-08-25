@@ -53,6 +53,8 @@
     "available": "Available",
     "sendMail": "Send mail",
     "error":"Error",
-    "resetNewPwd":"Reset New Password"
+    "resetNewPwd":"Reset New Password",
+    "renew":"Renew",
+    "syncMembers":"Update member information"
 
 }

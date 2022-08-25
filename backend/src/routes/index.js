@@ -5,6 +5,7 @@ const {
   adminController,
 } = require("../controllers/index");
 const memberAuth = require("../middleware/memberAuth");
+const refreshDBMembers = require("../config/refreshMembers")
 
 module.exports = (router) => {
   router.get("/api/seatsInfo", seatController.getAllSeatInfo);
@@ -23,4 +24,5 @@ module.exports = (router) => {
   router.get("/api/auth/isAdmin/memberInfo", adminController.getMemberById);
   router.post("/api/auth/isAdmin/addUser", adminController.addMember);
   router.put("/api/auth/isAdmin/seatState", adminController.updateSeatState);
+  router.post("/api/auth/isAdmin/syncMembers", refreshDBMembers)
 };
